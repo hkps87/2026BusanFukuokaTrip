@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="h-full bg-slate-950 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <!-- 通用 / Android 設定 -->
+  <meta name="theme-color" content="#0f172a">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <!-- iOS (Safari) 專屬全螢幕設定 -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="旅行準備清單">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>行李與行前準備 CheckList - 釜山・福岡之旅</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              400: '#38bdf8',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              900: '#0c4a6e',
+            },
+            accent: {
+              pink: '#ec4899',
+              amber: '#f59e0b',
+              emerald: '#10b981',
+              purple: '#8b5cf6'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Google Fonts Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .glass-card {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-header {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .completed-item {
+      opacity: 0.45;
+      filter: grayscale(0.6);
+    }
+    .completed-item .item-title {
+      text-decoration: line-through;
+    }
+  </style>
+</head>
+<body class="h-full flex flex-col bg-slate-950 text-slate-100 overflow-x-hidden pb-24">
+
+  <!-- Header Section -->
+  <header class="sticky top-0 z-30 glass-header border-b border-slate-800/80 px-4 pt-4 pb-3 shadow-lg">
+    <div class="max-w-md mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-2.5">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-600 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+          <i data-lucide="check-square" class="w-5 h-5 text-white"></i>
+        </div>
+        <div>
+          <h1 class="font-bold text-base tracking-tight text-white flex items-center gap-1.5">
+            行前準備 Check List
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-medium border border-emerald-500/30">必帶清單</span>
+          </h1>
+          <p class="text-xs text-slate-400">韓日雙城遊行李與證件確認</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="reset-checklist-btn" class="p-2 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-slate-200 transition text-xs flex items-center gap-1 border border-slate-700/50" title="重置全部勾選">
+          <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Navigation between Schedule and CheckList -->
+    <div class="max-w-md mx-auto mt-3 grid grid-cols-2 gap-2 text-xs">
+      <a href="Schedule.html" class="flex items-center justify-center gap-1.5 py-2 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-400 transition font-medium">
+        <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+        <span>查看每日行程</span>
+      </a>
+      <a href="CheckList.html" class="flex items-center justify-center gap-1.5 py-2 rounded-xl bg-emerald-600/20 border border-emerald-500/40 text-emerald-300 font-bold transition shadow-sm">
+        <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
+        <span>行李準備清單</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="flex-1 max-w-md w-full mx-auto px-4 pt-4 pb-20 space-y-5" id="checklist-container">
+    <!-- Rendered via JS -->
+  </main>
+
+  <!-- Bottom Stats Bar -->
+  <div class="fixed bottom-0 left-0 right-0 z-30 glass-header border-t border-slate-800 px-4 py-2.5">
+    <div class="max-w-md mx-auto flex items-center justify-between text-xs">
+      <div class="flex items-center space-x-2 text-slate-400">
+        <i data-lucide="list-checks" class="w-4 h-4 text-emerald-400"></i>
+        <span>準備完成度: <strong id="checklist-stats" class="text-slate-200">0 / 0</strong></span>
+      </div>
+      <span class="text-[11px] text-emerald-400 font-medium">✨ 祝您旅途愉快！</span>
+    </div>
+  </div>
+
+  <!-- JavaScript Checklist Logic -->
+  <script>
+    // Checklist Master Data
+    const checklistData = [
+      {
+        category: "🎟️ 事先購買的票券與預約",
+        desc: "請確認所有已提前購買的門票與車票是否備妥",
+        items: [
+          { id: "c_t1", title: "膠囊列車", desc: "kkday、12/14", important: true },
+          { id: "c_t2", title: "由布院之森", desc: "klook、12/18", important: true },
+          { id: "c_t3", title: "teamLab 光之祭", desc: "官網、12/17", important: true },
+          { id: "c_t4", title: "高千穗一日遊", desc: "klook、12/19", important: true },
+          { id: "c_t5", title: "慶州交通、韓服", desc: "klook、12/13", important: true },
+          { id: "c_t6", title: "釜山 Pass (Big 3)", desc: "12/13", important: true },
+          { id: "c_t7", title: "塗鴉秀", desc: "12/12", important: true }
+        ]
+      },
+      {
+        category: "📄 證件與重要票券",
+        desc: "出國最核心隨身物品，建議準備專用夾鏈袋收納",
+        items: [
+          { id: "c1", title: "護照正本", desc: "效期需在 6 個月以上（韓國與日本皆適用）", important: true },
+          { id: "c2", title: "機票 / 船票證明", desc: "新山茶花號船票憑證、回程機票電子檔/列印本", important: true },
+          { id: "c3", title: "住宿預訂單", desc: "沙上、釜山港、博多飯店入住確認單", important: false },
+          { id: "c4", title: "Visit Busan Pass 兌換券", desc: "釜山 Pass (Big 3) 預約QR Code或憑證", important: true },
+          { id: "c5", title: "日本車票 / 門票預約", desc: "由布院之森、teamLab 光之祭、高千穗一日遊憑證", important: false },
+          { id: "c6", title: "信用卡（至少2張不同發卡組織）", desc: "建議準備海外高回饋卡，且確認已開通國外交易功能", important: true },
+          { id: "c7", title: "台幣現金 ＆ 少量日幣/韓元", desc: "用於換錢所兌換或小額零食支出", important: false }
+        ]
+      },
+      {
+        category: "📱 電子與通訊設備",
+        desc: "確保跨國漫遊與拍照錄影不斷電",
+        items: [
+          { id: "c8", title: "手機 (iPhone 13)", desc: "確認備份完整並解鎖", important: true },
+          { id: "c9", title: "網卡 / eSIM 方案", desc: "韓國與日本當地上網卡或雙國漫遊方案設定", important: true },
+          { id: "c10", title: "行動電源 (Power Bank)", desc: "需放在隨身行李，不可托運", important: true },
+          { id: "c11", title: "充電線 ＆ 多國轉接頭", desc: "韓國（圓形插孔）與日本（扁平兩孔）插頭通用", important: true },
+          { id: "c12", title: "交通卡 (T-Money / Check in Seoul 實體卡)", desc: "檢查卡片餘額，首爾 T-Money 卡可在釜山與大眾運輸通用", important: false }
+        ]
+      },
+      {
+        category: "🧥 12月冬日衣物與保暖",
+        desc: "釜山與福岡 12 月氣溫偏冷且海風強勁，需注意防風防寒",
+        items: [
+          { id: "c13", title: "發熱衣 / 保暖內衣 (多件)", desc: "洋蔥式穿搭必備", important: true },
+          { id: "c14", title: "防風保暖外套 / 羽絨服", desc: "海邊、海上纜車與夜間行程風大必備", important: true },
+          { id: "c15", title: "毛衣 / 刷毛大學T", desc: "搭配外套穿著", important: false },
+          { id: "c16", title: "長褲 / 保暖褲", desc: "便於大量步行與戶外活動", important: false },
+          { id: "c17", title: "好走的布鞋 / 運動鞋", desc: "每日步行數高，請穿舒適防滑鞋", important: true },
+          { id: "c18", title: "圍巾、毛帽、手套", desc: "早晚海風吹拂時非常實用", important: false },
+          { id: "c19", title: "換洗衣物與免洗內褲", desc: "精簡行李空間好幫手", important: false }
+        ]
+      },
+      {
+        category: "🧴 個人藥品與盥洗保養",
+        desc: "維護舒適旅程的健康防線",
+        items: [
+          { id: "c20", title: "個人常備藥品", desc: "感冒藥、胃腸藥、止痛藥、暈船藥（搭新山茶花號與高千穗車程備用）", important: true },
+          { id: "c21", title: "口罩與個人消毒濕紙巾", desc: "密閉交通工具與公共場所防疫", important: false },
+          { id: "c22", title: "保濕乳液 / 護唇膏", desc: "12月日韓氣候乾燥，防止皮膚乾裂", important: false },
+          { id: "c23", title: "防曬乳 / 太陽眼鏡", desc: "晴天雪地或海邊反光強烈", important: false },
+          { id: "c24", title: "女性生理用品", desc: "以防萬一準備", important: false }
+        ]
+      },
+      {
+        category: "🎒 隨身背包與其他雜項",
+        desc: "提升旅遊便利性的小細節",
+        items: [
+          { id: "c25", title: "輕便隨身小包 / 斜背包", desc: "逛夜市或市區漫步時使用", important: false },
+          { id: "c26", title: "摺疊傘 / 輕便雨衣", desc: "因應冬季偶陣雨或戶外景點", important: false },
+          { id: "c27", title: "空水瓶 / 保溫瓶", desc: "機場過安檢後裝水，隨時補充溫開水", important: false },
+          { id: "c28", title: "購物袋 / 帆布袋", desc: "應對韓國與日本購物不主動提供免費塑膠袋", important: false }
+        ]
+      }
+    ];
+
+    let checklistState = JSON.parse(localStorage.getItem('busan_fukuoka_checklist_state') || '{}');
+
+    const container = document.getElementById('checklist-container');
+    const statsEl = document.getElementById('checklist-stats');
+    const resetBtn = document.getElementById('reset-checklist-btn');
+
+    function renderChecklist() {
+      container.innerHTML = '';
+      
+      checklistData.forEach(section => {
+        const sectionCard = document.createElement('div');
+        sectionCard.className = "glass-card rounded-2xl border border-slate-800 p-4 space-y-3";
+        
+        // Section Header
+        const headerDiv = document.createElement('div');
+        headerDiv.innerHTML = `
+          <h2 class="font-bold text-base text-white flex items-center justify-between">
+            <span>${section.category}</span>
+          </h2>
+          <p class="text-xs text-slate-400 mt-0.5">${section.desc}</p>
+        `;
+        sectionCard.appendChild(headerDiv);
+
+        // Items List
+        const listDiv = document.createElement('div');
+        listDiv.className = "space-y-2 pt-2 border-t border-slate-800/80";
+
+        section.items.forEach(item => {
+          const isChecked = !!checklistState[item.id];
+          
+          const itemRow = document.createElement('label');
+          itemRow.className = `flex items-start gap-3 p-2.5 rounded-xl bg-slate-900/60 border border-slate-800/60 hover:border-slate-700/80 cursor-pointer transition ${isChecked ? 'completed-item bg-slate-900/30' : ''}`;
+          
+          itemRow.innerHTML = `
+            <input type="checkbox" data-id="${item.id}" ${isChecked ? 'checked' : ''} class="mt-1 w-4 h-4 rounded border-slate-700 text-emerald-500 focus:ring-emerald-500 bg-slate-800 cursor-pointer flex-shrink-0">
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2">
+                <span class="item-title text-sm font-semibold text-slate-200">${item.title}</span>
+                ${item.important ? '<span class="text-[10px] px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30 font-medium">重要</span>' : ''}
+              </div>
+              <p class="text-xs text-slate-400 mt-0.5 leading-relaxed">${item.desc}</p>
+            </div>
+          `;
+
+          const checkbox = itemRow.querySelector('input');
+          checkbox.addEventListener('change', (e) => {
+            checklistState[item.id] = e.target.checked;
+            localStorage.setItem('busan_fukuoka_checklist_state', JSON.stringify(checklistState));
+            renderChecklist();
+            updateStats();
+          });
+
+          listDiv.appendChild(itemRow);
+        });
+
+        sectionCard.appendChild(listDiv);
+        container.appendChild(sectionCard);
+      });
+
+      updateStats();
+      lucide.createIcons();
+    }
+
+    function updateStats() {
+      let total = 0;
+      let checked = 0;
+
+      checklistData.forEach(s => {
+        s.items.forEach(i => {
+          total++;
+          if (checklistState[i.id]) checked++;
+        });
+      });
+
+      const percent = Math.round((checked / total) * 100) || 0;
+      statsEl.textContent = `${checked} / ${total} (${percent}%)`;
+    }
+
+    resetBtn.addEventListener('click', () => {
+      if (confirm('確定要重置所有行李準備清單的勾選狀態嗎？')) {
+        checklistState = {};
+        localStorage.setItem('busan_fukuoka_checklist_state', JSON.stringify(checklistState));
+        renderChecklist();
+      }
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderChecklist();
+      lucide.createIcons();
+    });
+  </script>
+</body>
+</html>

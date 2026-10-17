@@ -117,6 +117,18 @@
       </div>
     </div>
 
+    <!-- Navigation Tab between Schedule and CheckList -->
+    <div class="max-w-md mx-auto mt-3 grid grid-cols-2 gap-2 text-xs">
+      <a href="Schedule.html" class="flex items-center justify-center gap-1.5 py-2 rounded-xl bg-brand-600/20 border border-brand-500/40 text-brand-300 font-bold transition shadow-sm">
+        <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+        <span>每日行程</span>
+      </a>
+      <a href="CheckList.html" class="flex items-center justify-center gap-1.5 py-2 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-400 transition font-medium">
+        <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
+        <span>準備清單 CheckList</span>
+      </a>
+    </div>
+
     <!-- Day Selector (Horizontal Scroll) -->
     <div class="max-w-md mx-auto mt-3.5">
       <div class="flex space-x-2 overflow-x-auto no-scrollbar pb-1 pt-1" id="day-tabs">
@@ -248,7 +260,7 @@
             time: "16:00 - 18:00",
             title: "龍頭山公園 ＆ BIFF 廣場漫步",
             desc: "散步前往龍頭山公園與 BIFF 廣場，品嚐釜山必吃的熱騰騰「種子黑糖餅」(步行約 5-10 分鐘)。",
-            link: "https://map.naver.com/p/search/%EC%9A%A9%EB%91%90%EC%82%B0%EA%B3%B5%EC%9B%90",
+            link: "https://map.naver.com/p/search/%EC%9A%B9%EB%91%90%EC%82%B0%EA%B3%B5%EC%9B%90",
             icon: "utensils",
             tags: ["food", "highlight"]
           },
@@ -892,125 +904,4 @@
 
           // Card Body
           const card = document.createElement('div');
-          card.className = "glass-card p-4 rounded-xl border border-slate-800/80 shadow-sm hover:border-slate-700 transition";
-
-          card.innerHTML = `
-            <div class="flex items-start justify-between gap-2">
-              <div class="flex items-center space-x-2 text-brand-400 font-mono text-xs font-semibold">
-                <i data-lucide="${item.icon || 'clock'}" class="w-4 h-4 text-brand-400"></i>
-                <span>${item.time}</span>
-              </div>
-              <button class="toggle-done-btn p-1 rounded-lg text-slate-400 hover:text-emerald-400 hover:bg-slate-800 transition" data-id="${itemId}">
-                <i data-lucide="${isDone ? 'check-circle' : 'circle'}" class="w-5 h-5 ${isDone ? 'text-emerald-400 fill-emerald-500/20' : ''}"></i>
-              </button>
-            </div>
-
-            <h3 class="item-title font-bold text-slate-100 text-sm mt-1.5 leading-snug">
-              ${item.title}
-            </h3>
-
-            <p class="text-xs text-slate-300 mt-1 leading-relaxed">
-              ${item.desc}
-            </p>
-
-            ${item.link ? `
-              <div class="mt-3 pt-2.5 border-t border-slate-800/80 flex items-center justify-between">
-                <span class="text-[10px] text-slate-400 flex items-center gap-1">
-                  <i data-lucide="navigation" class="w-3 h-3 text-slate-400"></i> 地圖導航
-                </span>
-                <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-brand-500/10 hover:bg-brand-500/20 text-brand-300 text-xs font-medium border border-brand-500/20 transition">
-                  <span>開啟導航</span>
-                  <i data-lucide="external-link" class="w-3 h-3"></i>
-                </a>
-              </div>
-            ` : ''}
-          `;
-
-          // Event Listener for completion checkbox
-          const checkBtn = card.querySelector('.toggle-done-btn');
-          checkBtn.addEventListener('click', () => {
-            completedItems[itemId] = !completedItems[itemId];
-            localStorage.setItem('busan_fukuoka_completed_items', JSON.stringify(completedItems));
-            renderItinerary();
-            updateCompletionStats();
-          });
-
-          cardWrapper.appendChild(card);
-          timelineContainer.appendChild(cardWrapper);
-        });
-      }
-
-      itineraryContainer.appendChild(timelineContainer);
-      lucide.createIcons();
-    }
-
-    // Update Bottom Completion Counter
-    function updateCompletionStats() {
-      let total = 0;
-      let completed = 0;
-
-      itineraryData.forEach(d => {
-        d.items.forEach((_, idx) => {
-          total++;
-          const itemId = `d${d.day}_i${idx}`;
-          if (completedItems[itemId]) completed++;
-        });
-      });
-
-      completionStatsEl.textContent = `${completed} / ${total} (${Math.round((completed/total)*100 || 0)}%)`;
-    }
-
-    // Setup Quick Map Modal Links
-    function setupQuickMapModal() {
-      const places = [
-        // Busan & Gyeongju
-        { name: "金海國際機場", url: "https://map.naver.com/p/search/%EA%B9%80%ED%95%B4%EA%B5%AD%EC%A0%9C%EA%B3%B5%ED%95%AD" },
-        { name: "沙上站", url: "https://map.naver.com/p/search/%EC%82%AC%EC%83%81%EC%97%AD" },
-        { name: "金海伽倻主題公園", url: "https://map.naver.com/p/search/%EA%B9%80%ED%95%B4%EA%B0%80%EC%95%BC%ED%85%8c%EB%A7%88%EA%B3%B5%EC%9B%90" },
-        { name: "Booking the bay", url: "https://map.naver.com/p/search/Booking%20the%20bay" },
-        { name: "友利換錢所", url: "https://map.naver.com/p/search/%EC%9A%B0%EB%A6%A1%ED%99%98%EC%A0%84%EC%86%8C" },
-        { name: "富平罐頭夜市", url: "https://map.naver.com/p/search/%EB%B6%80%ED%8F%89%EA%B0%95%ED%86%B5%EC%8B%9C%EC%9E%A5" },
-        { name: "佛國寺", url: "https://map.naver.com/p/search/%EB%B6%88%EA%B5%AD%EC%82%AC" },
-        { name: "東宮與月池", url: "https://map.naver.com/p/search/%EB%8F%99%EA%B6%81%EA%B3%BC%EC%9B%94%EC%A7%80" },
-        { name: "海雲台藍線尾浦站", url: "https://map.naver.com/p/search/%EB%AF%B8%ED%8F%AC%EC%A0%95" },
-        { name: "Skyline Luge", url: "https://map.naver.com/p/search/Skyline%20Luge%20Busan" },
-        { name: "釜山 X the Sky", url: "https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%20X%20the%20Sky" },
-        { name: "松島海上纜車", url: "https://map.naver.com/p/search/%EC%86%A1%EB%8F%84%ED%95%B4%EC%8C%80%EC%BC%80%EC%9D%B4%EB%B8%94%EC%B9%B4" },
-        { name: "白淺灘文化村", url: "https://map.naver.com/p/search/%ED%9D%B0%EC%97%AC%EC%9A%B8%EB%AC%B8%ED%99%94%EB%A7%88%EC%9D%84" },
-        { name: "ARTE MUSEUM", url: "https://map.naver.com/p/search/ARTE%20MUSEUM%20Busan" },
-        { name: "釜山港國際碼頭", url: "https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%ED%95%AD%EA%B5%AD%EC%A0%9C%EC%B3%B5%EC%97%AC%ED%84%B0%EB%AF%B8%EB%84%90" },
-        // Fukuoka & Kyushu
-        { name: "太宰府天滿宮", url: "https://www.google.com/maps/search/%E5%A4%AA%E5%AE%B0%E5%BA%9C%E5%A4%A9%E6%BB%BF%E5%AE%AE" },
-        { name: "福岡市動植物園", url: "https://www.google.com/maps/search/%E7%A6%8F%E5%B2%A1%E5%B8%82%E5%8B%95%E6%A4%8D%E7%89%A9%E5%9C%92" },
-        { name: "福岡城跡(舞鶴公園)", url: "https://www.google.com/maps/search/%E7%A6%8F%E5%B2%A1%E5%9F%8E%E8%B8%9F" },
-        { name: "中洲屋台橫丁", url: "https://www.google.com/maps/search/%E4%B8%AD%E6%B4%B2%E5%B1%8B%E5%8F%8B%E6%A8%AA%E4%B8%81" },
-        { name: "由布院溫泉", url: "https://www.google.com/maps/search/%E7%94%B1%E5%B8%83%E9%99%A2%E6%B8%A9%E6%B3%89" },
-        { name: "金鱗湖", url: "https://www.google.com/maps/search/%E9%87%91%E9%BA%9F%E6%B9%96" },
-        { name: "高千穗峽", url: "https://www.google.com/maps/search/%E9%AB%98%E5%8D%83%E7%A9%82%E5%B3%A1" },
-        { name: "大濠公園", url: "https://www.google.com/maps/search/%E5%A4%A7%E6%B4%81%E5%85%AC%E5%9C%92" },
-        { name: "福岡機場國際線", url: "https://www.google.com/maps/search/%E7%A6%8F%E5%B2%A1%E6%9C%BA%E5%9C%BA%E5%9B%BD%E9%99%85%E7%BA%BF" }
-      ];
-
-      quickMapLinksContainer.innerHTML = '';
-      places.forEach(p => {
-        const a = document.createElement('a');
-        a.href = p.url;
-        a.target = "_blank";
-        a.rel = "noopener noreferrer";
-        a.className = "flex items-center justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800 hover:border-brand-500/50 hover:bg-slate-800/80 transition";
-        a.innerHTML = `
-          <span class="truncate font-medium text-slate-200">${p.name}</span>
-          <i data-lucide="external-link" class="w-3.5 h-3.5 text-brand-400 flex-shrink-0 ml-1"></i>
-        `;
-        quickMapLinksContainer.appendChild(a);
-      });
-    }
-
-    // Start App on Load
-    window.addEventListener('DOMContentLoaded', () => {
-      init();
-      lucide.createIcons();
-    });
-  </script>
-</body>
-</html>
+          card.className = "glass-card p-4 rounded-xl border border-slate-
