@@ -328,13 +328,32 @@
       
       document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
-          document.querySelectorAll('.filter-btn').forEach(b => {
-            b.classList.remove('active', 'bg-slate-800', 'text-slate-300', 'border-slate-700');
-            b.classList.add('bg-slate-900/60', 'text-slate-400', 'border-slate-800');
-          });
-          btn.classList.add('active', 'bg-slate-800', 'text-slate-300', 'border-slate-700');
-          btn.classList.remove('bg-slate-900/60', 'text-slate-400');
-          currentFilter = btn.getAttribute('data-filter');
+          const clickedFilter = btn.getAttribute('data-filter');
+    
+          // 如果點擊的已經是目前啟動的按鈕，且不是「全部」，就切回「全部」
+          if (currentFilter === clickedFilter && clickedFilter !== 'all') {
+            currentFilter = 'all';
+      
+            // 移除全部按鈕以外的 active，並將 active 樣式還給「全部」
+            document.querySelectorAll('.filter-btn').forEach(b => {
+              b.classList.remove('active', 'bg-slate-800', 'text-slate-300', 'border-slate-700');
+              b.classList.add('bg-slate-900/60', 'text-slate-400', 'border-slate-800');
+              if (b.getAttribute('data-filter') === 'all') {
+                b.classList.add('active', 'bg-slate-800', 'text-slate-300', 'border-slate-700');
+                b.classList.remove('bg-slate-900/60', 'text-slate-400');
+              }
+            });
+          } else {
+            // 正常切換至點擊的分類
+            currentFilter = clickedFilter;
+            document.querySelectorAll('.filter-btn').forEach(b => {
+              b.classList.remove('active', 'bg-slate-800', 'text-slate-300', 'border-slate-700');
+              b.classList.add('bg-slate-900/60', 'text-slate-400', 'border-slate-800');
+            });
+            btn.classList.add('active', 'bg-slate-800', 'text-slate-300', 'border-slate-700');
+            btn.classList.remove('bg-slate-900/60', 'text-slate-400');
+          }
+    
           renderItinerary();
         });
       });
