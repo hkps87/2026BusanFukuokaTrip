@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>釜山・慶州・福岡夜船 6日遊行程表</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            800: '#0f172a',
+                            900: '#0b0f19',
+                            700: '#1e293b'
+                        },
+                        naver: '#03C75A',
+                        busan: '#0066B3',
+                        gold: '#f59e0b'
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans TC', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            top: 24px;
+            bottom: 24px;
+            left: 20px;
+            width: 2px;
+            background-color: #334155;
+            z-index: 0;
+        }
+        .naver-btn {
+            background-color: #03C75A;
+            color: white;
+            transition: all 0.2s ease;
+        }
+        .naver-btn:hover {
+            background-color: #02b350;
+            transform: translateY(-1px);
+        }
+        @media (print) {
+            .no-print { display: none !important; }
+            body { background: white !important; color: black !important; }
+            .card { border: 1px solid #ccc !important; background: white !important; color: black !important; }
+        }
+    </style>
+</head>
+<body class="bg-navy-900 text-slate-100 font-sans antialiased min-h-screen pb-12">
+
+    <!-- Header / Banner -->
+    <header class="bg-navy-800 border-b border-slate-800 sticky top-0 z-50 shadow-xl backdrop-blur-md bg-opacity-90">
+        <div class="max-w-5xl mx-auto px-4 py-5">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <div class="flex items-center gap-2 text-cyan-400 text-xs font-semibold mb-1 tracking-wider uppercase">
+                        <i class="fa-solid fa-plane-arrival"></i> 韓國釜山 + 慶州 + 福岡夜船
+                    </div>
+                    <h1 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">釜山雙城跨海 6 日遊</h1>
+                    <p class="text-slate-400 text-xs md:text-sm mt-1">2026 年 12 月 11 日（五）－ 12 月 16 日（三）</p>
+                </div>
+                <div class="flex items-center gap-2 no-print">
+                    <button onclick="window.print()" class="bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs md:text-sm px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 border border-slate-600">
+                        <i class="fa-solid fa-print"></i> 列印
+                    </button>
+                    <button onclick="showAllDays()" class="bg-cyan-600 hover:bg-cyan-500 text-white text-xs md:text-sm px-3.5 py-2 rounded-xl font-medium shadow-lg transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-list-ul"></i> 全部顯示
+                    </button>
+                </div>
+            </div>
+
+            <!-- Fast Filters / Day Selector Tabs -->
+            <div class="flex gap-2 mt-5 overflow-x-auto pb-1 no-print scrollbar-none" id="dayTabs">
+                <button onclick="filterDay(0)" class="tab-btn px-4 py-1.5 rounded-full text-xs md:text-sm font-medium whitespace-nowrap transition bg-cyan-500 text-white shadow-md shadow-cyan-900/50" data-day="0">全部</button>
+                <button onclick="filterDay(1)" class="tab-btn px-4 py-1.5 rounded-full text-xs md:text-sm font-medium whitespace-nowrap transition bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700" data-day="1">D1 · 12/11 (五)</button>
+                <button onclick="filterDay(2)" class="tab-btn px-4 py-1.5 rounded-full text-xs md:text-sm font-medium whitespace-nowrap transition bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700" data-day="2">D2 · 12/12 (六)</button>
+                <button onclick="filterDay(3)" class="tab-btn px-4 py-1.5 rounded-full text-xs md:text-sm font-medium whitespace-nowrap transition bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700" data-day="3">D3 · 12/13 (日)</button>
+                <button onclick="filterDay(4)" class="tab-btn px-4 py-1.5 rounded-full text-xs md:text-sm font-medium whitespace-nowrap transition bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700" data-day="4">D4 · 12/14 (一)</button>
+                <button onclick="filterDay(5)" class="tab-btn px-4 py-1.5 rounded-full text-xs md:text-sm font-medium whitespace-nowrap transition bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700" data-day="5">D5 · 12/15 (二)</button>
+                <button onclick="filterDay(6)" class="tab-btn px-4 py-1.5 rounded-full text-xs md:text-sm font-medium whitespace-nowrap transition bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700" data-day="6">D6 · 12/16 (三)</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto px-4 mt-6 space-y-8">
+
+        <!-- Search Bar -->
+        <div class="bg-navy-800 p-3 rounded-2xl shadow-lg border border-slate-800 flex items-center gap-3 no-print">
+            <i class="fa-solid fa-magnifying-glass text-slate-400 pl-2"></i>
+            <input type="text" id="searchInput" onkeyup="searchItinerary()" placeholder="搜尋景點、餐廳或關鍵字（例如：塗鴉秀、Pass、換錢所、夜市...）" class="w-full text-sm outline-none bg-transparent text-slate-200 placeholder-slate-500">
+        </div>
+
+        <!-- Day 1 -->
+        <section class="day-card bg-navy-800 rounded-2xl shadow-xl border border-slate-800 overflow-hidden" data-day-num="1">
+            <div class="bg-slate-800/80 p-4 md:px-6 border-b border-slate-700/50 flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-3">
+                    <span class="bg-cyan-500 text-white font-bold text-xs px-2.5 py-1 rounded-lg shadow-sm">Day 1</span>
+                    <h2 class="font-bold text-lg md:text-xl text-white">2026年12月11日（星期五）</h2>
+                </div>
+                <span class="text-cyan-400 text-xs md:text-sm font-medium bg-cyan-950/60 border border-cyan-800/50 px-3 py-1 rounded-full">
+                    <i class="fa-solid fa-plane"></i> 抵達釜山・入住沙上
+                </span>
+            </div>
+
+            <div class="p-4 md:p-6 relative timeline-line space-y-6">
+                <!-- Item 1 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-cyan-950 border-2 border-cyan-500 text-cyan-400 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-plane-arrival text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-cyan-400 text-sm">21:00</span>
+                            <a href="https://map.naver.com/p/search/%EA%B9%80%ED%95%B4%EA%B5%AD%EC%A0%9C%EA%B3%B5%ED%95%AD" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                🗺️ Naver Map
+                            </a>
+                        </div>
+                        <h3 class="font-bold text-white text-base">班機抵達金海國際機場 (PUS)</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">辦理入境手續、領取行李與確認交通工具。</p>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-slate-800 border-2 border-slate-500 text-slate-300 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-train text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-slate-300 text-sm">22:00</span>
+                            <a href="https://map.naver.com/p/search/%EC%82%AC%EC%83%81%EC%97%AD" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                🗺️ Naver Map
+                            </a>
+                        </div>
+                        <h3 class="font-bold text-white text-base">搭乘輕軌或計程車前往沙上站</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">移動至沙上站周邊轉乘區。</p>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-emerald-950 border-2 border-emerald-500 text-emerald-400 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-hotel text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-emerald-400 text-sm">22:30</span>
+                            <span class="text-xs bg-emerald-950 text-emerald-300 px-2.5 py-0.5 rounded border border-emerald-800">住宿</span>
+                        </div>
+                        <h3 class="font-bold text-white text-base">入住沙上站周邊飯店休息</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">入住飯店儲存體力，準備開始明日豐富行程。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Day 2 -->
+        <section class="day-card bg-navy-800 rounded-2xl shadow-xl border border-slate-800 overflow-hidden" data-day-num="2">
+            <div class="bg-slate-800/80 p-4 md:px-6 border-b border-slate-700/50 flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-3">
+                    <span class="bg-cyan-500 text-white font-bold text-xs px-2.5 py-1 rounded-lg shadow-sm">Day 2</span>
+                    <h2 class="font-bold text-lg md:text-xl text-white">2026年12月12日（星期六）</h2>
+                </div>
+                <span class="text-cyan-400 text-xs md:text-sm font-medium bg-cyan-950/60 border border-cyan-800/50 px-3 py-1 rounded-full">
+                    <i class="fa-solid fa-palette"></i> 金海塗鴉秀 ➔ 南浦洞換錢 ➔ 夜市漫遊
+                </span>
+            </div>
+
+            <div class="p-4 md:p-6 relative timeline-line space-y-6">
+                <!-- Item 1 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-purple-950 border-2 border-purple-500 text-purple-400 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-masks-theater text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-purple-400 text-sm">09:30 - 14:30</span>
+                            <a href="https://map.naver.com/p/search/%EA%B9%80%ED%95%B4%EA%B0%80%EC%95%BC%ED%85%8c%EB%A7%88%EA%B3%B5%EC%9B%90" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                🗺️ Naver Map
+                            </a>
+                        </div>
+                        <h3 class="font-bold text-white text-base">前往金海伽倻主題公園</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">觀賞精彩的「塗鴉秀 (The Painters)」藝術表演，並在主題公園園區內逛逛散步。</p>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-emerald-950 border-2 border-emerald-500 text-emerald-400 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-suitcase text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-emerald-400 text-sm">14:30 - 15:15</span>
+                            <a href="https://map.naver.com/p/search/Booking%20the%20bay" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                🗺️ Naver Map
+                            </a>
+                        </div>
+                        <h3 class="font-bold text-white text-base">前往 Booking the bay 完成 Check-in</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">搭乘交通工具返回市區，完成飯店入住辦理與寄存卸行李。</p>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-amber-950 border-2 border-amber-500 text-amber-400 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-money-bill-transfer text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-amber-400 text-sm">15:15 - 16:00</span>
+                            <div class="flex items-center gap-2">
+                                <a href="https://map.naver.com/p/search/%EB%82%A8%ED%8F%AC%EB%8F%99" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                    🗺️ 南浦洞
+                                </a>
+                                <a href="https://map.naver.com/p/search/%EC%9A%B0%EB%A6%A1%ED%99%98%EC%A0%84%EC%86%8C" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                    🗺️ 友利換錢所
+                                </a>
+                            </div>
+                        </div>
+                        <h3 class="font-bold text-white text-base">搭地鐵前往南浦洞 ➔ 友利換錢所</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">至釜山南浦洞友利換錢所拿台幣兌換韓元現金。</p>
+                    </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-cyan-950 border-2 border-cyan-500 text-cyan-400 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-shoe-prints text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-cyan-400 text-sm">16:00 - 18:00</span>
+                            <div class="flex items-center gap-2">
+                                <a href="https://map.naver.com/p/search/%EC%9A%B9%EB%91%90%EC%82%B0%EA%B3%B5%EC%9B%90" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                    🗺️ 龍頭山公園
+                                </a>
+                                <a href="https://map.naver.com/p/search/BIFF%EA%B4%91%EC%9E%A5" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                    🗺️ BIFF 廣場
+                                </a>
+                            </div>
+                        </div>
+                        <h3 class="font-bold text-white text-base">龍頭山公園 ＆ BIFF 廣場散步</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">城市公園散步，逛商圈並品嚐在地知名熱騰騰種子黑糖餅。</p>
+                    </div>
+                </div>
+
+                <!-- Item 5 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-rose-950 border-2 border-rose-500 text-rose-400 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-utensils text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-rose-400 text-sm">18:00 之後</span>
+                            <a href="https://map.naver.com/p/search/%EB%B6%80%ED%8F%89%EA%B0%95%ED%86%B5%EC%8B%9C%EC%9E%A5" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                🗺️ Naver Map
+                            </a>
+                        </div>
+                        <h3 class="font-bold text-white text-base">富平罐頭夜市漫遊</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">熱鬧的週末限定露天夜市，暢享各式熱氣騰騰的異國與韓式小吃晚餐。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Day 3 -->
+        <section class="day-card bg-navy-800 rounded-2xl shadow-xl border border-slate-800 overflow-hidden" data-day-num="3">
+            <div class="bg-slate-800/80 p-4 md:px-6 border-b border-slate-700/50 flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-3">
+                    <span class="bg-cyan-500 text-white font-bold text-xs px-2.5 py-1 rounded-lg shadow-sm">Day 3</span>
+                    <h2 class="font-bold text-lg md:text-xl text-white">2026年12月13日（星期日）</h2>
+                </div>
+                <span class="text-cyan-400 text-xs md:text-sm font-medium bg-cyan-950/60 border border-cyan-800/50 px-3 py-1 rounded-full">
+                    <i class="fa-solid fa-landmark"></i> 慶州世界遺產與古都漫遊一日遊
+                </span>
+            </div>
+
+            <div class="p-4 md:p-6 relative timeline-line space-y-6">
+                <!-- Item 1 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-slate-800 border-2 border-slate-500 text-slate-300 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-bus-simple text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-slate-300 text-sm">08:30 - 09:30</span>
+                            <span class="text-xs bg-slate-800 text-slate-300 px-2.5 py-0.5 rounded border border-slate-600">長途交通</span>
+                        </div>
+                        <h3 class="font-bold text-white text-base">從釜山出發前往慶州</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">可搭乘 KTX 至新慶州站轉公車，或搭長途巴士直達市區。</p>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-amber-950 border-2 border-amber-500 text-amber-400 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-vihara text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-amber-400 text-sm">09:30 - 11:30</span>
+                            <a href="https://map.naver.com/p/search/%EB%B6%88%EA%B5%AD%EC%82%AC" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                🗺️ Naver Map
+                            </a>
+                        </div>
+                        <h3 class="font-bold text-white text-base">【佛國寺】</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">早晨山區空氣清新、光線通透，愜意欣賞世界文化遺產與千年石造藝術。</p>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-rose-950 border-2 border-rose-500 text-rose-400 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-utensils text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-rose-400 text-sm">12:00 - 13:30</span>
+                            <a href="https://map.naver.com/p/search/%ED%99%A9%EB%A6%AC%EB%8B%A8%EA%B8%B8" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                🗺️ Naver Map
+                            </a>
+                        </div>
+                        <h3 class="font-bold text-white text-base">【皇理團路】午餐時光</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">在傳統韓屋改建的餐廳或風格咖啡廳享用特色午餐美食。</p>
+                    </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-emerald-950 border-2 border-emerald-500 text-emerald-400 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-archway text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-emerald-400 text-sm">13:30 - 15:30</span>
+                            <div class="flex items-center gap-2">
+                                <a href="https://map.naver.com/p/search/%EB%8C%80%EB%A6%A1%EC%9B%90" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                    🗺️ 大陵苑
+                                </a>
+                                <a href="https://map.naver.com/p/search/%EC%B2%A9%EB%A7%88%EC%B4%9D" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                    🗺️ 天馬塚
+                                </a>
+                            </div>
+                        </div>
+                        <h3 class="font-bold text-white text-base">【大陵苑 / 天馬塚】</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">下午柔和陽光灑在巨型草綠色王陵上，入內探索天馬塚古墓遺跡。</p>
+                    </div>
+                </div>
+
+                <!-- Item 5 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-sky-950 border-2 border-sky-500 text-sky-400 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-camera text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-sky-400 text-sm">15:30 - 16:45</span>
+                            <a href="https://map.naver.com/p/search/%EC%B2%A8%EC%84%B1%EB%8C%80" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                🗺️ Naver Map
+                            </a>
+                        </div>
+                        <h3 class="font-bold text-white text-base">【瞻星台與周邊草地】</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">漫步拍照，捕捉冬日午後溫暖的斜陽餘暉與瞻星台景色。</p>
+                    </div>
+                </div>
+
+                <!-- Item 6 (Highlight) -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-amber-500 text-slate-950 font-bold flex items-center justify-center shrink-0 shadow-lg ring-4 ring-amber-500/20">
+                        <i class="fa-solid fa-sun text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-gradient-to-r from-amber-950/80 to-navy-700/80 p-4 rounded-xl border border-amber-500/40">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-amber-300 text-sm">16:45 - 18:30</span>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs bg-amber-500 text-slate-950 font-bold px-2 py-0.5 rounded">🔥 黃金亮點</span>
+                                <a href="https://map.naver.com/p/search/%EB%8F%99%EA%B6%81%EA%B3%BC%EC%9B%94%EC%A7%80" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                    🗺️ Naver Map
+                                </a>
+                            </div>
+                        </div>
+                        <h3 class="font-bold text-amber-200 text-base">【東宮與月池（雁鴨池）】</h3>
+                        <p class="text-xs md:text-sm text-amber-100/90 mt-1">
+                            <strong>冬日日落最佳 Timing：</strong>約 17:00 日落，17:10 左右入園，完美捕捉「微光晚霞交織金碧輝煌夜景」的經典水面倒影絕景！
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 7 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-slate-800 border-2 border-slate-500 text-slate-300 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-house-return text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-slate-300 text-sm">18:30 之後</span>
+                            <span class="text-xs bg-slate-800 text-slate-300 px-2.5 py-0.5 rounded border border-slate-600">返回釜山</span>
+                        </div>
+                        <h3 class="font-bold text-white text-base">市區晚餐 ➔ 搭車返回釜山飯店</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">市區輕鬆享用晚餐，搭乘車輛返回釜山飯店休息。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Day 4 -->
+        <section class="day-card bg-navy-800 rounded-2xl shadow-xl border border-slate-800 overflow-hidden" data-day-num="4">
+            <div class="bg-slate-800/80 p-4 md:px-6 border-b border-slate-700/50 flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-3">
+                    <span class="bg-cyan-500 text-white font-bold text-xs px-2.5 py-1 rounded-lg shadow-sm">Day 4</span>
+                    <h2 class="font-bold text-lg md:text-xl text-white">2026年12月14日（星期一）</h2>
+                </div>
+                <span class="text-cyan-400 text-xs md:text-sm font-medium bg-cyan-950/60 border border-cyan-800/50 px-3 py-1 rounded-full">
+                    <i class="fa-solid fa-train-subway"></i> 海雲台雙列車 ➔ 機張 Luge ➔ 高空夜景日 (Pass ①②)
+                </span>
+            </div>
+
+            <div class="p-4 md:p-6 relative timeline-line space-y-6">
+                <!-- Item 1 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-sky-950 border-2 border-sky-500 text-sky-400 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-train text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-sky-400 text-sm">09:30 - 10:15</span>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs bg-rose-950 text-rose-300 px-2 py-0.5 rounded border border-rose-800">官網預約</span>
+                                <a href="https://map.naver.com/p/search/%ED%95%B4%EC%9B%B4%EB%8C%80%ED%95%B4%EB%B3%80%EC%97%B4%EC%B0%A8%20%EB%AF%B8%ED%8F%AC%EC%A0%95%EA%B1%B0%EC%9E%A5" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                    🗺️ 尾浦
+                                </a>
+                                <a href="https://map.naver.com/p/search/%EC%B2%AD%EC%82%AC%ED%F0" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                    🗺️ 青沙浦
+                                </a>
+                            </div>
+                        </div>
+                        <h3 class="font-bold text-white text-base">【天空膠囊列車】尾浦 ➔ 青沙浦</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">乘坐可愛高空膠囊列車，欣賞海岸線優美景色。</p>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-cyan-950 border-2 border-cyan-500 text-cyan-400 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-camera text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-cyan-400 text-sm">10:15 - 11:00</span>
+                            <a href="https://map.naver.com/p/search/%EC%B2%AD%EC%82%AC%ED%F0%EB%8B%A8%EB%A6%AC%EB%8F%8C%EC%90%80%EB%A1%9C" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                🗺️ 天空步道
+                            </a>
+                        </div>
+                        <h3 class="font-bold text-white text-base">青沙浦天空步道與平交道拍照</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">天空步道散步、平交道經典景點拍照、外帶海景咖啡。</p>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-sky-950 border-2 border-sky-500 text-sky-400 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-train-tram text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-sky-400 text-sm">11:00 - 11:25</span>
+                            <a href="https://map.naver.com/p/search/%EC%86%A1%EC%A0%95%EC%97%AD" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                🗺️ 松亭站
+                            </a>
+                        </div>
+                        <h3 class="font-bold text-white text-base">搭乘【海岸列車】青沙浦 ➔ 松亭</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">朝北方前進，欣賞沿途蔚藍海景。</p>
+                    </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-rose-950 border-2 border-rose-500 text-rose-400 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-utensils text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-rose-400 text-sm">11:30 - 12:30</span>
+                            <span class="text-xs bg-rose-950 text-rose-300 px-2.5 py-0.5 rounded border border-rose-800">午餐</span>
+                        </div>
+                        <h3 class="font-bold text-white text-base">松亭周邊享用美味海景午餐</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">於松亭海水浴場周邊精選餐廳享用午餐。</p>
+                    </div>
+                </div>
+
+                <!-- Item 5 (Pass 1) -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-indigo-600 text-white font-bold flex items-center justify-center shrink-0 shadow-lg ring-4 ring-indigo-500/20">
+                        <i class="fa-solid fa-car-on text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-gradient-to-r from-indigo-950/80 to-navy-700/80 p-4 rounded-xl border border-indigo-500/40">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-indigo-300 text-sm">12:45 - 14:15</span>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs bg-indigo-600 text-white font-bold px-2.5 py-0.5 rounded shadow-sm">★ 刷 Pass 額度 ①</span>
+                                <a href="https://map.naver.com/p/search/Skyline%20Luge%20Busan" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                    🗺️ Naver Map
+                                </a>
+                            </div>
+                        </div>
+                        <h3 class="font-bold text-white text-base">【Skyline Luge Busan 機張滑坡車】</h3>
+                        <p class="text-xs md:text-sm text-indigo-100/90 mt-1">體驗極速斜坡賽車，刺激有趣的滑坡賽道體驗。</p>
+                    </div>
+                </div>
+
+                <!-- Item 6 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-amber-950 border-2 border-amber-500 text-amber-400 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-place-of-worship text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-amber-400 text-sm">14:30 - 16:00</span>
+                            <a href="https://map.naver.com/p/search/%ED%95%B4%EB%8F%99%EC%9A%A9%EA%B6%81%EC%82%AC" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                🗺️ Naver Map
+                            </a>
+                        </div>
+                        <h3 class="font-bold text-white text-base">海東龍宮寺</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">欣賞絕美海崖寺廟景色與下午夕陽溫暖光影。</p>
+                    </div>
+                </div>
+
+                <!-- Item 7 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-pink-950 border-2 border-pink-500 text-pink-400 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-bag-shopping text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-pink-400 text-sm">16:15 - 17:45</span>
+                            <a href="https://map.naver.com/p/search/%EB%90%AF%EB%8D%B0%ED%94%84%EB%A6%AC%EB%AF%B8%EC%97%84%EC%95%84%EC%9B%B3%EB%A0%9B%20%EB%8F%99%EB%B6%80%EC%82%B0%EC%A0%90" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                🗺️ Naver Map
+                            </a>
+                        </div>
+                        <h3 class="font-bold text-white text-base">Lotte Premium Outlets 東釜山店</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">欣賞夢幻歐風建築與溫馨聖誕燈海氛圍。</p>
+                    </div>
+                </div>
+
+                <!-- Item 8 (Pass 2) -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-indigo-600 text-white font-bold flex items-center justify-center shrink-0 shadow-lg ring-4 ring-indigo-500/20">
+                        <i class="fa-solid fa-city text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-gradient-to-r from-indigo-950/80 to-navy-700/80 p-4 rounded-xl border border-indigo-500/40">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-indigo-300 text-sm">18:00 之後</span>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs bg-indigo-600 text-white font-bold px-2.5 py-0.5 rounded shadow-sm">★ 刷 Pass 額度 ②</span>
+                                <a href="https://map.naver.com/p/search/Busan%20X%20the%20Sky" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                    🗺️ Naver Map
+                                </a>
+                            </div>
+                        </div>
+                        <h3 class="font-bold text-white text-base">【Busan X the Sky 高空觀景台】</h3>
+                        <p class="text-xs md:text-sm text-indigo-100/90 mt-1">登高欣賞海雲台璀璨百萬夜景，晚餐於海雲台商圈享用。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Day 5 -->
+        <section class="day-card bg-navy-800 rounded-2xl shadow-xl border border-slate-800 overflow-hidden" data-day-num="5">
+            <div class="bg-slate-800/80 p-4 md:px-6 border-b border-slate-700/50 flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-3">
+                    <span class="bg-cyan-500 text-white font-bold text-xs px-2.5 py-1 rounded-lg shadow-sm">Day 5</span>
+                    <h2 class="font-bold text-lg md:text-xl text-white">2026年12月15日（星期二）</h2>
+                </div>
+                <span class="text-cyan-400 text-xs md:text-sm font-medium bg-cyan-950/60 border border-cyan-800/50 px-3 py-1 rounded-full">
+                    <i class="fa-solid fa-cable-car"></i> 松島海上纜車 ➔ 影島白淺灘 ➔ 太宗台 (Pass ③)
+                </span>
+            </div>
+
+            <div class="p-4 md:p-6 relative timeline-line space-y-6">
+                <!-- Item 1 (Pass 3) -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-indigo-600 text-white font-bold flex items-center justify-center shrink-0 shadow-lg ring-4 ring-indigo-500/20">
+                        <i class="fa-solid fa-cable-car text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-gradient-to-r from-indigo-950/80 to-navy-700/80 p-4 rounded-xl border border-indigo-500/40">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-indigo-300 text-sm">09:30 - 11:30</span>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs bg-indigo-600 text-white font-bold px-2.5 py-0.5 rounded shadow-sm">★ 刷 Pass 額度 ③</span>
+                                <a href="https://map.naver.com/p/search/%EC%86%A1%EB%8F%84%ED%95%B4%EC%83%81%EC%BC%80%EC%9D%B4%EB%B8%94%EC%B9%B4" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                    🗺️ 纜車
+                                </a>
+                                <a href="https://map.naver.com/p/search/%EC%86%A1%EB%8F%84%EC%9A%A9%EA%B6%81%EC%96%B1%EB%8B%A4%EB%A6%AC" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                    🗺️ 龍宮雲橋
+                                </a>
+                            </div>
+                        </div>
+                        <h3 class="font-bold text-white text-base">【松島海上纜車 ＆ 龍宮雲橋】</h3>
+                        <p class="text-xs md:text-sm text-indigo-100/90 mt-1">早晨乘坐搭乘海景纜車與漫步雲橋，完美避開午後觀光人潮。</p>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-slate-800 border-2 border-slate-500 text-slate-300 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-bus text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-slate-300 text-sm">11:30 - 12:15</span>
+                            <span class="text-xs bg-slate-800 text-slate-300 px-2.5 py-0.5 rounded border border-slate-600">移動</span>
+                        </div>
+                        <h3 class="font-bold text-white text-base">跨區移動：松島 ➔ 影島西海岸</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">搭乘公車或短程計程車跨過橋樑，前往影島西海岸。</p>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-teal-950 border-2 border-teal-500 text-teal-400 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-mug-saucer text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-teal-400 text-sm">12:15 - 14:15</span>
+                            <a href="https://map.naver.com/p/search/%ED%9D%B0%EC%97%AC%EC%9A%B8%EB%AC%B8%ED%99%94%EB%A7%88%EC%9D%84" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                🗺️ Naver Map
+                            </a>
+                        </div>
+                        <h3 class="font-bold text-white text-base">【白淺灘文化村 ＆ 海景午餐】</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">懸崖海岸步道漫步、欣賞藍海風光，並於精緻咖啡廳享用午餐。</p>
+                    </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-slate-800 border-2 border-slate-500 text-slate-300 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-bus text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-slate-300 text-sm">14:15 - 14:45</span>
+                            <span class="text-xs bg-slate-800 text-slate-300 px-2.5 py-0.5 rounded border border-slate-600">移動</span>
+                        </div>
+                        <h3 class="font-bold text-white text-base">影島南移：白淺灘 ➔ 太宗台</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">搭乘影島在地公車前往太宗台景區。</p>
+                    </div>
+                </div>
+
+                <!-- Item 5 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-emerald-950 border-2 border-emerald-500 text-emerald-400 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-tree text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-emerald-400 text-sm">14:45 - 17:15</span>
+                            <a href="https://map.naver.com/p/search/%ED%83%9C%EC%A2%85%EB%8C%80" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                🗺️ Naver Map
+                            </a>
+                        </div>
+                        <h3 class="font-bold text-white text-base">【太宗臺遊園地（Danubi 觀光列車）】</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">搭乘 Danubi 觀光列車，欣賞壯麗懸崖峭壁與遼闊大海景色。</p>
+                    </div>
+                </div>
+
+                <!-- Item 6 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-rose-950 border-2 border-rose-500 text-rose-400 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-fish-fins text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-rose-400 text-sm">17:30 之後</span>
+                            <a href="https://map.naver.com/p/search/%EC%9E%90%EA%B0%80%EC%B9%98%EC%8B%9C%EC%9E%A5" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                🗺️ 扎嘎其市場
+                            </a>
+                        </div>
+                        <h3 class="font-bold text-white text-base">【扎嘎其市場 ＆ 南浦洞商圈】</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">返回市區，享用極具特色且豐盛的新鮮海鮮晚餐。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Day 6 -->
+        <section class="day-card bg-navy-800 rounded-2xl shadow-xl border border-slate-800 overflow-hidden" data-day-num="6">
+            <div class="bg-slate-800/80 p-4 md:px-6 border-b border-slate-700/50 flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-3">
+                    <span class="bg-cyan-500 text-white font-bold text-xs px-2.5 py-1 rounded-lg shadow-sm">Day 6</span>
+                    <h2 class="font-bold text-lg md:text-xl text-white">2026年12月16日（星期三）</h2>
+                </div>
+                <span class="text-cyan-400 text-xs md:text-sm font-medium bg-cyan-950/60 border border-cyan-800/50 px-3 py-1 rounded-full">
+                    <i class="fa-solid fa-ship"></i> ARTE MUSEUM ・ 168階梯 ・ 新山茶花號夜船赴福岡
+                </span>
+            </div>
+
+            <div class="p-4 md:p-6 relative timeline-line space-y-6">
+                <!-- Item 1 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-emerald-950 border-2 border-emerald-500 text-emerald-400 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-boxes-packing text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-emerald-400 text-sm">09:30 - 10:15</span>
+                            <a href="https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%ED%95%AD%EA%B5%AD%EC%A0%9C%EC%97%AC%EA%B0%9D%ED%84%B0%EB%AF%B8%EB%84%90" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                🗺️ 釜山港碼頭
+                            </a>
+                        </div>
+                        <h3 class="font-bold text-white text-base">飯店退房 ＆ 釜山港寄行李</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">從 Booking the bay 退房，前往「釜山港國際客運碼頭」將大件行李寄放。</p>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-slate-800 border-2 border-slate-500 text-slate-300 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-bus text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-slate-300 text-sm">10:15 - 11:00</span>
+                            <span class="text-xs bg-slate-800 text-slate-300 px-2.5 py-0.5 rounded border border-slate-600">公車段 ①</span>
+                        </div>
+                        <h3 class="font-bold text-white text-base">公車段 ①：釜山港 ➔ 影島 ARTE MUSEUM</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">搭乘 66 或 191 號公車前往美術館。</p>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-purple-950 border-2 border-purple-500 text-purple-400 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-vr-cardboard text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-purple-400 text-sm">11:00 - 13:00</span>
+                            <a href="https://map.naver.com/p/search/ARTE%20MUSEUM%20Busan" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                🗺️ Naver Map
+                            </a>
+                        </div>
+                        <h3 class="font-bold text-white text-base">【ARTE MUSEUM Busan 沉浸式數位美術館】</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">享受 2 小時沉浸式光影藝術饗宴與音樂氛圍。</p>
+                    </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-slate-800 border-2 border-slate-500 text-slate-300 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-bus text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-slate-300 text-sm">13:00 - 13:40</span>
+                            <a href="https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%EC%97%AD" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                🗺️ 釜山站
+                            </a>
+                        </div>
+                        <h3 class="font-bold text-white text-base">公車段 ②：影島 ➔ 釜山站</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">搭乘公車返回釜山站區域。</p>
+                    </div>
+                </div>
+
+                <!-- Item 5 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-rose-950 border-2 border-rose-500 text-rose-400 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-bowl-rice text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-rose-400 text-sm">13:40 - 14:40</span>
+                            <span class="text-xs bg-rose-950 text-rose-300 px-2.5 py-0.5 rounded border border-rose-800">午餐</span>
+                        </div>
+                        <h3 class="font-bold text-white text-base">釜山站周邊午餐</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">享用經典在地韓式午餐（如豬肉湯飯等）。</p>
+                    </div>
+                </div>
+
+                <!-- Item 6 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-amber-950 border-2 border-amber-500 text-amber-400 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-stairs text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-amber-400 text-sm">14:40 - 15:45</span>
+                            <div class="flex items-center gap-2">
+                                <a href="https://map.naver.com/p/search/%EC%B0%88%EB%9F%89%EC%B0%88%EB%B0%9B%EA%B8%B8" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                    🗺️ 草梁故事路
+                                </a>
+                                <a href="https://map.naver.com/p/search/168%EA%B3%84%EB%8B%A8" target="_blank" class="naver-btn text-xs px-2.5 py-1 rounded-lg font-medium inline-flex items-center gap-1 shadow-sm">
+                                    🗺️ 168階梯
+                                </a>
+                            </div>
+                        </div>
+                        <h3 class="font-bold text-white text-base">【草梁故事路 ＆ 168 階梯】</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">搭乘斜坡單軌電車登上 168 階梯，俯瞰釜山港與跨海大橋美景。</p>
+                    </div>
+                </div>
+
+                <!-- Item 7 -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-slate-800 border-2 border-slate-500 text-slate-300 flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-suitcase-rolling text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-navy-700/60 p-4 rounded-xl border border-slate-700/60">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-slate-300 text-sm">15:45 - 16:15</span>
+                            <span class="text-xs bg-slate-800 text-slate-300 px-2.5 py-0.5 rounded border border-slate-600">取行李</span>
+                        </div>
+                        <h3 class="font-bold text-white text-base">返回釜山港碼頭取行李</h3>
+                        <p class="text-xs md:text-sm text-slate-300 mt-1">領取行李準備辦理登船手續。</p>
+                    </div>
+                </div>
+
+                <!-- Item 8 (Cross Border) -->
+                <div class="relative z-10 flex gap-4 items-start timeline-item">
+                    <div class="w-10 h-10 rounded-full bg-cyan-600 text-white font-bold flex items-center justify-center shrink-0 shadow-lg ring-4 ring-cyan-500/20">
+                        <i class="fa-solid fa-ship text-sm"></i>
+                    </div>
+                    <div class="flex-1 bg-gradient-to-r from-cyan-950/90 to-navy-700/90 p-4 rounded-xl border border-cyan-500/40">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                            <span class="font-bold text-cyan-300 text-sm">16:30 - 20:00</span>
+                            <span class="text-xs bg-cyan-600 text-white font-bold px-2 py-0.5 rounded">夜航赴福岡</span>
+                        </div>
+                        <h3 class="font-bold text-white text-base">【新山茶花號 (New Camellia) 報到 ➔ 出境登船】</h3>
+                        <p class="text-xs md:text-sm text-cyan-100/90 mt-1">
+                            16:30 - 18:30 辦理報到換票；19:00 - 20:00 通關並完成出境審查登船，準備夜航前往日本福岡博多港！
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="mt-12 text-center text-xs text-slate-500 no-print">
+        <p>祝您的釜山 & 福岡跨海之旅順利愉快！ 🌊🚢</p>
+    </footer>
+
+    <!-- Interactive Script -->
+    <script>
+        function filterDay(dayNum) {
+            const cards = document.querySelectorAll('.day-card');
+            const tabs = document.querySelectorAll('.tab-btn');
+
+            // Reset Tab styling
+            tabs.forEach(tab => {
+                if (parseInt(tab.getAttribute('data-day')) === dayNum) {
+                    tab.classList.remove('bg-slate-800', 'text-slate-300', 'hover:bg-slate-700', 'border', 'border-slate-700');
+                    tab.classList.add('bg-cyan-500', 'text-white', 'shadow-md', 'shadow-cyan-900/50');
+                } else {
+                    tab.classList.add('bg-slate-800', 'text-slate-300', 'hover:bg-slate-700', 'border', 'border-slate-700');
+                    tab.classList.remove('bg-cyan-500', 'text-white', 'shadow-md', 'shadow-cyan-900/50');
+                }
+            });
+
+            // Show / Hide cards
+            cards.forEach(card => {
+                if (dayNum === 0 || parseInt(card.getAttribute('data-day-num')) === dayNum) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function showAllDays() {
+            filterDay(0);
+        }
+
+        function searchItinerary() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const items = document.querySelectorAll('.timeline-item');
+            const cards = document.querySelectorAll('.day-card');
+
+            if (!query) {
+                cards.forEach(card => card.style.display = 'block');
+                items.forEach(item => item.style.display = 'flex');
+                return;
+            }
+
+            cards.forEach(card => {
+                let hasMatch = false;
+                const timelineItems = card.querySelectorAll('.timeline-item');
+                
+                timelineItems.forEach(item => {
+                    const text = item.innerText.toLowerCase();
+                    if (text.includes(query)) {
+                        item.style.display = 'flex';
+                        hasMatch = true;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+
+                if (hasMatch) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

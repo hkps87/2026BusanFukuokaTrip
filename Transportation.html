@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>釜山・慶州 6 日互動旅遊行程表</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+        }
+        .map-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background-color: #059669;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 9999px;
+            text-decoration: none;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .map-btn:hover {
+            background-color: #047857;
+            transform: translateY(-1px);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen py-8 px-4 sm:px-6">
+
+    <div class="max-w-4xl mx-auto">
+        <header class="text-center mb-8 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border border-slate-800/80 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+            <div class="absolute -right-10 -top-10 w-40 h-40 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-sky-950/80 border border-sky-800/50 rounded-full text-sky-400 text-xs font-bold uppercase tracking-wider mb-3 shadow-inner">
+                <span>🇰🇷 2026 Korea Double City Trip</span>
+            </div>
+            <h1 class="text-2xl sm:text-4xl font-extrabold text-white mb-2 tracking-tight">釜山・慶州 6 日互動旅遊行程</h1>
+            <p class="text-slate-400 text-sm sm:text-base font-medium">2026年12月11日（五） - 12月16日（三）｜雙城漫遊・海上纜車・古都夜景</p>
+
+            <!-- Pass Tracker & Live Search -->
+            <div class="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-950/60 p-4 rounded-2xl border border-slate-800">
+                <div class="flex items-center gap-3 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
+                    <span class="text-xs font-bold text-indigo-400 uppercase tracking-wide bg-indigo-950 px-3 py-1.5 rounded-xl border border-indigo-800/60 shrink-0">
+                        🎟️ Pass Big 3
+                    </span>
+                    <div class="flex gap-2 text-xs font-medium">
+                        <span id="pass-1" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400 border border-slate-700 transition-all shrink-0">① Luge</span>
+                        <span id="pass-2" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400 border border-slate-700 transition-all shrink-0">② X the Sky</span>
+                        <span id="pass-3" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400 border border-slate-700 transition-all shrink-0">③ 松島纜車</span>
+                    </div>
+                </div>
+                <div class="w-full sm:w-64">
+                    <input type="text" id="search-input" placeholder="🔍 搜尋景點、活動、地點..." oninput="filterActivities()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-sky-500 transition-all">
+                </div>
+            </div>
+        </header>
+
+        <nav aria-label="行程日期選單" class="mb-8 bg-slate-900/90 backdrop-blur-md border border-slate-800/80 rounded-2xl p-2.5 shadow-xl sticky top-4 z-30">
+            <div class="grid grid-cols-4 sm:grid-cols-7 gap-1.5 text-xs font-medium">
+                <button onclick="filterDay('all')" id="btn-all" class="col-span-4 sm:col-span-1 py-2.5 px-3 rounded-xl bg-sky-600 text-white font-bold transition-all shadow-md hover:bg-sky-500 flex items-center justify-center gap-1.5">
+                    <span>📅 全部行程</span>
+                </button>
+                <button onclick="filterDay(1)" id="btn-1" class="py-2.5 px-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-all border border-slate-700/50">
+                    Day 1 <span class="block text-[10px] text-slate-400">12/11</span>
+                </button>
+                <button onclick="filterDay(2)" id="btn-2" class="py-2.5 px-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-all border border-slate-700/50">
+                    Day 2 <span class="block text-[10px] text-slate-400">12/12</span>
+                </button>
+                <button onclick="filterDay(3)" id="btn-3" class="py-2.5 px-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-all border border-slate-700/50">
+                    Day 3 <span class="block text-[10px] text-slate-400">12/13</span>
+                </button>
+                <button onclick="filterDay(4)" id="btn-4" class="py-2.5 px-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-all border border-slate-700/50">
+                    Day 4 <span class="block text-[10px] text-slate-400">12/14</span>
+                </button>
+                <button onclick="filterDay(5)" id="btn-5" class="py-2.5 px-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-all border border-slate-700/50">
+                    Day 5 <span class="block text-[10px] text-slate-400">12/15</span>
+                </button>
+                <button onclick="filterDay(6)" id="btn-6" class="py-2.5 px-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-all border border-slate-700/50">
+                    Day 6 <span class="block text-[10px] text-slate-400">12/16</span>
+                </button>
+            </div>
+        </nav>
+
+        <main class="space-y-6" id="itinerary-container">
+            
+            <!-- Day 1 -->
+            <section id="day-1" class="day-section bg-slate-900 border border-slate-800/80 rounded-2xl p-6 shadow-xl transition-all duration-300">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-4 mb-5 gap-2">
+                    <div class="border-l-4 border-sky-500 pl-3">
+                        <div class="text-xs text-sky-400 font-bold uppercase tracking-wider">2026年12月11日（星期五）</div>
+                        <h2 class="text-xl font-extrabold text-white mt-0.5">Day 1：抵達釜山・入住沙上</h2>
+                    </div>
+                    <span class="text-xs bg-slate-800 px-3 py-1 rounded-full text-slate-300 border border-slate-700 self-start sm:self-center">入住沙上站周邊</span>
+                </div>
+                <div class="space-y-3 text-sm">
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">21:00</span>
+                                <span class="font-semibold text-white">班機抵達</span>
+                                <a href="https://map.naver.com/p/search/%EA%B9%80%ED%95%B4%EA%B5%AD%EC%A0%9C%EA%B3%B5%ED%95%AD" target="_blank" class="map-btn">📍 金海國際機場 (PUS)</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">21:00 - 22:00</span>
+                                <span class="text-slate-300">出關、領行李</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">22:00</span>
+                                <span>搭乘輕軌或計程車前往</span>
+                                <a href="https://map.naver.com/p/search/%EC%82%AC%EC%83%81%EC%97%AD" target="_blank" class="map-btn">📍 沙上站</a>
+                            </div>
+                            <p class="text-xs text-slate-400 mt-1.5 bg-slate-900/80 p-2 rounded-lg border border-slate-800">💡 提示：搭乘釜山金海輕軌約 10-15 分鐘</p>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">22:30</span>
+                                <span class="text-slate-200">入住沙上站周邊飯店休息，儲存體力</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Day 2 -->
+            <section id="day-2" class="day-section bg-slate-900 border border-slate-800/80 rounded-2xl p-6 shadow-xl transition-all duration-300">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-4 mb-5 gap-2">
+                    <div class="border-l-4 border-sky-500 pl-3">
+                        <div class="text-xs text-sky-400 font-bold uppercase tracking-wider">2026年12月12日（星期六）</div>
+                        <h2 class="text-xl font-extrabold text-white mt-0.5">Day 2：金海塗鴉秀 ➔ 飯店 Check-in ➔ 南浦洞換錢 ➔ 夜市漫遊</h2>
+                    </div>
+                    <span class="text-xs bg-slate-800 px-3 py-1 rounded-full text-slate-300 border border-slate-700 self-start sm:self-center">金海 ➔ 南浦洞</span>
+                </div>
+                <div class="space-y-3 text-sm">
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">09:30 - 14:30</span>
+                                <span>前往</span>
+                                <a href="https://map.naver.com/p/search/%EA%B9%80%ED%95%B4%EA%B0%80%EC%95%BC%ED%85%8c%EB%A7%88%EA%B3%B5%EC%9B%90" target="_blank" class="map-btn">📍 金海伽倻主題公園</a>
+                                <span>，觀賞「塗鴉秀 (The Painters)」並逛逛</span>
+                            </div>
+                            <p class="text-xs text-slate-400 mt-1.5 bg-slate-900/80 p-2 rounded-lg border border-slate-800">💡 提示：從沙上出發搭地鐵轉公車/計程車約 40-50 分鐘</p>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">14:30 - 15:15</span>
+                                <span>搭交通工具返回市區，前往</span>
+                                <a href="https://map.naver.com/p/search/Booking%20the%20bay" target="_blank" class="map-btn">📍 Booking the bay</a>
+                                <span>Check-in 與卸行李</span>
+                            </div>
+                            <p class="text-xs text-slate-400 mt-1.5 bg-slate-900/80 p-2 rounded-lg border border-slate-800">💡 提示：車程約 40-50 分鐘</p>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">15:15 - 16:00</span>
+                                <span>搭地鐵前往</span>
+                                <a href="https://map.naver.com/p/search/%EB%82%A8%ED%8F%AC%EB%8F%99" target="_blank" class="map-btn">📍 南浦洞</a>
+                                <span>，至</span>
+                                <a href="https://map.naver.com/p/search/%EC%9A%B0%EB%A6%A1%ED%99%98%EC%A0%84%EC%86%8C" target="_blank" class="map-btn">📍 釜山 南浦洞 友利換錢所</a>
+                                <span>換韓元現金</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">16:00 - 18:00</span>
+                                <a href="https://map.naver.com/p/search/%EC%9A%A9%EB%91%90%EC%82%B0%EA%B3%B5%EC%9B%90" target="_blank" class="map-btn">📍 龍頭山公園</a>
+                                <span>、</span>
+                                <a href="https://map.naver.com/p/search/BIFF%EA%B4%91%EC%9E%A5" target="_blank" class="map-btn">📍 BIFF 廣場</a>
+                                <span class="text-slate-300">散步，品嚐種子黑糖餅</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">18:00 之後</span>
+                                <a href="https://map.naver.com/p/search/%EB%B6%80%ED%8F%89%EA%B0%95%ED%86%B5%EC%8B%9C%EC%9E%A5" target="_blank" class="map-btn">📍 富平罐頭夜市</a>
+                                <span class="text-slate-200">（週末限定露天夜市）品嚐各式異國小吃晚餐</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Day 3 -->
+            <section id="day-3" class="day-section bg-slate-900 border border-slate-800/80 rounded-2xl p-6 shadow-xl transition-all duration-300">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-4 mb-5 gap-2">
+                    <div class="border-l-4 border-sky-500 pl-3">
+                        <div class="text-xs text-sky-400 font-bold uppercase tracking-wider">2026年12月13日（星期日）</div>
+                        <h2 class="text-xl font-extrabold text-white mt-0.5">Day 3：慶州世界遺產與古都漫遊一日遊</h2>
+                    </div>
+                    <span class="text-xs bg-sky-950 px-3 py-1 rounded-full text-sky-300 border border-sky-800/60 self-start sm:self-center">🔥 慶州冬日日落優化版</span>
+                </div>
+                <div class="space-y-3 text-sm">
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">08:30 - 09:30</span>
+                                <span class="text-slate-300">從釜山出發前往慶州（搭 KTX 至新慶州站轉公車，或搭長途巴士，約 1 - 1.5 小時）</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">09:30 - 11:30</span>
+                                <span class="font-semibold text-white">【</span>
+                                <a href="https://map.naver.com/p/search/%EB%B6%88%EA%B5%AD%EC%82%AC" target="_blank" class="map-btn">📍 佛國寺</a>
+                                <span class="font-semibold text-white">】</span>
+                                <span class="text-slate-300">早晨山區空氣清新、光線通透，愜意欣賞世界文化遺產</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">11:30 - 12:00</span>
+                                <span class="text-slate-300">搭車返回慶州市區（市區公車 10/11 號約 30-40 分鐘）</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">12:00 - 13:30</span>
+                                <span class="font-semibold text-white">【</span>
+                                <a href="https://map.naver.com/p/search/%ED%99%A9%EB%A6%AC%EB%8B%A8%EB%A1%9C" target="_blank" class="map-btn">📍 皇理團路</a>
+                                <span class="font-semibold text-white">】</span>
+                                <span class="text-slate-300">午餐時光（韓屋改建餐廳或咖啡廳）</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">13:30 - 15:30</span>
+                                <span class="font-semibold text-white">【</span>
+                                <a href="https://map.naver.com/p/search/%EB%8C%80%EB%A6%89%EC%9B%90" target="_blank" class="map-btn">📍 大陵苑 / 天馬塚</a>
+                                <span class="font-semibold text-white">】</span>
+                                <span class="text-slate-300">探索天馬塚古墓（步行約 5 分鐘）</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">15:30 - 16:45</span>
+                                <span class="font-semibold text-white">【</span>
+                                <a href="https://map.naver.com/p/search/%EC%B2%A8%EC%84%B1%EB%8C%80" target="_blank" class="map-btn">📍 瞻星台</a>
+                                <span class="font-semibold text-white">與周邊草地】</span>
+                                <span class="text-slate-300">漫步拍照，捕捉冬日斜陽餘暉</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-amber-950/20 border border-amber-800/40 transition-all hover:border-amber-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">16:45 - 18:30</span>
+                                <span class="font-semibold text-white">【</span>
+                                <a href="https://map.naver.com/p/search/%EB%8F%99%EA%B6%81%EA%B3%BC%EC%9B%94%EC%A7%80" target="_blank" class="map-btn">📍 東宮與月池</a>
+                                <span class="font-semibold text-white">（雁鴨池）】🔥</span>
+                                <span class="text-amber-200 text-xs font-bold">17:00 日落，17:10 入園捕捉微光晚霞交織金碧輝煌夜景倒影</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">18:30 之後</span>
+                                <span class="text-slate-300">市區輕鬆晚餐，搭車返回釜山飯店休息（約 1 - 1.5 小時）</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Day 4 -->
+            <section id="day-4" class="day-section bg-slate-900 border border-slate-800/80 rounded-2xl p-6 shadow-xl transition-all duration-300">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-4 mb-5 gap-2">
+                    <div class="border-l-4 border-sky-500 pl-3">
+                        <div class="text-xs text-sky-400 font-bold uppercase tracking-wider">2026年12月14日（星期一）</div>
+                        <h2 class="text-xl font-extrabold text-white mt-0.5">Day 4：海雲台雙列車 ➔ 機張 Luge ➔ 高空夜景日</h2>
+                    </div>
+                    <span class="text-xs bg-indigo-950 px-3 py-1 rounded-full text-indigo-300 border border-indigo-800/60 self-start sm:self-center">★ Pass Big 3 ①②</span>
+                </div>
+                <div class="space-y-3 text-sm">
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">09:30 - 10:15</span>
+                                <span class="font-semibold text-white">【</span>
+                                <a href="https://map.naver.com/p/search/%EB%AF%B8%ED%8F%AC%EC%A0%95" target="_blank" class="map-btn">📍 海雲台藍線公園 尾浦站</a>
+                                <span class="font-semibold text-white">_天空膠囊列車】</span>
+                                <span class="text-slate-300">尾浦 ➔ 青沙浦（官網預約）</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">10:15 - 11:00</span>
+                                <a href="https://map.naver.com/p/search/%EC%B2%AD%EC%82%AC%ED%8F%AC%EB%8B%A5%EB%A6%BF%EB%8F%8C%EC%A0%84%EB%A7%9D%EB%8C%80" target="_blank" class="map-btn">📍 青沙浦天空步道</a>
+                                <span class="text-slate-300">、平交道拍照、海景咖啡外帶</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">11:00 - 11:25</span>
+                                <span>搭乘【海岸列車】</span>
+                                <a href="https://map.naver.com/p/search/%EC%86%A1%EC%A0%95%EC%A0%95" target="_blank" class="map-btn">📍 海雲台藍線公園 松亭站</a>
+                                <span class="text-slate-300">➔ 松亭（欣賞沿途海景）</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">11:30 - 12:30</span>
+                                <span class="text-slate-300">松亭周邊享用美味海景午餐</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-indigo-950/30 border border-indigo-800/50 transition-all hover:border-indigo-700" data-pass="1">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">12:45 - 14:15</span>
+                                <span class="font-semibold text-white">【</span>
+                                <a href="https://map.naver.com/p/search/Skyline%20Luge%20Busan" target="_blank" class="map-btn">📍 Skyline Luge Busan</a>
+                                <span class="font-semibold text-white"> 機張滑坡車】</span>
+                                <span class="bg-indigo-600 text-white text-[11px] px-2 py-0.5 rounded-full font-bold">★ 刷 Pass ①</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">14:30 - 16:00</span>
+                                <a href="https://map.naver.com/p/search/%ED%95%B4%EB%8F%99%EC%9A%A9%EA%B6%81%EC%82%AC" target="_blank" class="map-btn">📍 海東龍宮寺</a>
+                                <span class="text-slate-300">（欣賞海崖絕景與下午夕陽）</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">16:15 - 17:45</span>
+                                <a href="https://map.naver.com/p/search/%EB%A1%87%EB%8D%B0%ED%94%84%EB%A6%AC%EB%AF%B8%EC%97%84%EC%95%84%EC%9A%83%EB%A0%9B%20%EB%8F%99%EB%B6%80%EC%82%B0%EC%A0%90" target="_blank" class="map-btn">📍 롯데프리미엄아울렛 동부산점</a>
+                                <span class="text-slate-300">東釜山店（歐風建築與聖誕燈海）</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-indigo-950/30 border border-indigo-800/50 transition-all hover:border-indigo-700" data-pass="2">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">18:00 之後</span>
+                                <span class="font-semibold text-white">【</span>
+                                <a href="https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%20X%20the%20Sky" target="_blank" class="map-btn">📍 釜山 X the Sky</a>
+                                <span class="font-semibold text-white"> 高空觀景台】</span>
+                                <span class="bg-indigo-600 text-white text-[11px] px-2 py-0.5 rounded-full font-bold">★ 刷 Pass ②</span>
+                            </div>
+                            <p class="text-xs text-slate-300 mt-1">欣賞海雲台百萬夜景，晚餐於 <a href="https://map.naver.com/p/search/%ED%95%B4%EC%9A%B4%EB%8C%80" target="_blank" class="text-sky-400 underline">海雲台</a> 解決</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Day 5 -->
+            <section id="day-5" class="day-section bg-slate-900 border border-slate-800/80 rounded-2xl p-6 shadow-xl transition-all duration-300">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-4 mb-5 gap-2">
+                    <div class="border-l-4 border-sky-500 pl-3">
+                        <div class="text-xs text-sky-400 font-bold uppercase tracking-wider">2026年12月15日（星期二）—— Day 5</div>
+                        <h2 class="text-xl font-extrabold text-white mt-0.5">松島海上纜車 ➔ 影島白淺灘海岸 ➔ 太宗台 ➔ 扎嘎其</h2>
+                    </div>
+                    <span class="text-xs bg-indigo-950 px-3 py-1 rounded-full text-indigo-300 border border-indigo-800/60 self-start sm:self-center">★ Pass Big 3 ③</span>
+                </div>
+                <div class="space-y-3 text-sm">
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-indigo-950/30 border border-indigo-800/50 transition-all hover:border-indigo-700" data-pass="3">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">09:30 - 11:30</span>
+                                <span class="font-semibold text-white">【</span>
+                                <a href="https://map.naver.com/p/search/%EC%86%A1%EB%8F%84%ED%95%B4%EC%8C%80%EC%BC%80%EC%9D%B4%EB%B8%94%EC%B9%B4" target="_blank" class="map-btn">📍 松島海上纜車 ＆ 龍宮雲橋</a>
+                                <span class="font-semibold text-white">】</span>
+                                <span class="bg-indigo-600 text-white text-[11px] px-2 py-0.5 rounded-full font-bold">★ 刷 Pass ③</span>
+                            </div>
+                            <p class="text-xs text-slate-300 mt-1">早晨搭乘海景纜車與漫步雲橋，避開人潮。</p>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">11:30 - 12:15</span>
+                                <span class="font-semibold text-white">【跨區移動：松島 ➔ 影島西海岸】</span>
+                            </div>
+                            <p class="text-xs text-slate-300 mt-1">搭乘公車或短程計程車跨過橋樑，前往影島西側的白淺灘（車程約 15-20 分鐘）。</p>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">12:15 - 14:15</span>
+                                <span class="font-semibold text-white">【</span>
+                                <a href="https://map.naver.com/p/search/%ED%9D%B0%EC%97%AC%EC%9A%B8%EB%AC%B8%ED%99%94%EB%A7%88%EC%9D%84" target="_blank" class="map-btn">📍 白淺灘文化村</a>
+                                <span class="font-semibold text-white"> ＆ 海景午餐】</span>
+                            </div>
+                            <p class="text-xs text-slate-300 mt-1">沿著懸崖海岸步道散步、欣賞蔚藍大海，在絕景咖啡廳享用午餐與咖啡。</p>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">14:15 - 14:45</span>
+                                <span class="font-semibold text-white">【影島南移：白淺灘 ➔ 太宗台】</span>
+                            </div>
+                            <p class="text-xs text-slate-300 mt-1">搭乘影島在地公車繼續往南移動至太宗台（公車車程約 20-25 分鐘）。</p>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">14:45 - 17:15</span>
+                                <span class="font-semibold text-white">【</span>
+                                <a href="https://map.naver.com/p/search/%ED%83%80%EC%A2%85%EB%8C%80" target="_blank" class="map-btn">📍 太宗臺遊園地</a>
+                                <span class="font-semibold text-white">（Danubi 觀光列車）】</span>
+                            </div>
+                            <p class="text-xs text-slate-300 mt-1">搭乘園區 Danubi 觀光列車，欣賞壯麗的懸崖峭壁與燈塔海景。</p>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">17:30 之後</span>
+                                <span class="font-semibold text-white">【</span>
+                                <a href="https://map.naver.com/p/search/%EC%9E%90%EA%B0%80%EC%B9%98%EC%8B%9C%EC%9E%A5" target="_blank" class="map-btn">📍 扎嘎其市場</a>
+                                <span> ＆ </span>
+                                <a href="https://map.naver.com/p/search/%EB%82%A8%ED%8F%AC%EB%8F%99" target="_blank" class="map-btn">📍 南浦洞</a>
+                                <span class="font-semibold text-white">商圈】</span>
+                            </div>
+                            <p class="text-xs text-slate-300 mt-1">返回南浦洞，享用豐盛新鮮的海鮮大餐。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Day 6 -->
+            <section id="day-6" class="day-section bg-slate-900 border border-slate-800/80 rounded-2xl p-6 shadow-xl transition-all duration-300">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-4 mb-5 gap-2">
+                    <div class="border-l-4 border-sky-500 pl-3">
+                        <div class="text-xs text-sky-400 font-bold uppercase tracking-wider">2026年12月16日（星期三）—— Day 6</div>
+                        <h2 class="text-xl font-extrabold text-white mt-0.5">釜山港寄行李 ➔ ARTE MUSEUM ➔ 草梁故事路 ➔ 赴福岡</h2>
+                    </div>
+                    <span class="text-xs bg-emerald-950 px-3 py-1 rounded-full text-emerald-300 border border-emerald-800/60 self-start sm:self-center">🚢 新山茶花號夜船</span>
+                </div>
+                <div class="space-y-3 text-sm">
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">09:30 - 10:15</span>
+                                <span class="font-semibold text-white">【飯店退房 ＆ 釜山港寄行李】</span>
+                            </div>
+                            <p class="text-xs text-slate-300 mt-1">從 <a href="https://map.naver.com/p/search/Booking%20the%20bay" target="_blank" class="text-sky-400 underline">Booking the bay</a> 飯店退房，前往 <a href="https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%ED%95%AD%EA%B5%AD%EC%A0%9C%EC%A0%9C%EA%B3%B5%EC%97%AC%ED%84%B0%EB%AF%B8%EB%84%90" target="_blank" class="text-sky-400 underline">釜山港國際客運碼頭</a> 寄存行李。</p>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">10:15 - 11:00</span>
+                                <span class="font-semibold text-white">【公車段 ①：釜山港 ➔ 影島 ARTE MUSEUM】</span>
+                            </div>
+                            <p class="text-xs text-slate-300 mt-1">於 <a href="https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%EC%97%AD" target="_blank" class="text-sky-400 underline">釜山站</a> 公車站搭【66 號】或【191 號】公車至國立海洋博物館站下車。</p>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">11:00 - 13:00</span>
+                                <span class="font-semibold text-white">【</span>
+                                <a href="https://map.naver.com/p/search/ARTE%20MUSEUM%20Busan" target="_blank" class="map-btn">📍 ARTE MUSEUM Busan</a>
+                                <span class="font-semibold text-white"> 沉浸式數位美術館】</span>
+                            </div>
+                            <p class="text-xs text-slate-300 mt-1">停留約 2 小時，體驗光影、音樂與香氣交織的數位藝術空間。</p>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">13:00 - 13:40</span>
+                                <span class="font-semibold text-white">【公車段 ②：影島 ➔ 釜山站】</span>
+                            </div>
+                            <p class="text-xs text-slate-300 mt-1">於美術館旁搭【66 號】公車原路返回 <a href="https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%EC%97%AD" target="_blank" class="text-sky-400 underline">釜山站</a>。</p>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">13:40 - 14:40</span>
+                                <span class="font-semibold text-white">【</span>
+                                <a href="https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%EC%97%AD" target="_blank" class="map-btn">📍 釜山站</a>
+                                <span class="font-semibold text-white">周邊午餐】</span>
+                            </div>
+                            <p class="text-xs text-slate-300 mt-1">在釜山站附近享用在地午餐（豬肉湯飯或拌飯）。</p>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">14:40 - 15:45</span>
+                                <span class="font-semibold text-white">【</span>
+                                <a href="https://map.naver.com/p/search/%EC%B4%88%EB%9F%89%EC%9D%B4%EB%B0%94%EA%B5%AC%EA%B8%B8" target="_blank" class="map-btn">📍 草梁故事路 ＆ 168 階梯單軌電車</a>
+                                <span class="font-semibold text-white">】</span>
+                            </div>
+                            <p class="text-xs text-slate-300 mt-1">搭乘免費斜坡單軌電車登上 168 階梯，俯瞰港口與跨海大橋全景。</p>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">15:45 - 16:15</span>
+                                <span class="font-semibold text-white">【返回釜山港碼頭取行李】</span>
+                            </div>
+                            <p class="text-xs text-slate-300 mt-1">返回 <a href="https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%ED%95%AD%EA%B5%AD%EC%A0%9C%EC%A0%9C%EA%B3%B5%EC%97%AC%ED%84%B0%EB%AF%B8%EB%84%90" target="_blank" class="text-sky-400 underline">釜山港國際客運碼頭</a>，領取寄存行李。</p>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 transition-all hover:border-slate-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">16:30 - 18:30</span>
+                                <span class="font-semibold text-white">【新山茶花號 (New Camellia) 報到換票】</span>
+                            </div>
+                            <p class="text-xs text-slate-300 mt-1">至櫃檯辦理登船手續、領取實體船票與房卡。</p>
+                        </div>
+                    </div>
+                    <div class="activity-item flex items-start gap-3 p-3 rounded-xl bg-emerald-950/30 border border-emerald-800/50 transition-all hover:border-emerald-700">
+                        <input type="checkbox" onchange="saveProgress()" class="mt-1 w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900 cursor-pointer shrink-0">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded text-xs border border-amber-800/40">19:00 - 20:00</span>
+                                <span class="font-semibold text-white">【通關與登船】</span>
+                            </div>
+                            <p class="text-xs text-emerald-200 mt-1 font-medium">20:00 前完成出境審查並登船，準備夜航前往日本福岡博多港！</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="text-center text-xs text-slate-500 mt-12 mb-6">
+            <p>釜山・慶州 6 日互動旅遊行程表 · 點擊上方按鈕切換單日檢視，勾選方框記錄行程進度，資料會自動儲存。</p>
+        </footer>
+    </div>
+
+    <script>
+        // Filter by day
+        function filterDay(dayNum) {
+            const sections = document.querySelectorAll('.day-section');
+            const allBtn = document.getElementById('btn-all');
+            
+            for (let i = 1; i <= 6; i++) {
+                const btn = document.getElementById(`btn-${i}`);
+                if (btn) {
+                    btn.className = "py-2.5 px-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-all border border-slate-700/50";
+                }
+            }
+            if (allBtn) {
+                allBtn.className = "col-span-4 sm:col-span-1 py-2.5 px-3 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-all border border-slate-700/50";
+            }
+
+            if (dayNum === 'all') {
+                sections.forEach(sec => sec.style.display = 'block');
+                if (allBtn) {
+                    allBtn.className = "col-span-4 sm:col-span-1 py-2.5 px-3 rounded-xl bg-sky-600 text-white font-bold transition-all shadow-md hover:bg-sky-500 flex items-center justify-center gap-1.5";
+                }
+            } else {
+                sections.forEach(sec => {
+                    if (sec.id === `day-${dayNum}`) {
+                        sec.style.display = 'block';
+                    } else {
+                        sec.style.display = 'none';
+                    }
+                });
+                const activeBtn = document.getElementById(`btn-${dayNum}`);
+                if (activeBtn) {
+                    activeBtn.className = "py-2.5 px-2 rounded-xl bg-sky-600 text-white font-bold transition-all shadow-md hover:bg-sky-500";
+                }
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Live Search / Filter Activities
+        function filterActivities() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const items = document.querySelectorAll('.activity-item');
+            
+            items.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(query)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Save progress to localStorage & update Pass Badges
+        function saveProgress() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const state = {};
+            checkboxes.forEach((cb, idx) => {
+                state[idx] = cb.checked;
+                const activityDiv = cb.closest('.activity-item');
+                if (activityDiv) {
+                    if (cb.checked) {
+                        activityDiv.classList.add('opacity-50', 'line-through');
+                    } else {
+                        activityDiv.classList.remove('opacity-50', 'line-through');
+                    }
+                }
+            });
+            localStorage.setItem('busan_trip_progress', JSON.stringify(state));
+            updatePassCounters();
+        }
+
+        // Update Pass Big 3 status visually
+        function updatePassCounters() {
+            const pass1El = document.querySelector('[data-pass="1"] input[type="checkbox"]');
+            const pass2El = document.querySelector('[data-pass="2"] input[type="checkbox"]');
+            const pass3El = document.querySelector('[data-pass="3"] input[type="checkbox"]');
+
+            const pass1Checked = pass1El ? pass1El.checked : false;
+            const pass2Checked = pass2El ? pass2El.checked : false;
+            const pass3Checked = pass3El ? pass3El.checked : false;
+
+            const p1El = document.getElementById('pass-1');
+            const p2El = document.getElementById('pass-2');
+            const p3El = document.getElementById('pass-3');
+
+            if (pass1Checked) {
+                p1El.className = "px-2.5 py-1 rounded-lg bg-indigo-600 text-white border border-indigo-500 transition-all font-bold shadow shrink-0";
+            } else {
+                p1El.className = "px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400 border border-slate-700 transition-all shrink-0";
+            }
+
+            if (pass2Checked) {
+                p2El.className = "px-2.5 py-1 rounded-lg bg-indigo-600 text-white border border-indigo-500 transition-all font-bold shadow shrink-0";
+            } else {
+                p2El.className = "px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400 border border-slate-700 transition-all shrink-0";
+            }
+
+            if (pass3Checked) {
+                p3El.className = "px-2.5 py-1 rounded-lg bg-indigo-600 text-white border border-indigo-500 transition-all font-bold shadow shrink-0";
+            } else {
+                p3El.className = "px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400 border border-slate-700 transition-all shrink-0";
+            }
+        }
+
+        // Load progress on startup
+        window.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('busan_trip_progress');
+            if (saved) {
+                const state = JSON.parse(saved);
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                checkboxes.forEach((cb, idx) => {
+                    if (state[idx] !== undefined) {
+                        cb.checked = state[idx];
+                        const activityDiv = cb.closest('.activity-item');
+                        if (activityDiv && cb.checked) {
+                            activityDiv.classList.add('opacity-50', 'line-through');
+                        }
+                    }
+                });
+                updatePassCounters();
+            }
+        });
+    </script>
+</body>
+</html>
