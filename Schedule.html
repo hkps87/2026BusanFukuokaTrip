@@ -64,7 +64,7 @@
 <body class="h-full flex flex-col bg-slate-950 text-slate-100 overflow-x-hidden pb-20">
 
   <header class="sticky top-0 z-30 glass-header border-b border-slate-800/80 px-4 pt-4 pb-3 shadow-lg">
-    <div class="max-w-md mx-auto flex items-center justify-between">
+    <div class="max-w-4xl mx-auto flex items-center justify-between">
       <div class="flex items-center space-x-2.5">
         <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-500 to-indigo-500 flex items-center justify-center shadow-lg shadow-brand-500/20">
           <i data-lucide="plane-takeoff" class="w-5 h-5 text-white"></i>
@@ -82,7 +82,7 @@
       </button>
     </div>
 
-    <div class="max-w-md mx-auto mt-3 grid grid-cols-3 gap-2 text-center text-xs">
+    <div class="max-w-4xl mx-auto mt-3 grid grid-cols-3 gap-2 text-center text-xs">
       <div class="bg-slate-900/60 border border-slate-800 rounded-lg p-1.5">
         <span class="text-slate-400 block text-[10px]">釜山 Pass</span>
         <span class="font-semibold text-brand-400 text-xs">Big 3 景點</span>
@@ -98,7 +98,7 @@
     </div>
 
     <!-- Navigation Tab -->
-    <div class="max-w-md mx-auto mt-3 grid grid-cols-2 gap-2 text-xs">
+    <div class="max-w-4xl mx-auto mt-3 grid grid-cols-2 gap-2 text-xs">
       <a href="Schedule.html" class="flex items-center justify-center gap-1.5 py-2 rounded-xl bg-brand-600/20 border border-brand-500/40 text-brand-300 font-bold transition shadow-sm">
         <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
         <span>每日行程</span>
@@ -109,11 +109,11 @@
       </a>
     </div>
 
-    <div class="max-w-md mx-auto mt-3.5">
+    <div class="max-w-4xl mx-auto mt-3.5">
       <div class="flex space-x-2 overflow-x-auto no-scrollbar pb-1 pt-1" id="day-tabs"></div>
     </div>
 
-    <div class="max-w-md mx-auto mt-2.5 flex items-center gap-1.5 overflow-x-auto no-scrollbar text-xs">
+    <div class="max-w-4xl mx-auto mt-2.5 flex items-center gap-1.5 overflow-x-auto no-scrollbar text-xs">
       <button class="filter-btn active px-3 py-1 rounded-full border border-slate-700 bg-slate-800 text-slate-300 font-medium whitespace-nowrap" data-filter="all">全部</button>
       <button class="filter-btn px-3 py-1 rounded-full border border-slate-800 bg-slate-900/60 text-slate-400 hover:text-slate-200 whitespace-nowrap" data-filter="pass">🎟️ Visit Busan Pass</button>
       <button class="filter-btn px-3 py-1 rounded-full border border-slate-800 bg-slate-900/60 text-slate-400 hover:text-slate-200 whitespace-nowrap" data-filter="food">🍜 美食/夜市</button>
@@ -121,10 +121,10 @@
     </div>
   </header>
 
-  <main class="flex-1 max-w-md w-full mx-auto px-4 pt-4 pb-24 space-y-6" id="itinerary-container"></main>
+  <main class="flex-1 max-w-4xl w-full mx-auto px-4 pt-4 pb-24 space-y-6" id="itinerary-container"></main>
 
   <div class="fixed bottom-0 left-0 right-0 z-30 glass-header border-t border-slate-800 px-4 py-2.5">
-    <div class="max-w-md mx-auto flex items-center justify-between text-xs">
+    <div class="max-w-4xl mx-auto flex items-center justify-between text-xs">
       <div class="flex items-center space-x-2 text-slate-400">
         <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
         <span>行程完成度: <strong id="completion-stats" class="text-slate-200">0 / 0</strong></span>
@@ -137,7 +137,7 @@
   </div>
 
   <div id="map-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 hidden opacity-0 transition-opacity duration-300">
-    <div class="glass-card w-full max-w-md rounded-t-2xl sm:rounded-2xl border-t sm:border border-slate-700/80 p-5 space-y-4 max-h-[80vh] overflow-y-auto">
+    <div class="glass-card w-full max-w-4xl rounded-t-2xl sm:rounded-2xl border-t sm:border border-slate-700/80 p-5 space-y-4 max-h-[80vh] overflow-y-auto">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
         <h3 class="font-bold text-base flex items-center gap-2">
           <i data-lucide="map" class="w-5 h-5 text-brand-400"></i>
