@@ -126,7 +126,7 @@
   </header>
 
   <!-- Main Content Container -->
-  <main class="flex-1 max-w-md w-full mx-auto px-4 pt-4 space-y-6" id="itinerary-container">
+  <main class="flex-1 max-w-md w-full mx-auto px-4 pt-4 pb-24 space-y-6" id="itinerary-container">
     <!-- Day views will be rendered here -->
   </main>
 
@@ -643,7 +643,7 @@
 
       // Timeline List
       const timelineContainer = document.createElement('div');
-      timelineContainer.className = "relative pl-3 border-l-2 border-slate-800 space-y-4 my-2 ml-2";
+      timelineContainer.className = "relative pl-3 border-l-2 border-slate-800 space-y-4 my-2 ml-2 pb-16";
 
       // Filter logic
       const filteredItems = dayData.items.filter(item => {
