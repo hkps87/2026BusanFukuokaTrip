@@ -59,49 +59,8 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <!-- 引入 Marked.js 解析器 -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <style>
-    body {
-      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-    .glass-card {
-      background: rgba(30, 41, 59, 0.7);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-    .glass-header {
-      background: rgba(15, 23, 42, 0.85);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-    }
-    .completed-item {
-      opacity: 0.45;
-      filter: grayscale(0.6);
-    }
-    .completed-item .item-title {
-      text-decoration: line-through;
-    }
-
-    /* Markdown 渲染樣式修飾 */
-    .markdown-body h1 { font-size: 1.5rem; font-weight: 700; margin-top: 1rem; margin-bottom: 0.5rem; color: #38bdf8; }
-    .markdown-body h2 { font-size: 1.25rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem; color: #f1f5f9; border-bottom: 1px solid #334155; padding-bottom: 4px; }
-    .markdown-body h3 { font-size: 1.1rem; font-weight: 600; margin-top: 0.75rem; margin-bottom: 0.25rem; color: #cbd5e1; }
-    .markdown-body p { margin-bottom: 0.75rem; line-height: 1.625; color: #94a3b8; font-size: 0.875rem; }
-    .markdown-body ul { list-style-type: disc; padding-left: 1.25rem; margin-bottom: 0.75rem; color: #cbd5e1; font-size: 0.875rem; }
-    .markdown-body ol { list-style-type: decimal; padding-left: 1.25rem; margin-bottom: 0.75rem; color: #cbd5e1; font-size: 0.875rem; }
-    .markdown-body li { margin-bottom: 0.25rem; }
-    .markdown-body table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.8125rem; }
-    .markdown-body th, .markdown-body td { border: 1px solid #334155; padding: 0.5rem; text-align: left; }
-    .markdown-body th { background-color: #1e293b; color: #f8fafc; }
-  </style>
+  <!-- 引入外接 CSS 檔案 -->
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="h-full flex flex-col bg-slate-950 text-slate-100 overflow-x-hidden pb-24">
 
@@ -166,6 +125,7 @@
     </div>
   </div>
 
+  <script src="js/main.js"></script>
   <!-- 三條橫線選單與 Markdown 預覽 Modal -->
   <div id="menu-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 hidden opacity-0 transition-opacity duration-300">
     <div class="glass-card w-full max-w-4xl rounded-t-2xl sm:rounded-2xl border-t sm:border border-slate-700/80 p-5 space-y-4 max-h-[85vh] overflow-y-auto flex flex-col">
@@ -305,15 +265,6 @@
     const statsEl = document.getElementById('checklist-stats');
     const resetBtn = document.getElementById('reset-checklist-btn');
 
-    // 三條橫線 Modal 控制
-    const menuDrawerBtn = document.getElementById('menu-drawer-btn');
-    const menuModal = document.getElementById('menu-modal');
-    const closeMenuModalBtn = document.getElementById('close-menu-modal');
-    const mdLinksContainer = document.getElementById('md-links-container');
-    const mdViewerContainer = document.getElementById('md-viewer-container');
-    const mdContent = document.getElementById('md-content');
-    const backToMenuBtn = document.getElementById('back-to-menu-btn');
-
     function renderChecklist() {
       container.innerHTML = '';
 
@@ -384,58 +335,6 @@
       statsEl.textContent = `${checked} / ${total} (${percent}%)`;
     }
 
-    function setupMenuModal() {
-      menuDrawerBtn.addEventListener('click', () => {
-        mdLinksContainer.classList.remove('hidden');
-        mdViewerContainer.classList.add('hidden');
-        menuModal.classList.remove('hidden');
-        setTimeout(() => menuModal.classList.remove('opacity-0'), 10);
-      });
-
-      closeMenuModalBtn.addEventListener('click', closeMenuModal);
-      menuModal.addEventListener('click', (e) => {
-        if (e.target === menuModal) closeMenuModal();
-      });
-
-      backToMenuBtn.addEventListener('click', () => {
-        mdViewerContainer.classList.add('hidden');
-        mdLinksContainer.classList.remove('hidden');
-      });
-
-      document.querySelectorAll('.md-load-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const mdFile = btn.getAttribute('data-md');
-          const title = btn.getAttribute('data-title');
-          
-          mdLinksContainer.classList.add('hidden');
-          mdViewerContainer.classList.remove('hidden');
-          mdContent.innerHTML = `<div class="py-8 text-center text-slate-400 text-xs">載入 ${title} 中...</div>`;
-
-          fetch(mdFile)
-            .then(res => {
-              if (!res.ok) throw new Error('檔案讀取失敗');
-              return res.text();
-            })
-            .then(text => {
-              mdContent.innerHTML = marked.parse(text);
-            })
-            .catch(err => {
-              mdContent.innerHTML = `
-                <div class="py-6 text-center text-rose-400 text-xs">
-                  <p>無法載入 ${mdFile} 檔案。</p>
-                  <p class="mt-2 text-slate-400">您也可以直接開啟：<a href="${mdFile}" target="_blank" class="underline text-emerald-400">${mdFile}</a></p>
-                </div>
-              `;
-            });
-        });
-      });
-    }
-
-    function closeMenuModal() {
-      menuModal.classList.add('opacity-0');
-      setTimeout(() => menuModal.classList.add('hidden'), 300);
-    }
-
     resetBtn.addEventListener('click', () => {
       if (confirm('確定要重置所有行李準備清單的勾選狀態嗎？')) {
         checklistState = {};
@@ -446,7 +345,6 @@
 
     window.addEventListener('DOMContentLoaded', () => {
       renderChecklist();
-      setupMenuModal();
       lucide.createIcons();
     });
   </script>
