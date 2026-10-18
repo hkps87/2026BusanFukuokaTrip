@@ -50,6 +50,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- 引入 Marked.js 解析器 -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     body {
       font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -70,6 +72,18 @@
     }
     .completed-item { opacity: 0.45; filter: grayscale(0.6); }
     .completed-item .item-title { text-decoration: line-through; }
+
+    /* Markdown 渲染樣式修飾 */
+    .markdown-body h1 { font-size: 1.5rem; font-weight: 700; margin-top: 1rem; margin-bottom: 0.5rem; color: #38bdf8; }
+    .markdown-body h2 { font-size: 1.25rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem; color: #f1f5f9; border-bottom: 1px solid #334155; padding-bottom: 4px; }
+    .markdown-body h3 { font-size: 1.1rem; font-weight: 600; margin-top: 0.75rem; margin-bottom: 0.25rem; color: #cbd5e1; }
+    .markdown-body p { margin-bottom: 0.75rem; line-height: 1.625; color: #94a3b8; font-size: 0.875rem; }
+    .markdown-body ul { list-style-type: disc; padding-left: 1.25rem; margin-bottom: 0.75rem; color: #cbd5e1; font-size: 0.875rem; }
+    .markdown-body ol { list-style-type: decimal; padding-left: 1.25rem; margin-bottom: 0.75rem; color: #cbd5e1; font-size: 0.875rem; }
+    .markdown-body li { margin-bottom: 0.25rem; }
+    .markdown-body table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.8125rem; }
+    .markdown-body th, .markdown-body td { border: 1px solid #334155; padding: 0.5rem; text-align: left; }
+    .markdown-body th { background-color: #1e293b; color: #f8fafc; }
   </style>
 </head>
 <body class="h-full flex flex-col bg-slate-950 text-slate-100 overflow-x-hidden pb-20">
@@ -88,9 +102,15 @@
           <p class="text-xs text-slate-400">2026/12/11 - 12/20 · 韓日雙城遊</p>
         </div>
       </div>
-      <button id="reset-progress-btn" class="p-2 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-slate-200 transition text-xs flex items-center gap-1 border border-slate-700/50" title="重置進度">
-        <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
-      </button>
+      <div class="flex items-center gap-2">
+        <button id="reset-progress-btn" class="p-2 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-slate-200 transition text-xs flex items-center gap-1 border border-slate-700/50" title="重置進度">
+          <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+        </button>
+        <!-- 右上角三條橫線選單按鈕 -->
+        <button id="menu-drawer-btn" class="p-2 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-brand-400 hover:text-brand-300 transition text-xs flex items-center border border-slate-700/50" title="選單資訊">
+          <i data-lucide="menu" class="w-4 h-4"></i>
+        </button>
+      </div>
     </div>
 
     <div class="max-w-4xl mx-auto mt-3 grid grid-cols-3 gap-2 text-center text-xs">
@@ -135,9 +155,9 @@
   <main class="flex-1 max-w-4xl w-full mx-auto px-4 pt-4 pb-24 space-y-6" id="itinerary-container">
     <!-- 放在兩個頁面的最下方，符合 Flaticon 免費授權規範 -->
     <footer class="max-w-4xl mx-auto px-4 py-8 text-center text-xs text-slate-500 border-t border-slate-900 mt-12">
-    <a href="https://www.flaticon.com/free-icons/ferry-boat" title="ferry boat icons" target="_blank" rel="noopener noreferrer" class="hover:text-slate-400 transition">
-      Ferry boat icons created by Magnific - Flaticon
-    </a>
+      <a href="https://www.flaticon.com/free-icons/ferry-boat" title="ferry boat icons" target="_blank" rel="noopener noreferrer" class="hover:text-slate-400 transition">
+        Ferry boat icons created by Magnific - Flaticon
+      </a>
     </footer>
   </main>
 
@@ -154,6 +174,7 @@
     </div>
   </div>
 
+  <!-- 地圖 Modal -->
   <div id="map-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 hidden opacity-0 transition-opacity duration-300">
     <div class="glass-card w-full max-w-4xl rounded-t-2xl sm:rounded-2xl border-t sm:border border-slate-700/80 p-5 space-y-4 max-h-[80vh] overflow-y-auto">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
@@ -166,6 +187,59 @@
         </button>
       </div>
       <div class="grid grid-cols-2 gap-2 text-xs" id="quick-map-links"></div>
+    </div>
+  </div>
+
+  <!-- 三條橫線選單與 Markdown 預覽 Modal -->
+  <div id="menu-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 hidden opacity-0 transition-opacity duration-300">
+    <div class="glass-card w-full max-w-4xl rounded-t-2xl sm:rounded-2xl border-t sm:border border-slate-700/80 p-5 space-y-4 max-h-[85vh] overflow-y-auto flex flex-col">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h3 class="font-bold text-base flex items-center gap-2" id="menu-modal-title">
+          <i data-lucide="file-text" class="w-5 h-5 text-brand-400"></i>
+          詳細資訊與 Markdown 文件
+        </h3>
+        <button id="close-menu-modal" class="p-1 text-slate-400 hover:text-white rounded-lg">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- 選單按鈕區塊 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs" id="md-links-container">
+        <button data-md="Trip.md" data-title="文字版行程" class="md-load-btn flex items-center justify-between p-3.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-brand-500/50 hover:bg-slate-800/80 transition group text-left">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-brand-500/20 text-brand-400 flex items-center justify-center">
+              <i data-lucide="file-text" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <span class="font-semibold text-slate-200 block text-sm">1. 文字版行程</span>
+              <span class="text-[10px] text-slate-400">開啟 Trip.md</span>
+            </div>
+          </div>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-brand-400 transition"></i>
+        </button>
+
+        <button data-md="BusanPassPriceCompare.md" data-title="釜山 Pass 比價" class="md-load-btn flex items-center justify-between p-3.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500/50 hover:bg-slate-800/80 transition group text-left">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center">
+              <i data-lucide="calculator" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <span class="font-semibold text-slate-200 block text-sm">2. 釜山 Pass 比價</span>
+              <span class="text-[10px] text-slate-400">開啟 BusanPassPriceCompare.md</span>
+            </div>
+          </div>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-amber-400 transition"></i>
+        </button>
+      </div>
+
+      <!-- Markdown 預覽區塊 -->
+      <div id="md-viewer-container" class="hidden flex-1 space-y-3 pt-2">
+        <button id="back-to-menu-btn" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white text-xs border border-slate-700 transition">
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          <span>返回選單列表</span>
+        </button>
+        <div id="md-content" class="markdown-body p-4 bg-slate-900/90 rounded-xl border border-slate-800 text-slate-300 overflow-y-auto max-h-[55vh]"></div>
+      </div>
     </div>
   </div>
 
@@ -338,21 +412,29 @@
     const closeMapModalBtn = document.getElementById('close-map-modal');
     const quickMapLinksContainer = document.getElementById('quick-map-links');
 
+    // 三條橫線 Modal 控制
+    const menuDrawerBtn = document.getElementById('menu-drawer-btn');
+    const menuModal = document.getElementById('menu-modal');
+    const closeMenuModalBtn = document.getElementById('close-menu-modal');
+    const mdLinksContainer = document.getElementById('md-links-container');
+    const mdViewerContainer = document.getElementById('md-viewer-container');
+    const mdContent = document.getElementById('md-content');
+    const backToMenuBtn = document.getElementById('back-to-menu-btn');
+
     function init() {
       renderTabs();
       renderItinerary();
       updateCompletionStats();
       setupQuickMapModal();
-      
+      setupMenuModal();
+
       document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
           const clickedFilter = btn.getAttribute('data-filter');
-    
-          // 如果點擊的已經是目前啟動的按鈕，且不是「全部」，就切回「全部」
+
           if (currentFilter === clickedFilter && clickedFilter !== 'all') {
             currentFilter = 'all';
-      
-            // 移除全部按鈕以外的 active，並將 active 樣式還給「全部」
+
             document.querySelectorAll('.filter-btn').forEach(b => {
               b.classList.remove('active', 'bg-slate-800', 'text-slate-300', 'border-slate-700');
               b.classList.add('bg-slate-900/60', 'text-slate-400', 'border-slate-800');
@@ -362,7 +444,6 @@
               }
             });
           } else {
-            // 正常切換至點擊的分類
             currentFilter = clickedFilter;
             document.querySelectorAll('.filter-btn').forEach(b => {
               b.classList.remove('active', 'bg-slate-800', 'text-slate-300', 'border-slate-700');
@@ -371,7 +452,7 @@
             btn.classList.add('active', 'bg-slate-800', 'text-slate-300', 'border-slate-700');
             btn.classList.remove('bg-slate-900/60', 'text-slate-400');
           }
-    
+
           renderItinerary();
         });
       });
@@ -399,6 +480,58 @@
     function closeModal() {
       mapModal.classList.add('opacity-0');
       setTimeout(() => mapModal.classList.add('hidden'), 300);
+    }
+
+    function setupMenuModal() {
+      menuDrawerBtn.addEventListener('click', () => {
+        mdLinksContainer.classList.remove('hidden');
+        mdViewerContainer.classList.add('hidden');
+        menuModal.classList.remove('hidden');
+        setTimeout(() => menuModal.classList.remove('opacity-0'), 10);
+      });
+
+      closeMenuModalBtn.addEventListener('click', closeMenuModal);
+      menuModal.addEventListener('click', (e) => {
+        if (e.target === menuModal) closeMenuModal();
+      });
+
+      backToMenuBtn.addEventListener('click', () => {
+        mdViewerContainer.classList.add('hidden');
+        mdLinksContainer.classList.remove('hidden');
+      });
+
+      document.querySelectorAll('.md-load-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const mdFile = btn.getAttribute('data-md');
+          const title = btn.getAttribute('data-title');
+
+          mdLinksContainer.classList.add('hidden');
+          mdViewerContainer.classList.remove('hidden');
+          mdContent.innerHTML = `<div class="py-8 text-center text-slate-400 text-xs">載入 ${title} 中...</div>`;
+
+          fetch(mdFile)
+            .then(res => {
+              if (!res.ok) throw new Error('檔案讀取失敗');
+              return res.text();
+            })
+            .then(text => {
+              mdContent.innerHTML = marked.parse(text);
+            })
+            .catch(err => {
+              mdContent.innerHTML = `
+                <div class="py-6 text-center text-rose-400 text-xs">
+                  <p>無法載入 ${mdFile} 檔案。</p>
+                  <p class="mt-2 text-slate-400">您也可以直接開啟：<a href="${mdFile}" target="_blank" class="underline text-brand-400">${mdFile}</a></p>
+                </div>
+              `;
+            });
+        });
+      });
+    }
+
+    function closeMenuModal() {
+      menuModal.classList.add('opacity-0');
+      setTimeout(() => menuModal.classList.add('hidden'), 300);
     }
 
     function renderTabs() {
