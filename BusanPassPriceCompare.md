@@ -37,7 +37,7 @@ X sky觀景台
 * Trip：$802/$899/$968
 Note：感覺可以pass玩高空滑索，另外買滑坡車  
 
-![A區景點](/Images/A_Zone.png)
+![A區景點](./Images/A_Zone.png)
 
 -----我是分隔線-----
 
@@ -75,5 +75,5 @@ Arte美術館
 
 * 現場票價1000韓元=$25
 
-![B區-1](/Images/B_Zone_1.png)
-![B區-2](/Images/B_Zone_2.png)  
+![B區-1](./Images/B_Zone_1.png)
+![B區-2](./Images/B_Zone_2.png)  
