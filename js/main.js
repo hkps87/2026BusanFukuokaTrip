@@ -22,12 +22,17 @@ function configureMarkedRenderer() {
     return `<img src="${cleanHref}" alt="${cleanAlt}" title="${cleanTitle || ''}" class="max-w-full h-auto rounded-lg my-3 border border-slate-700" loading="lazy" />`;
   };
 
-  // 🌟 核心關鍵：把 Markdown 裡的標題（例如 ### 預先買票）轉成帶有 id="預先買票" 的 HTML 標題
+  // 🌟 升級版：強制讓所有標題（h1 ~ h6）產生乾淨且絕對對應的 id
   renderer.heading = function(text, level, raw) {
     const headingText = typeof text === 'object' ? text.text : (text || '');
-    // 移除空白並作為 id，確保中文或英文 ID 都能被抓到
+    
+    // 1. 保留原本乾淨的文字作為一個 id
     const cleanId = headingText.trim();
-    return `<h${level} id="${cleanId}">${headingText}</h${level}>`;
+    
+    // 2. 額外產生一個「去除了空格、括號、特殊符號」的純文字 id（用來防呆）
+    const safeId = headingText.replace(/[()（）\s]+/g, '_');
+
+    return `<h${level} id="${cleanId}" data-safe-id="${safeId}">${headingText}</h${level}>`;
   };
 
   marked.use({ renderer });
@@ -98,11 +103,23 @@ function initMenuModal() {
             setTimeout(() => {
               const decodedId = decodeURIComponent(currentHash.substring(1));
               
-              // 在渲染出來的內容中尋找對應 id 的標題
-              const targetElement = mdContent.querySelector(`#${CSS.escape(decodedId)}`) || document.getElementById(decodedId);
+              // 🛡️ 雙重保險：同時用原始 ID、CSS escape、以及 safe-id 去找元素
+              let targetElement = mdContent.querySelector(`#${CSS.escape(decodedId)}`) 
+                               || mdContent.querySelector(`[data-safe-id="${CSS.escape(decodedId)}"]`)
+                               || document.getElementById(decodedId);
               
+              // 如果還是找不到，嘗試用「包含該文字」的標題來模糊對應
+              if (!targetElement) {
+                const allHeadings = mdContent.querySelectorAll('h1, h2, h3, h4, h5, h6');
+                for (let h of allHeadings) {
+                  if (h.textContent.includes(decodedId) || decodedId.includes(h.textContent.trim())) {
+                    targetElement = h;
+                    break;
+                  }
+                }
+              }
+
               if (targetElement) {
-                // 找到 Modal 內部真正有捲軸的那一層容器
                 const scrollContainer = menuModal.querySelector('.overflow-y-auto');
 
                 if (scrollContainer) {
@@ -116,7 +133,7 @@ function initMenuModal() {
                   });
                 }
               }
-            }, 300); // 給予 300ms 讓畫面完全生成
+            }, 300);
           }
         })
         .catch(err => {
