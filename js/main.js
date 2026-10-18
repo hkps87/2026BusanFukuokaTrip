@@ -1,15 +1,14 @@
 /**
- * main.js - 釜山福岡雙城遊共用選單與 Markdown 解析模組
+ * main.js - 修正版：強制標題產生 ID 並支援內部彈窗錨點滾動
  */
 
-// 設定 Marked.js 圖片路徑修正渲染器
-// 設定 Marked.js 讓標題自動產生 ID 供錨點跳轉
+// 1. 初始化 Marked 設定（強制讓標題產生對應的 id 屬性）
 function configureMarkedRenderer() {
   if (typeof marked === 'undefined') return;
 
   const renderer = new marked.Renderer();
 
-  // 1. 修正圖片路徑
+  // 修正圖片路徑
   renderer.image = function(href, title, text) {
     let cleanHref = typeof href === 'object' ? href.href : href;
     let cleanAlt = typeof href === 'object' ? href.text : (text || '');
@@ -23,18 +22,18 @@ function configureMarkedRenderer() {
     return `<img src="${cleanHref}" alt="${cleanAlt}" title="${cleanTitle || ''}" class="max-w-full h-auto rounded-lg my-3 border border-slate-700" loading="lazy" />`;
   };
 
-  // 2. 🌟 關鍵：強制讓所有標題（h1 ~ h6）自動生成文字對應的 id，這樣錨點才抓得到！
+  // 🌟 核心關鍵：把 Markdown 裡的標題（例如 ### 預先買票）轉成帶有 id="預先買票" 的 HTML 標題
   renderer.heading = function(text, level, raw) {
-    // 支援 marked v11+ 或舊版的參數結構
     const headingText = typeof text === 'object' ? text.text : (text || '');
-    const id = headingText.trim(); // 用標題文字當作 id
-    return `<h${level} id="${id}">${headingText}</h${level}>`;
+    // 移除空白並作為 id，確保中文或英文 ID 都能被抓到
+    const cleanId = headingText.trim();
+    return `<h${level} id="${cleanId}">${headingText}</h${level}>`;
   };
 
   marked.use({ renderer });
 }
 
-// 初始化漢堡選單 Modal
+// 2. 初始化選單與 Modal 互動
 function initMenuModal() {
   const menuDrawerBtn = document.getElementById('menu-drawer-btn');
   const menuModal = document.getElementById('menu-modal');
@@ -73,7 +72,7 @@ function initMenuModal() {
     });
   }
 
-// 點擊按鈕讀取 .md 並解析
+  // 點擊按鈕讀取 .md 並解析
   document.querySelectorAll('.md-load-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const mdFile = btn.getAttribute('data-md');
@@ -89,35 +88,35 @@ function initMenuModal() {
           return res.text();
         })
         .then(text => {
-          // 1. 先把 Markdown 轉成 HTML 並放進畫面中
+          // 渲染 Markdown（此時標題會帶有正確的 id）
           mdContent.innerHTML = marked.parse(text);
           if (typeof lucide !== 'undefined') lucide.createIcons();
 
-          // 2. 🌟 關鍵：等 Markdown 內容真實產生後，立刻檢查網址的 Hash 並進行滾動！
+          // 🌟 渲染完成後，檢查網址是否有帶 Hash 錨點，並強制滾動
           const currentHash = window.location.hash;
           if (currentHash) {
             setTimeout(() => {
-              // 解碼中文 Hash（把 %E9... 轉回中文「預先買票」）
               const decodedId = decodeURIComponent(currentHash.substring(1));
               
-              // 在剛剛產生的 Markdown 內容中尋找對應 id 或 name 的標題
+              // 在渲染出來的內容中尋找對應 id 的標題
               const targetElement = mdContent.querySelector(`#${CSS.escape(decodedId)}`) || document.getElementById(decodedId);
               
               if (targetElement) {
-                // 找到 Modal 裡的捲動容器
-                const scrollContainer = mdContent.closest('.overflow-y-auto') || mdContent.parentElement;
-                
-                const containerTop = scrollContainer.getBoundingClientRect().top;
-                const elementTop = targetElement.getBoundingClientRect().top;
-                const targetScrollTop = scrollContainer.scrollTop + (elementTop - containerTop) - 15;
+                // 找到 Modal 內部真正有捲軸的那一層容器
+                const scrollContainer = menuModal.querySelector('.overflow-y-auto');
 
-                // 執行平滑滾動
-                scrollContainer.scrollTo({
-                  top: targetScrollTop,
-                  behavior: 'smooth'
-                });
+                if (scrollContainer) {
+                  const containerTop = scrollContainer.getBoundingClientRect().top;
+                  const elementTop = targetElement.getBoundingClientRect().top;
+                  const targetScrollTop = scrollContainer.scrollTop + (elementTop - containerTop) - 15;
+
+                  scrollContainer.scrollTo({
+                    top: targetScrollTop,
+                    behavior: 'smooth'
+                  });
+                }
               }
-            }, 250); // 給予 250ms 確保 DOM 渲染完成
+            }, 300); // 給予 300ms 讓畫面完全生成
           }
         })
         .catch(err => {
@@ -131,19 +130,19 @@ function initMenuModal() {
   });
 }
 
-// 頁面載入後自動執行
+// 頁面載入後執行
 document.addEventListener('DOMContentLoaded', () => {
-  configureMarkedImageRenderer();
+  configureMarkedRenderer();
   initMenuModal();
 
-  // 🌟 新增：如果網址本身帶有 #錨點（例如重新整理或直接帶 hash 進來），自動滾動到對應位置
+  // 頁面初次載入若帶有 hash 也自動對應
   if (window.location.hash) {
-    const hashId = window.location.hash.substring(1);
     setTimeout(() => {
-      const targetElement = document.getElementById(hashId) || document.querySelector(`[name="${hashId}"]`);
+      const hashId = decodeURIComponent(window.location.hash.substring(1));
+      const targetElement = document.getElementById(hashId);
       if (targetElement) {
         targetElement.scrollIntoView({ behavior: 'smooth' });
       }
-    }, 300);
+    }, 400);
   }
 });
