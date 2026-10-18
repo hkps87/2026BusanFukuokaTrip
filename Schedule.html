@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="zh-TW" class="h-full bg-slate-950 text-slate-100">
 <head>
+  <!-- === 支援 Android / 通用 PWA 設定 === -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0f172a"> <!-- 手機瀏覽器網址列底色 -->
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <!-- === 支援 iOS (Safari) 專屬捷徑與自訂 Icon 設定 === -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="釜山福岡行程"> <!-- 桌面捷徑顯示的文字名稱 -->
+  <link rel="apple-touch-icon" href="icon.png"> <!-- iOS 專屬自訂桌面 Icon -->
   <meta charset="UTF-8">
   <meta name="theme-color" content="#0f172a">
   <meta name="mobile-web-app-capable" content="yes">
@@ -121,7 +131,14 @@
     </div>
   </header>
 
-  <main class="flex-1 max-w-4xl w-full mx-auto px-4 pt-4 pb-24 space-y-6" id="itinerary-container"></main>
+  <main class="flex-1 max-w-4xl w-full mx-auto px-4 pt-4 pb-24 space-y-6" id="itinerary-container">
+    <!-- 放在兩個頁面的最下方，符合 Flaticon 免費授權規範 -->
+    <footer class="max-w-4xl mx-auto px-4 py-8 text-center text-xs text-slate-500 border-t border-slate-900 mt-12">
+    <a href="https://www.flaticon.com/free-icons/ferry-boat" title="ferry boat icons" target="_blank" rel="noopener noreferrer" class="hover:text-slate-400 transition">
+      Ferry boat icons created by Magnific - Flaticon
+    </a>
+    </footer>
+  </main>
 
   <div class="fixed bottom-0 left-0 right-0 z-30 glass-header border-t border-slate-800 px-4 py-2.5">
     <div class="max-w-4xl mx-auto flex items-center justify-between text-xs">

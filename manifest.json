@@ -1,0 +1,16 @@
+{
+  "name": "釜山・慶州・福岡浪漫之旅",
+  "short_name": "日韓行程",
+  "start_url": "Schedule.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
