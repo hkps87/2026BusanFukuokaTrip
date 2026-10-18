@@ -71,14 +71,10 @@ function initMenuModal() {
     btn.addEventListener('click', () => {
       const mdFile = btn.getAttribute('data-md');
       const title = btn.getAttribute('data-title');
-      const targetAnchor = btn.getAttribute('data-anchor');
 
       mdLinksContainer.classList.add('hidden');
       mdViewerContainer.classList.remove('hidden');
       mdContent.innerHTML = `<div class="py-8 text-center text-slate-400 text-xs">載入 ${title} 中...</div>`;
-
-      // 取得網址的 Hash 或按鈕自訂的 data-anchor
-      const currentHash = window.location.hash || (targetAnchor ? `#${targetAnchor}` : '');
 
       fetch(mdFile)
         .then(res => {
@@ -86,29 +82,35 @@ function initMenuModal() {
           return res.text();
         })
         .then(text => {
-          // 1. 渲染 Markdown 內容
+          // 1. 先把 Markdown 轉成 HTML 並放進畫面中
           mdContent.innerHTML = marked.parse(text);
           if (typeof lucide !== 'undefined') lucide.createIcons();
 
-          // 2. 自動尋找並滾動到錨點
+          // 2. 🌟 關鍵：等 Markdown 內容真實產生後，立刻檢查網址的 Hash 並進行滾動！
+          const currentHash = window.location.hash;
           if (currentHash) {
             setTimeout(() => {
-              const elementId = currentHash.replace('#', '');
-              const targetElement = mdContent.querySelector(`#${CSS.escape(elementId)}`) || document.getElementById(elementId);
+              // 解碼中文 Hash（把 %E9... 轉回中文「預先買票」）
+              const decodedId = decodeURIComponent(currentHash.substring(1));
+              
+              // 在剛剛產生的 Markdown 內容中尋找對應 id 或 name 的標題
+              const targetElement = mdContent.querySelector(`#${CSS.escape(decodedId)}`) || document.getElementById(decodedId);
               
               if (targetElement) {
+                // 找到 Modal 裡的捲動容器
                 const scrollContainer = mdContent.closest('.overflow-y-auto') || mdContent.parentElement;
                 
                 const containerTop = scrollContainer.getBoundingClientRect().top;
                 const elementTop = targetElement.getBoundingClientRect().top;
                 const targetScrollTop = scrollContainer.scrollTop + (elementTop - containerTop) - 15;
 
+                // 執行平滑滾動
                 scrollContainer.scrollTo({
                   top: targetScrollTop,
                   behavior: 'smooth'
                 });
               }
-            }, 200);
+            }, 250); // 給予 250ms 確保 DOM 渲染完成
           }
         })
         .catch(err => {
