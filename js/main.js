@@ -1,14 +1,25 @@
 /**
- * main.js - 修正版：強制標題產生 ID 並支援內部彈窗錨點滾動
+ * main.js - 最終滾動修正版
  */
 
-// 1. 初始化 Marked 設定（強制讓標題產生對應的 id 屬性）
+function closeModal() {
+  const menuModal = document.getElementById('menu-modal');
+  if (menuModal) {
+    menuModal.classList.add('opacity-0');
+    setTimeout(() => menuModal.classList.add('hidden'), 300);
+  }
+}
+
+function normalizeStr(str) {
+  if (!str) return '';
+  return str.toLowerCase().replace(/[^\w\u4e00-\u9fa5]/g, '');
+}
+
 function configureMarkedRenderer() {
   if (typeof marked === 'undefined') return;
 
   const renderer = new marked.Renderer();
 
-  // 修正圖片路徑
   renderer.image = function(href, title, text) {
     let cleanHref = typeof href === 'object' ? href.href : href;
     let cleanAlt = typeof href === 'object' ? href.text : (text || '');
@@ -22,23 +33,20 @@ function configureMarkedRenderer() {
     return `<img src="${cleanHref}" alt="${cleanAlt}" title="${cleanTitle || ''}" class="max-w-full h-auto rounded-lg my-3 border border-slate-700" loading="lazy" />`;
   };
 
-  // 🌟 升級版：強制讓所有標題（h1 ~ h6）產生乾淨且絕對對應的 id
-  renderer.heading = function(text, level, raw) {
-    const headingText = typeof text === 'object' ? text.text : (text || '');
-    
-    // 1. 保留原本乾淨的文字作為一個 id
-    const cleanId = headingText.trim();
-    
-    // 2. 額外產生一個「去除了空格、括號、特殊符號」的純文字 id（用來防呆）
-    const safeId = headingText.replace(/[()（）\s]+/g, '_');
+  renderer.heading = function(tokenOrText, levelOrUndefined) {
+    let text = typeof tokenOrText === 'object' && tokenOrText !== null ? tokenOrText.text : (tokenOrText || '');
+    let level = typeof tokenOrText === 'object' && tokenOrText !== null ? tokenOrText.depth : (levelOrUndefined || 1);
 
-    return `<h${level} id="${cleanId}" data-safe-id="${safeId}">${headingText}</h${level}>`;
+    const headingText = text.trim();
+    const cleanId = headingText;
+    const normalizedKey = normalizeStr(headingText);
+
+    return `<h${level} id="${cleanId}" data-normalized="${normalizedKey}" class="scroll-mt-6 font-bold text-white">${headingText}</h${level}>`;
   };
 
   marked.use({ renderer });
 }
 
-// 2. 初始化選單與 Modal 互動
 function initMenuModal() {
   const menuDrawerBtn = document.getElementById('menu-drawer-btn');
   const menuModal = document.getElementById('menu-modal');
@@ -58,18 +66,11 @@ function initMenuModal() {
     setTimeout(() => menuModal.classList.remove('opacity-0'), 10);
   });
 
-  // 關閉 Modal
-  const closeMenuModal = () => {
-    menuModal.classList.add('opacity-0');
-    setTimeout(() => menuModal.classList.add('hidden'), 300);
-  };
-
-  if (closeMenuModalBtn) closeMenuModalBtn.addEventListener('click', closeMenuModal);
+  if (closeMenuModalBtn) closeMenuModalBtn.addEventListener('click', closeModal);
   menuModal.addEventListener('click', (e) => {
-    if (e.target === menuModal) closeMenuModal();
+    if (e.target === menuModal) closeModal();
   });
 
-  // 返回選單列表
   if (backToMenuBtn) {
     backToMenuBtn.addEventListener('click', () => {
       mdViewerContainer.classList.add('hidden');
@@ -77,7 +78,49 @@ function initMenuModal() {
     });
   }
 
-  // 點擊按鈕讀取 .md 並解析
+  // 點擊事件監聽
+  mdContent.addEventListener('click', (e) => {
+    const linkTarget = e.target.closest('a');
+    if (!linkTarget) return;
+
+    const href = linkTarget.getAttribute('href');
+    if (href && href.startsWith('#')) {
+      e.preventDefault();
+      const targetId = decodeURIComponent(href.substring(1)).trim();
+      const normalizedTarget = normalizeStr(targetId);
+
+      // 1. 尋找目標元素
+      let targetElement = mdContent.querySelector(`#${CSS.escape(targetId)}`);
+
+      if (!targetElement) {
+        const allHeadings = mdContent.querySelectorAll('h1, h2, h3');
+        for (let h of allHeadings) {
+          const hNormalized = h.getAttribute('data-normalized') || normalizeStr(h.textContent);
+          if (hNormalized.includes(normalizedTarget) || normalizedTarget.includes(hNormalized)) {
+            targetElement = h;
+            break;
+          }
+        }
+      }
+
+      // 🌟 雙重保障：動態即時抓取彈窗內的滾動容器 (避免變數指向失效)
+      const currentScrollContainer = menuModal.querySelector('#md-viewer-container .overflow-y-auto') || menuModal.querySelector('.overflow-y-auto') || mdContent;
+
+      if (targetElement) {
+        console.log("🚀 執行精準滾動，目標元素：", targetElement);
+
+        // 方法 A：直接使用最穩健的 scrollIntoView（針對容器內部滾動）
+        targetElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+
+      } else {
+        console.error("❌ 找不到對應的目標 DOM 元素！");
+      }
+    }
+  });
+
   document.querySelectorAll('.md-load-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const mdFile = btn.getAttribute('data-md');
@@ -93,70 +136,21 @@ function initMenuModal() {
           return res.text();
         })
         .then(text => {
-          // 1. 渲染 Markdown 內容
           mdContent.innerHTML = marked.parse(text);
           if (typeof lucide !== 'undefined') lucide.createIcons();
-
-          // 2. 🌟 升級版：直接監聽整個 mdContent 裡面的點擊事件（支援所有清單、連結與文字）
-          const scrollContainer = menuModal.querySelector('.overflow-y-auto');
-
-          mdContent.addEventListener('click', (e) => {
-            const targetItem = e.target.closest('li, a, h1, h2, h3');
-            if (!targetItem) return;
-
-            const clickText = targetItem.textContent.trim();
-            console.log("👉 使用者點擊了：", clickText);
-
-            // 🌟 核心絕招：從點擊的文字中萃取出日期（例如 2026年12月11日）
-            const dateMatch = clickText.match(/\d{4}年\d{1,2}月\d{1,2}日/);
-            const keyword = dateMatch ? dateMatch[0] : clickText;
-            console.log("🔑 萃取出的比對關鍵字：", keyword);
-
-            const allHeadings = mdContent.querySelectorAll('h1, h2, h3, h4, h5, h6');
-            let targetElement = null;
-
-            for (let h of allHeadings) {
-              const headingText = h.textContent.trim();
-              
-              // 只要 H2 標題裡面也包含這個日期關鍵字，就直接鎖定它！
-              if (headingText.includes(keyword)) {
-                targetElement = h;
-                console.log("🎯 成功配對到標題：", headingText);
-                break;
-              }
-            }
-
-            if (targetElement && scrollContainer) {
-              const containerTop = scrollContainer.getBoundingClientRect().top;
-              const elementTop = targetElement.getBoundingClientRect().top;
-              const targetScrollTop = scrollContainer.scrollTop + (elementTop - containerTop) - 15;
-
-              scrollContainer.scrollTo({
-                top: targetScrollTop,
-                behavior: 'smooth'
-              });
-            } else {
-              console.log("❌ 找不到對應的標題元素");
-            }
-          });
         })
         .catch(err => {
-          mdContent.innerHTML = `
-            <div class="py-6 text-center text-rose-400 text-xs">
-              <p>無法載入 ${mdFile} 檔案。</p>
-            </div>
-          `;
+          console.error(err);
+          mdContent.innerHTML = `<div class="py-6 text-center text-rose-400 text-xs"><p>無法載入 ${mdFile} 檔案。</p></div>`;
         });
     });
   });
 }
 
-// 頁面載入後執行
 document.addEventListener('DOMContentLoaded', () => {
   configureMarkedRenderer();
   initMenuModal();
 
-  // 頁面初次載入若帶有 hash 也自動對應
   if (window.location.hash) {
     setTimeout(() => {
       const hashId = decodeURIComponent(window.location.hash.substring(1));
