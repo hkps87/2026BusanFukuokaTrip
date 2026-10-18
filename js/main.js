@@ -108,9 +108,11 @@ function initMenuModal() {
                 e.preventDefault(); // 阻止瀏覽器預設會亂跑的跳轉行為
                 
                 const targetId = decodeURIComponent(href.substring(1)).trim();
+                console.log("使用者點擊了錨點：", targetId); // 👈 檢查這裡有沒有印出對應的標題文字
                 
                 // 用迴圈比對文字內容，完美避開括號、日期、特殊符號帶入 ID 失敗的問題
                 const allHeadings = mdContent.querySelectorAll('h1, h2, h3, h4, h5, h6');
+                console.log("找到的所有標題元素：", allHeadings); // 👈 檢查抓到的標題清單裡面有沒有你的 H2
                 let targetElement = null;
                 
                 for (let h of allHeadings) {
