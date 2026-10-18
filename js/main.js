@@ -97,45 +97,41 @@ function initMenuModal() {
           mdContent.innerHTML = marked.parse(text);
           if (typeof lucide !== 'undefined') lucide.createIcons();
 
-          // 2. 🌟 關鍵：攔截 Markdown 內部所有點擊事件（不管是 H1 還是含有日期括號的 H2 目錄）
+          // 2. 🌟 升級版：直接監聽整個 mdContent 裡面的點擊事件（支援所有清單、連結與文字）
           const scrollContainer = menuModal.querySelector('.overflow-y-auto');
 
-          mdContent.querySelectorAll('a').forEach(link => {
-            const href = link.getAttribute('href');
-            // 如果這個連結是頁面內的錨點（以 # 開頭）
-            if (href && href.startsWith('#')) {
-              link.addEventListener('click', (e) => {
-                e.preventDefault(); // 阻止瀏覽器預設會亂跑的跳轉行為
-                
-                const targetId = decodeURIComponent(href.substring(1)).trim();
-                console.log("使用者點擊了錨點：", targetId); // 👈 檢查這裡有沒有印出對應的標題文字
-                
-                // 用迴圈比對文字內容，完美避開括號、日期、特殊符號帶入 ID 失敗的問題
-                const allHeadings = mdContent.querySelectorAll('h1, h2, h3, h4, h5, h6');
-                console.log("找到的所有標題元素：", allHeadings); // 👈 檢查抓到的標題清單裡面有沒有你的 H2
-                let targetElement = null;
-                
-                for (let h of allHeadings) {
-                  const headingText = h.textContent.trim();
-                  // 只要標題文字包含點擊的目標關鍵字，就直接鎖定它！
-                  if (headingText === targetId || headingText.includes(targetId) || targetId.includes(headingText)) {
-                    targetElement = h;
-                    break;
-                  }
-                }
+          mdContent.addEventListener('click', (e) => {
+            const targetItem = e.target.closest('li, a, h1, h2, h3');
+            if (!targetItem) return;
 
-                // 如果找到對應的標題，精準計算彈窗內的捲動位置
-                if (targetElement && scrollContainer) {
-                  const containerTop = scrollContainer.getBoundingClientRect().top;
-                  const elementTop = targetElement.getBoundingClientRect().top;
-                  const targetScrollTop = scrollContainer.scrollTop + (elementTop - containerTop) - 15;
+            const clickText = targetItem.textContent.trim();
+            console.log("👉 使用者點擊了：", clickText);
 
-                  scrollContainer.scrollTo({
-                    top: targetScrollTop,
-                    behavior: 'smooth'
-                  });
-                }
+            const allHeadings = mdContent.querySelectorAll('h1, h2, h3, h4, h5, h6');
+            let targetElement = null;
+
+            for (let h of allHeadings) {
+              const headingText = h.textContent.trim();
+              console.log("🔍 檢查頁面標題：", headingText); // 把每一個掃到的標題也印出來
+              
+              if (headingText === clickText || headingText.includes(clickText) || clickText.includes(headingText)) {
+                targetElement = h;
+                console.log("🎯 成功配對到標題！", headingText);
+                break;
+              }
+            }
+
+            if (targetElement && scrollContainer) {
+              const containerTop = scrollContainer.getBoundingClientRect().top;
+              const elementTop = targetElement.getBoundingClientRect().top;
+              const targetScrollTop = scrollContainer.scrollTop + (elementTop - containerTop) - 15;
+
+              scrollContainer.scrollTo({
+                top: targetScrollTop,
+                behavior: 'smooth'
               });
+            } else {
+              console.log("❌ 找不到對應的標題元素");
             }
           });
         })
