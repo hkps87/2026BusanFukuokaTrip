@@ -3,25 +3,32 @@
  */
 
 // 設定 Marked.js 圖片路徑修正渲染器
-function configureMarkedImageRenderer() {
+// 設定 Marked.js 讓標題自動產生 ID 供錨點跳轉
+function configureMarkedRenderer() {
   if (typeof marked === 'undefined') return;
 
-  const renderer = {
-    image(href, title, text) {
-      // 如果 href 是物件形態 (Marked.js v11+ 新版語法)
-      let cleanHref = typeof href === 'object' ? href.href : href;
-      let cleanAlt = typeof href === 'object' ? href.text : (text || '');
-      let cleanTitle = typeof href === 'object' ? href.title : (title || '');
+  const renderer = new marked.Renderer();
 
-      // 判斷是否為相對路徑，若不是以 http/https 或 /Images 開頭，則補全為 ./Images/
-      if (!cleanHref.startsWith('http://') && !cleanHref.startsWith('https://') && !cleanHref.startsWith('Images/') && !cleanHref.startsWith('./Images/')) {
-        // 清理檔名開頭的 ./
-        const fileName = cleanHref.replace(/^\.\//, '');
-        cleanHref = `./Images/${fileName}`;
-      }
+  // 1. 修正圖片路徑
+  renderer.image = function(href, title, text) {
+    let cleanHref = typeof href === 'object' ? href.href : href;
+    let cleanAlt = typeof href === 'object' ? href.text : (text || '');
+    let cleanTitle = typeof href === 'object' ? href.title : (title || '');
 
-      return `<img src="${cleanHref}" alt="${cleanAlt}" title="${cleanTitle || ''}" class="max-w-full h-auto rounded-lg my-3 border border-slate-700" loading="lazy" />`;
+    if (!cleanHref.startsWith('http://') && !cleanHref.startsWith('https://') && !cleanHref.startsWith('Images/') && !cleanHref.startsWith('./Images/')) {
+      const fileName = cleanHref.replace(/^\.\//, '');
+      cleanHref = `./Images/${fileName}`;
     }
+
+    return `<img src="${cleanHref}" alt="${cleanAlt}" title="${cleanTitle || ''}" class="max-w-full h-auto rounded-lg my-3 border border-slate-700" loading="lazy" />`;
+  };
+
+  // 2. 🌟 關鍵：強制讓所有標題（h1 ~ h6）自動生成文字對應的 id，這樣錨點才抓得到！
+  renderer.heading = function(text, level, raw) {
+    // 支援 marked v11+ 或舊版的參數結構
+    const headingText = typeof text === 'object' ? text.text : (text || '');
+    const id = headingText.trim(); // 用標題文字當作 id
+    return `<h${level} id="${id}">${headingText}</h${level}>`;
   };
 
   marked.use({ renderer });
