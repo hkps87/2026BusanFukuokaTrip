@@ -86,38 +86,29 @@ function initMenuModal() {
           return res.text();
         })
         .then(text => {
-          // 渲染 Markdown
+          // 1. 渲染 Markdown 內容
           mdContent.innerHTML = marked.parse(text);
-          
           if (typeof lucide !== 'undefined') lucide.createIcons();
 
-          // 🌟 關鍵修正：精準對齊 Modal 容器內的錨點
+          // 2. 自動尋找並滾動到錨點
           if (currentHash) {
             setTimeout(() => {
               const elementId = currentHash.replace('#', '');
-              // 找尋 Markdown 渲染出來的標題或元素 (GitHub 錨點 ID)
               const targetElement = mdContent.querySelector(`#${CSS.escape(elementId)}`) || document.getElementById(elementId);
               
               if (targetElement) {
-                // 找到真正具有 overflow-y-auto 的 Modal 捲動容器
-                const scrollContainer = menuModal.querySelector('.overflow-y-auto');
+                const scrollContainer = mdContent.closest('.overflow-y-auto') || mdContent.parentElement;
+                
+                const containerTop = scrollContainer.getBoundingClientRect().top;
+                const elementTop = targetElement.getBoundingClientRect().top;
+                const targetScrollTop = scrollContainer.scrollTop + (elementTop - containerTop) - 15;
 
-                if (scrollContainer) {
-                  // 計算目標元素相對於捲動容器頂部的精準距離
-                  const containerTop = scrollContainer.getBoundingClientRect().top;
-                  const elementTop = targetElement.getBoundingClientRect().top;
-                  const targetScrollTop = scrollContainer.scrollTop + (elementTop - containerTop) - 20; // 預留 20px 上邊距
-
-                  scrollContainer.scrollTo({
-                    top: targetScrollTop,
-                    behavior: 'smooth'
-                  });
-                } else {
-                  // 備用方案：如果找不到容器，直接呼叫平滑捲動
-                  targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+                scrollContainer.scrollTo({
+                  top: targetScrollTop,
+                  behavior: 'smooth'
+                });
               }
-            }, 200); // 給予 200ms 確保 DOM 與圖片排版完成
+            }, 200);
           }
         })
         .catch(err => {
