@@ -93,34 +93,37 @@ function initMenuModal() {
           return res.text();
         })
         .then(text => {
-          // 渲染 Markdown（此時標題會帶有正確的 id）
+          // 1. 渲染 Markdown 內容
           mdContent.innerHTML = marked.parse(text);
           if (typeof lucide !== 'undefined') lucide.createIcons();
 
-          // 🌟 渲染完成後，用最穩健的「文字比對法」來找尋 H1/H2 標題並滾動
-          const currentHash = window.location.hash;
-          if (currentHash) {
-            setTimeout(() => {
-              const decodedId = decodeURIComponent(currentHash.substring(1)).trim();
-              
-              let targetElement = null;
-              // 直接抓出轉譯後的所有標題，用迴圈比對文字內容（完全避開 HTML id 帶空白會失效的問題）
-              const allHeadings = mdContent.querySelectorAll('h1, h2, h3, h4, h5, h6');
-              
-              for (let h of allHeadings) {
-                const headingText = h.textContent.trim();
-                // 只要標題文字完全吻合，或是包含該關鍵字，就鎖定它！
-                if (headingText === decodedId || headingText.includes(decodedId) || decodedId.includes(headingText)) {
-                  targetElement = h;
-                  break;
+          // 2. 🌟 關鍵：攔截 Markdown 內部所有點擊事件（不管是 H1 還是含有日期括號的 H2 目錄）
+          const scrollContainer = menuModal.querySelector('.overflow-y-auto');
+
+          mdContent.querySelectorAll('a').forEach(link => {
+            const href = link.getAttribute('href');
+            // 如果這個連結是頁面內的錨點（以 # 開頭）
+            if (href && href.startsWith('#')) {
+              link.addEventListener('click', (e) => {
+                e.preventDefault(); // 阻止瀏覽器預設會亂跑的跳轉行為
+                
+                const targetId = decodeURIComponent(href.substring(1)).trim();
+                
+                // 用迴圈比對文字內容，完美避開括號、日期、特殊符號帶入 ID 失敗的問題
+                const allHeadings = mdContent.querySelectorAll('h1, h2, h3, h4, h5, h6');
+                let targetElement = null;
+                
+                for (let h of allHeadings) {
+                  const headingText = h.textContent.trim();
+                  // 只要標題文字包含點擊的目標關鍵字，就直接鎖定它！
+                  if (headingText === targetId || headingText.includes(targetId) || targetId.includes(headingText)) {
+                    targetElement = h;
+                    break;
+                  }
                 }
-              }
 
-              if (targetElement) {
-                // 找到 Modal 內部真正有捲軸的那一層容器
-                const scrollContainer = menuModal.querySelector('.overflow-y-auto');
-
-                if (scrollContainer) {
+                // 如果找到對應的標題，精準計算彈窗內的捲動位置
+                if (targetElement && scrollContainer) {
                   const containerTop = scrollContainer.getBoundingClientRect().top;
                   const elementTop = targetElement.getBoundingClientRect().top;
                   const targetScrollTop = scrollContainer.scrollTop + (elementTop - containerTop) - 15;
@@ -130,9 +133,9 @@ function initMenuModal() {
                     behavior: 'smooth'
                   });
                 }
-              }
-            }, 300); // 給予 300ms 確保畫面完全生成
-          }
+              });
+            }
+          });
         })
         .catch(err => {
           mdContent.innerHTML = `
