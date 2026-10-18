@@ -66,18 +66,18 @@ function initMenuModal() {
     });
   }
 
-  // 點擊按鈕讀取 .md 並解析
+// 點擊按鈕讀取 .md 並解析
   document.querySelectorAll('.md-load-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const mdFile = btn.getAttribute('data-md');
       const title = btn.getAttribute('data-title');
-      const targetAnchor = btn.getAttribute('data-anchor'); // 支援從按鈕屬性讀取預設錨點（選填）
+      const targetAnchor = btn.getAttribute('data-anchor');
 
       mdLinksContainer.classList.add('hidden');
       mdViewerContainer.classList.remove('hidden');
       mdContent.innerHTML = `<div class="py-8 text-center text-slate-400 text-xs">載入 ${title} 中...</div>`;
 
-      // 檢查網址或按鈕本身有沒有帶 hash 錨點
+      // 取得網址的 Hash 或按鈕自訂的 data-anchor
       const currentHash = window.location.hash || (targetAnchor ? `#${targetAnchor}` : '');
 
       fetch(mdFile)
@@ -86,29 +86,44 @@ function initMenuModal() {
           return res.text();
         })
         .then(text => {
-          // 使用設定好的 marked 進行解析
+          // 渲染 Markdown
           mdContent.innerHTML = marked.parse(text);
-          // 若內容包含 lucide icon 語法可重新觸發渲染
+          
           if (typeof lucide !== 'undefined') lucide.createIcons();
 
-          // 🌟 關鍵：等 Markdown 渲染完成後，自動滾動到對應錨點
+          // 🌟 關鍵修正：精準對齊 Modal 容器內的錨點
           if (currentHash) {
             setTimeout(() => {
-              // 移除 '#' 取得實際的 ID
-              const elementId = currentHash.substring(1);
-              const targetElement = document.getElementById(elementId) || document.querySelector(`[name="${elementId}"]`);
+              const elementId = currentHash.replace('#', '');
+              // 找尋 Markdown 渲染出來的標題或元素 (GitHub 錨點 ID)
+              const targetElement = mdContent.querySelector(`#${CSS.escape(elementId)}`) || document.getElementById(elementId);
               
               if (targetElement) {
-                targetElement.scrollIntoView({ behavior: 'smooth' });
+                // 找到真正具有 overflow-y-auto 的 Modal 捲動容器
+                const scrollContainer = menuModal.querySelector('.overflow-y-auto');
+
+                if (scrollContainer) {
+                  // 計算目標元素相對於捲動容器頂部的精準距離
+                  const containerTop = scrollContainer.getBoundingClientRect().top;
+                  const elementTop = targetElement.getBoundingClientRect().top;
+                  const targetScrollTop = scrollContainer.scrollTop + (elementTop - containerTop) - 20; // 預留 20px 上邊距
+
+                  scrollContainer.scrollTo({
+                    top: targetScrollTop,
+                    behavior: 'smooth'
+                  });
+                } else {
+                  // 備用方案：如果找不到容器，直接呼叫平滑捲動
+                  targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
               }
-            }, 150); // 150ms 確保 DOM 已經生成完畢
+            }, 200); // 給予 200ms 確保 DOM 與圖片排版完成
           }
         })
         .catch(err => {
           mdContent.innerHTML = `
             <div class="py-6 text-center text-rose-400 text-xs">
               <p>無法載入 ${mdFile} 檔案。</p>
-              <p class="mt-2 text-slate-400">您也可以直接點擊開啟：<a href="${mdFile}" target="_blank" class="underline text-sky-400">${mdFile}</a></p>
             </div>
           `;
         });
