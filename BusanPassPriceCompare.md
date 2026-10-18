@@ -32,12 +32,12 @@ X sky觀景台
 
 滑坡車（通行證包含一趟高空滑索或兩趟滑坡車）
 
-* KKday：$875/$948/$1021（3/4/5趟滑坡車
+* KKday：$875/$948/$1021（3/4/5趟滑坡車）
 * Klook：$821/$888/$956
 * Trip：$802/$899/$968
 Note：感覺可以pass玩高空滑索，另外買滑坡車  
 
-![A區景點](./Images/A_Zone.png)
+![A區景點](https://raw.githubusercontent.com/hkps87/2026BusanFukuokaTrip/main/Images/A_Zone.png)
 
 -----我是分隔線-----
 
@@ -75,5 +75,5 @@ Arte美術館
 
 * 現場票價1000韓元=$25
 
-![B區-1](./Images/B_Zone_1.png)
-![B區-2](./Images/B_Zone_2.png)  
+![B區-1](https://raw.githubusercontent.com/hkps87/2026BusanFukuokaTrip/main/Images/B_Zone_1.png)
+![B區-2](https://raw.githubusercontent.com/hkps87/2026BusanFukuokaTrip/main/Images/B_Zone_1.png)
