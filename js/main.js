@@ -71,10 +71,14 @@ function initMenuModal() {
     btn.addEventListener('click', () => {
       const mdFile = btn.getAttribute('data-md');
       const title = btn.getAttribute('data-title');
+      const targetAnchor = btn.getAttribute('data-anchor'); // 支援從按鈕屬性讀取預設錨點（選填）
 
       mdLinksContainer.classList.add('hidden');
       mdViewerContainer.classList.remove('hidden');
       mdContent.innerHTML = `<div class="py-8 text-center text-slate-400 text-xs">載入 ${title} 中...</div>`;
+
+      // 檢查網址或按鈕本身有沒有帶 hash 錨點
+      const currentHash = window.location.hash || (targetAnchor ? `#${targetAnchor}` : '');
 
       fetch(mdFile)
         .then(res => {
@@ -86,6 +90,19 @@ function initMenuModal() {
           mdContent.innerHTML = marked.parse(text);
           // 若內容包含 lucide icon 語法可重新觸發渲染
           if (typeof lucide !== 'undefined') lucide.createIcons();
+
+          // 🌟 關鍵：等 Markdown 渲染完成後，自動滾動到對應錨點
+          if (currentHash) {
+            setTimeout(() => {
+              // 移除 '#' 取得實際的 ID
+              const elementId = currentHash.substring(1);
+              const targetElement = document.getElementById(elementId) || document.querySelector(`[name="${elementId}"]`);
+              
+              if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+              }
+            }, 150); // 150ms 確保 DOM 已經生成完畢
+          }
         })
         .catch(err => {
           mdContent.innerHTML = `
