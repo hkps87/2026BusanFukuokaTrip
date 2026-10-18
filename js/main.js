@@ -126,4 +126,15 @@ function initMenuModal() {
 document.addEventListener('DOMContentLoaded', () => {
   configureMarkedImageRenderer();
   initMenuModal();
+
+  // 🌟 新增：如果網址本身帶有 #錨點（例如重新整理或直接帶 hash 進來），自動滾動到對應位置
+  if (window.location.hash) {
+    const hashId = window.location.hash.substring(1);
+    setTimeout(() => {
+      const targetElement = document.getElementById(hashId) || document.querySelector(`[name="${hashId}"]`);
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 300);
+  }
 });
