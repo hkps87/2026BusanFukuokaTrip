@@ -97,29 +97,27 @@ function initMenuModal() {
           mdContent.innerHTML = marked.parse(text);
           if (typeof lucide !== 'undefined') lucide.createIcons();
 
-          // 🌟 渲染完成後，檢查網址是否有帶 Hash 錨點，並強制滾動
+          // 🌟 渲染完成後，用最穩健的「文字比對法」來找尋 H1/H2 標題並滾動
           const currentHash = window.location.hash;
           if (currentHash) {
             setTimeout(() => {
-              const decodedId = decodeURIComponent(currentHash.substring(1));
+              const decodedId = decodeURIComponent(currentHash.substring(1)).trim();
               
-              // 🛡️ 雙重保險：同時用原始 ID、CSS escape、以及 safe-id 去找元素
-              let targetElement = mdContent.querySelector(`#${CSS.escape(decodedId)}`) 
-                               || mdContent.querySelector(`[data-safe-id="${CSS.escape(decodedId)}"]`)
-                               || document.getElementById(decodedId);
+              let targetElement = null;
+              // 直接抓出轉譯後的所有標題，用迴圈比對文字內容（完全避開 HTML id 帶空白會失效的問題）
+              const allHeadings = mdContent.querySelectorAll('h1, h2, h3, h4, h5, h6');
               
-              // 如果還是找不到，嘗試用「包含該文字」的標題來模糊對應
-              if (!targetElement) {
-                const allHeadings = mdContent.querySelectorAll('h1, h2, h3, h4, h5, h6');
-                for (let h of allHeadings) {
-                  if (h.textContent.includes(decodedId) || decodedId.includes(h.textContent.trim())) {
-                    targetElement = h;
-                    break;
-                  }
+              for (let h of allHeadings) {
+                const headingText = h.textContent.trim();
+                // 只要標題文字完全吻合，或是包含該關鍵字，就鎖定它！
+                if (headingText === decodedId || headingText.includes(decodedId) || decodedId.includes(headingText)) {
+                  targetElement = h;
+                  break;
                 }
               }
 
               if (targetElement) {
+                // 找到 Modal 內部真正有捲軸的那一層容器
                 const scrollContainer = menuModal.querySelector('.overflow-y-auto');
 
                 if (scrollContainer) {
@@ -133,7 +131,7 @@ function initMenuModal() {
                   });
                 }
               }
-            }, 300);
+            }, 300); // 給予 300ms 確保畫面完全生成
           }
         })
         .catch(err => {
