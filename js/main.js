@@ -107,16 +107,21 @@ function initMenuModal() {
             const clickText = targetItem.textContent.trim();
             console.log("👉 使用者點擊了：", clickText);
 
+            // 🌟 核心絕招：從點擊的文字中萃取出日期（例如 2026年12月11日）
+            const dateMatch = clickText.match(/\d{4}年\d{1,2}月\d{1,2}日/);
+            const keyword = dateMatch ? dateMatch[0] : clickText;
+            console.log("🔑 萃取出的比對關鍵字：", keyword);
+
             const allHeadings = mdContent.querySelectorAll('h1, h2, h3, h4, h5, h6');
             let targetElement = null;
 
             for (let h of allHeadings) {
               const headingText = h.textContent.trim();
-              console.log("🔍 檢查頁面標題：", headingText); // 把每一個掃到的標題也印出來
               
-              if (headingText === clickText || headingText.includes(clickText) || clickText.includes(headingText)) {
+              // 只要 H2 標題裡面也包含這個日期關鍵字，就直接鎖定它！
+              if (headingText.includes(keyword)) {
                 targetElement = h;
-                console.log("🎯 成功配對到標題！", headingText);
+                console.log("🎯 成功配對到標題：", headingText);
                 break;
               }
             }
