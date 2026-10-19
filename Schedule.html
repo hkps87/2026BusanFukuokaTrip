@@ -546,6 +546,11 @@
       });
     }
 
+    function closeMapModal() {
+      mapModal.classList.add('opacity-0');
+      setTimeout(() => mapModal.classList.add('hidden'), 300);
+    }
+
     // 初始化執行與事件監聽
     function init() {
       renderTabs();
@@ -596,9 +601,9 @@
         setTimeout(() => mapModal.classList.remove('opacity-0'), 10);
       });
 
-      closeMapModalBtn.addEventListener('click', closeModal);
+      closeMapModalBtn.addEventListener('click', closeMapModal);
       mapModal.addEventListener('click', (e) => {
-        if (e.target === mapModal) closeModal();
+        if (e.target === mapModal) closeMapModal();
       });
     }
 
