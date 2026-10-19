@@ -1,18 +1,618 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW" class="h-full bg-slate-950 text-slate-100">
 <head>
-    <meta charset="UTF-8">
-    <title>Redirecting...</title>
-    <script>
-        // 動態計算當前路徑的資料夾根目錄，完美適配本地端與 GitHub Pages 子路徑
-        var basePath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
-        var targetUrl = basePath + 'Schedule.html';
-        
-        // 執行跳轉
-        window.location.replace(targetUrl);
-    </script>
+  <!--base href="/2026BusanFukuokaTrip/"-->
+  <!-- === 支援 Android / 通用 PWA 設定 === -->
+  <link rel="manifest" href="./misc/manifest.json">
+  <meta name="theme-color" content="#0f172a"> <!-- 手機瀏覽器網址列底色 -->
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <!-- === 支援 iOS (Safari) 專屬捷徑與自訂 Icon 設定 === -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="釜山福岡行程"> <!-- 桌面捷徑顯示的文字名稱 -->
+  <link rel="apple-touch-icon" href="./Images/icon.png"> <!-- iOS 專屬自訂桌面 Icon -->
+  <link rel="icon" href="./Images/icon.png" type="image/png">
+  <meta charset="UTF-8">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="釜山福岡行程">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>釜山・慶州・福岡浪漫之旅 2026</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              400: '#38bdf8',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              900: '#0c4a6e',
+            },
+            accent: {
+              pink: '#ec4899',
+              amber: '#f59e0b',
+              emerald: '#10b981',
+              purple: '#8b5cf6'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- 引入 Marked.js 解析器 -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <!-- 引入外接 CSS 檔案 -->
+  <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-    <p>正在前往行程表，若未自動跳轉請點擊 <script>document.write('<a href="' + basePath + 'Schedule.html">這裡</a>');</script>。</p>
+<body class="h-full flex flex-col bg-slate-950 text-slate-100 overflow-x-hidden pb-20">
+
+  <header class="sticky top-0 z-30 glass-header border-b border-slate-800/80 px-4 pt-4 pb-3 shadow-lg">
+    <div class="max-w-4xl mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-2.5">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-500 to-indigo-500 flex items-center justify-center shadow-lg shadow-brand-500/20">
+          <i data-lucide="plane-takeoff" class="w-5 h-5 text-white"></i>
+        </div>
+        <div>
+          <h1 class="font-bold text-base tracking-tight text-white flex items-center gap-1.5">
+            釜山・慶州・福岡浪漫之旅
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-brand-500/20 text-brand-400 font-medium border border-brand-500/30">10天9夜</span>
+          </h1>
+          <p class="text-xs text-slate-400">2026/12/11 - 12/20 · 韓日雙城遊</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="reset-progress-btn" class="p-2 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-slate-200 transition text-xs flex items-center gap-1 border border-slate-700/50" title="重置進度">
+          <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+        </button>
+        <!-- 右上角三條橫線選單按鈕 -->
+        <button id="menu-drawer-btn" class="p-2 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-brand-400 hover:text-brand-300 transition text-xs flex items-center border border-slate-700/50" title="選單資訊">
+          <i data-lucide="menu" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+<!--
+    <div class="max-w-4xl mx-auto mt-3 grid grid-cols-3 gap-2 text-center text-xs">
+      <div class="bg-slate-900/60 border border-slate-800 rounded-lg p-1.5">
+        <span class="text-slate-400 block text-[10px]">釜山 Pass</span>
+        <span class="font-semibold text-brand-400 text-xs">Big 3 景點</span>
+      </div>
+      <div class="bg-slate-900/60 border border-slate-800 rounded-lg p-1.5">
+        <span class="text-slate-400 block text-[10px]">主要住宿</span>
+        <span class="font-semibold text-purple-400 text-xs">沙上/釜山港/博多</span>
+      </div>
+      <div class="bg-slate-900/60 border border-slate-800 rounded-lg p-1.5">
+        <span class="text-slate-400 block text-[10px]">跨國交通</span>
+        <span class="font-semibold text-amber-400 text-xs">新山茶花號赴博多</span>
+      </div>
+    </div>
+-->
+
+    <!-- Navigation Tab -->
+    <div class="max-w-4xl mx-auto mt-3 grid grid-cols-2 gap-2 text-xs">
+      <a href="index.html" class="flex items-center justify-center gap-1.5 py-2 rounded-xl bg-brand-600/20 border border-brand-500/40 text-brand-300 font-bold transition shadow-sm">
+        <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+        <span>每日行程</span>
+      </a>
+      <a href="CheckList.html" class="flex items-center justify-center gap-1.5 py-2 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-400 transition font-medium">
+        <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
+        <span>準備清單 CheckList</span>
+      </a>
+    </div>
+
+    <div class="max-w-4xl mx-auto mt-3.5">
+      <div class="flex space-x-2 overflow-x-auto no-scrollbar pb-1 pt-1" id="day-tabs"></div>
+    </div>
+
+    <div class="max-w-4xl mx-auto mt-2.5 flex items-center gap-1.5 overflow-x-auto no-scrollbar text-xs">
+      <button class="filter-btn active px-3 py-1 rounded-full border border-slate-700 bg-slate-800 text-slate-300 font-medium whitespace-nowrap" data-filter="all">全部</button>
+      <button class="filter-btn px-3 py-1 rounded-full border border-slate-800 bg-slate-900/60 text-slate-400 hover:text-slate-200 whitespace-nowrap" data-filter="pass">🎟️ Visit Busan Pass</button>
+      <button class="filter-btn px-3 py-1 rounded-full border border-slate-800 bg-slate-900/60 text-slate-400 hover:text-slate-200 whitespace-nowrap" data-filter="food">🍜 美食/夜市</button>
+      <button class="filter-btn px-3 py-1 rounded-full border border-slate-800 bg-slate-900/60 text-slate-400 hover:text-slate-200 whitespace-nowrap" data-filter="highlight">🔥 必看亮點</button>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-4xl w-full mx-auto px-4 pt-4 pb-24 space-y-6" id="itinerary-container">
+    <!-- 放在兩個頁面的最下方，符合 Flaticon 免費授權規範 -->
+    <footer class="max-w-4xl mx-auto px-4 py-8 text-center text-xs text-slate-500 border-t border-slate-900 mt-12">
+      <a href="https://www.flaticon.com/free-icons/ferry-boat" title="ferry boat icons" target="_blank" rel="noopener noreferrer" class="hover:text-slate-400 transition">
+        Ferry boat icons created by Magnific - Flaticon
+      </a>
+    </footer>
+  </main>
+
+  <div class="fixed bottom-0 left-0 right-0 z-30 glass-header border-t border-slate-800 px-4 py-2.5">
+    <div class="max-w-4xl mx-auto flex items-center justify-between text-xs">
+      <div class="flex items-center space-x-2 text-slate-400">
+        <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
+        <span>行程完成度: <strong id="completion-stats" class="text-slate-200">0 / 0</strong></span>
+      </div>
+      <button id="map-quick-launcher" class="flex items-center gap-1.5 px-3 py-1.5 bg-brand-600 hover:bg-brand-500 text-white font-medium rounded-lg shadow-lg shadow-brand-600/30 transition">
+        <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
+        <span>地圖導航快捷</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 地圖 Modal -->
+  <div id="map-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 hidden opacity-0 transition-opacity duration-300">
+    <div class="glass-card w-full max-w-4xl rounded-t-2xl sm:rounded-2xl border-t sm:border border-slate-700/80 p-5 space-y-4 max-h-[80vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h3 class="font-bold text-base flex items-center gap-2">
+          <i data-lucide="map" class="w-5 h-5 text-brand-400"></i>
+          常用景點地圖導航快捷頁
+        </h3>
+        <button id="close-map-modal" class="p-1 text-slate-400 hover:text-white rounded-lg">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <div class="grid grid-cols-2 gap-2 text-xs" id="quick-map-links"></div>
+    </div>
+  </div>
+  <script src="js/main.js"></script>
+  <!-- 三條橫線選單與 Markdown 預覽 Modal -->
+  <div id="menu-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 hidden opacity-0 transition-opacity duration-300">
+    <div class="glass-card w-full max-w-4xl rounded-t-2xl sm:rounded-2xl border-t sm:border border-slate-700/80 p-5 space-y-4 max-h-[85vh] overflow-y-auto flex flex-col">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h3 class="font-bold text-base flex items-center gap-2" id="menu-modal-title">
+          <i data-lucide="file-text" class="w-5 h-5 text-brand-400"></i>
+          詳細資訊與 Markdown 文件
+        </h3>
+        <button id="close-menu-modal" class="p-1 text-slate-400 hover:text-white rounded-lg">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- 選單按鈕區塊 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs" id="md-links-container">
+        <button data-md="Trip.md" data-title="文字版行程" class="md-load-btn flex items-center justify-between p-3.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-brand-500/50 hover:bg-slate-800/80 transition group text-left">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-brand-500/20 text-brand-400 flex items-center justify-center">
+              <i data-lucide="file-text" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <span class="font-semibold text-slate-200 block text-sm">1. 文字版行程</span>
+              <span class="text-[10px] text-slate-400">開啟 Trip.md</span>
+            </div>
+          </div>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-brand-400 transition"></i>
+        </button>
+
+        <button data-md="BusanPassPriceCompare.md" data-title="釜山 Pass 比價" class="md-load-btn flex items-center justify-between p-3.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500/50 hover:bg-slate-800/80 transition group text-left">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center">
+              <i data-lucide="calculator" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <span class="font-semibold text-slate-200 block text-sm">2. 釜山 Pass 比價</span>
+              <span class="text-[10px] text-slate-400">開啟 BusanPassPriceCompare.md</span>
+            </div>
+          </div>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-amber-400 transition"></i>
+        </button>
+      </div>
+
+      <!-- Markdown 預覽區塊 -->
+      <div id="md-viewer-container" class="hidden flex-1 space-y-3 pt-2">
+        <button id="back-to-menu-btn" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white text-xs border border-slate-700 transition">
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          <span>返回選單列表</span>
+        </button>
+        <div id="md-content" class="markdown-body p-4 bg-slate-900/90 rounded-xl border border-slate-800 text-slate-300 overflow-y-auto max-h-[55vh]"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const itineraryData = [
+      {
+        day: 1,
+        date: "2026/12/11",
+        dayOfWeek: "星期五",
+        theme: "抵達釜山・入住沙上",
+        highlights: ["金海國際機場", "沙上住宿"],
+        items: [
+          { time: "21:00", title: "班機抵達金海國際機場 (PUS)", desc: "準備降落釜山金海國際機場，開機切換網路卡或 eSIM。", link: "https://map.naver.com/p/search/%EA%B9%80%ED%95%B4%EA%B5%AD%EC%A0%9C%EA%B3%B5%ED%95%AD", icon: "plane", tags: ["transport"] },
+          { time: "21:00 - 22:00", title: "出關與領取行李", desc: "完成韓國入境審查、提取托運行李與購買/充值交通卡 (T-Money/Loca Mobipay)。", icon: "baggage-claim", tags: ["transport"] },
+          { time: "22:00", title: "前往沙上站", desc: "搭乘釜山金海輕軌前往【沙上站】(約 10-15 分鐘)，或直接搭計程車。", link: "https://map.naver.com/p/search/%EC%82%AC%EC%83%81%EC%97%AD", icon: "train-front", tags: ["transport"] },
+          { time: "22:30", title: "入住沙上站周邊飯店休息", desc: "辦理 Check-in 入住沙上站周邊飯店，好好休息儲存充沛體力。", icon: "hotel", tags: ["hotel"] }
+        ]
+      },
+      {
+        day: 2,
+        date: "2026/12/12",
+        dayOfWeek: "星期六",
+        theme: "金海塗鴉秀 ➔ 飯店 Check-in ➔ 南浦洞換錢 ➔ 夜市漫遊",
+        highlights: ["塗鴉秀", "Booking the bay", "友利換錢所", "富平罐頭夜市"],
+        items: [
+          { time: "09:30 - 14:30", title: "金海伽倻主題公園 觀賞《塗鴉秀》", desc: "從沙上搭地鐵轉公車/計程車約 40-50 分鐘至【金海伽倻主題公園】，觀賞著名「塗鴉秀 (The Painters)」藝術表演並園區漫步。", link: "https://map.naver.com/p/search/%EA%B9%80%ED%95%B4%EA%B0%80%EC%95%BC%ED%85%8c%EB%A7%88%EA%B3%B5%EC%9B%90", icon: "palette", tags: ["highlight"] },
+          { time: "14:30 - 15:15", title: "飯店 Check-in 卸行李", desc: "搭乘交通工具返回市區，前往 【Booking the bay】 辦理入住與放置行李 (車程約 40-50 分鐘)。", link: "https://map.naver.com/p/search/Booking%20the%20bay", icon: "building-2", tags: ["hotel"] },
+          { time: "15:15 - 16:00", title: "南浦洞友利換錢所 兌換韓元", desc: "搭地鐵前往【南浦洞】(約 10-15 分鐘)，至「友利換錢所」用台幣兌換韓元現金。", link: "https://map.naver.com/p/search/%EC%9A%B0%EB%A6%A1%ED%99%98%EC%A0%84%EC%86%8C", icon: "coins", tags: ["food"] },
+          { time: "16:00 - 18:00", title: "龍頭山公園 ＆ BIFF 廣場漫步", desc: "散步前往龍頭山公園與 BIFF 廣場，品嚐釜山必吃的熱騰騰「種子黑糖餅」(步行約 5-10 分鐘)。", link: "https://map.naver.com/p/search/%EC%9A%B9%EB%91%90%EC%82%B0%EA%B3%B5%EC%9B%90", icon: "utensils", tags: ["food", "highlight"] },
+          { time: "18:00 之後", title: "富平罐頭夜市（週末限定露天夜市）", desc: "前往富平罐頭夜市，品嚐各式豐富特色異國小吃與道地韓味當晚餐 (從 BIFF 廣場步行約 5-10 分鐘)。", link: "https://map.naver.com/p/search/%EB%B6%80%ED%8F%89%EA%B0%95%ED%86%B5%EC%8B%9C%EC%9E%A5", icon: "store", tags: ["food", "highlight"] }
+        ]
+      },
+      {
+        day: 3,
+        date: "2026/12/13",
+        dayOfWeek: "星期日",
+        theme: "慶州世界遺產與古都漫遊一日遊（冬日日落優化版）",
+        highlights: ["佛國寺", "皇理團路", "大陵苑", "瞻星台", "東宮與月池夜景"],
+        items: [
+          { time: "08:30 - 09:30", title: "釜山前往慶州", desc: "搭乘 KTX 至新慶州站轉公車，或搭長途巴士直達慶州市區 (車程約 1 - 1.5 小時)。", icon: "bus", tags: ["transport"] },
+          { time: "09:30 - 11:30", title: "【佛國寺】千年世界文化遺產", desc: "早晨山區空氣清新、光線通透，愜意欣賞千年石造藝術與世界文化遺產建築。", link: "https://map.naver.com/p/search/%EB%B6%88%EA%B5%AD%EC%82%AC", icon: "landmark", tags: ["highlight"] },
+          { time: "11:30 - 12:00", title: "搭車返回慶州市區", desc: "搭乘市區公車 10/11 號返回慶州市區 (約 30-40 分鐘)。", icon: "bus", tags: ["transport"] },
+          { time: "12:00 - 13:30", title: "【皇理團路】韓屋巷弄午餐", desc: "在傳統韓屋改建的特色餐廳或文青咖啡廳享用慶州特色美食與甜點。", link: "https://map.naver.com/p/search/%ED%99%A9%EB%A6%AC%EB%8B%A8%EB%A1%9C", icon: "coffee", tags: ["food"] },
+          { time: "13:30 - 15:30", title: "【大陵苑 / 天馬塚】古墓巡禮", desc: "漫步在巨型草綠色新羅王陵間，並入內探索神秘的天馬塚古墓 (從皇理團路步行約 5 分鐘)。", link: "https://map.naver.com/p/search/%EB%8C%80%EB%A6%89%EC%9B%90", icon: "trees", tags: ["highlight"] },
+          { time: "15:30 - 16:45", title: "【瞻星台】與周邊草地散步", desc: "漫步拍照，捕捉東方最古老天文台在冬日午後溫暖的斜陽餘暉 (從大陵苑步行約 5-10 分鐘)。", link: "https://map.naver.com/p/search/%EC%B2%A8%EC%84%B1%EB%8C%80", icon: "sun", tags: ["highlight"] },
+          { time: "16:45 - 18:30", title: "🔥【東宮與月池（雁鴨池）】黃金日落夜景", desc: "🔥【黃金亮點】：冬日 17:00 日落，17:10 入園捕捉微光晚霞與金碧輝煌的水中倒影絕景 (從瞻星台步行約 10-15 分鐘)。", link: "https://map.naver.com/p/search/%EB%8F%99%EA%B6%81%EA%B3%BC%EC%9B%94%EC%A7%80", icon: "sparkles", tags: ["highlight"] },
+          { time: "18:30 之後", title: "慶州晚餐 ＆ 返回釜山飯店", desc: "市區享用輕鬆晚餐，搭乘長途巴士或 KTX 返回釜山休息 (車程約 1 - 1.5 小時)。", icon: "moon", tags: ["transport", "food"] }
+        ]
+      },
+      {
+        day: 4,
+        date: "2026/12/14",
+        dayOfWeek: "星期一",
+        theme: "海雲台雙列車 ➔ 機張 Luge ➔ 高空夜景日 (Pass Big 3 ①②)",
+        highlights: ["天空膠囊列車", "海岸列車", "Skyline Luge (Pass #1)", "釜山 X the Sky (Pass #2)"],
+        items: [
+          { time: "09:30 - 10:15", title: "天空膠囊列車（尾浦 ➔ 青沙浦）", desc: "【海雲台藍線公園 尾浦站】搭乘夢幻天空膠囊列車至青沙浦 (官網預約，車程約 30 分鐘)。", link: "https://map.naver.com/p/search/%EB%AF%B8%ED%8F%AC%EC%A0%95", icon: "tram", tags: ["highlight", "pass"] },
+          { time: "10:15 - 11:00", title: "青沙浦天空步道 ＆ 灌籃高手平交道", desc: "遊覽青沙浦踏石天空步道，打卡韓版灌籃高手海景平交道並享用外帶咖啡。", link: "https://map.naver.com/p/search/%EC%B2%AD%EC%82%AC%ED%8F%AC%EB%8B%A5%EB%A6%BF%EB%8F%8C%EC%A0%84%EB%A7%9D%EB%8C%80", icon: "camera", tags: ["highlight"] },
+          { time: "11:00 - 11:25", title: "海岸列車（青沙浦 ➔ 松亭站）", desc: "搭乘海岸列車往北方前進至松亭站，近距離欣賞沿途湛藍海景 (約 15-20 分鐘)。", link: "https://map.naver.com/p/search/%EC%86%A1%EC%A0%95%EC%A0%95", icon: "train", tags: ["transport"] },
+          { time: "11:30 - 12:30", title: "松亭海景午餐", desc: "於松亭海灘周邊特色餐廳享用美味海景午餐。", icon: "utensils", tags: ["food"] },
+          { time: "12:45 - 14:15", title: "🎟️ Skyline Luge Busan 機張斜坡滑車 (Pass #1)", desc: "★ 刷 Pass 額度 ①：體驗刺激好玩的斜坡滑車 (從松亭搭公車/計程車約 20-25 分鐘)。", link: "https://map.naver.com/p/search/Skyline%20Luge%20Busan", icon: "ticket", tags: ["pass", "highlight"] },
+          { time: "14:30 - 16:00", title: "海東龍宮寺", desc: "參觀全韓唯一座落海岸懸崖上的寺廟，欣賞壯麗海景與冬日夕陽 (從 Luge 搭公車/計程車約 10-15 分鐘)。", link: "https://map.naver.com/p/search/%ED%95%B4%EB%8F%99%EC%9A%A9%EA%B6%81%EC%82%AC", icon: "landmark", tags: ["highlight"] },
+          { time: "16:15 - 17:45", title: "樂天 Premium Outlet 東釜山店", desc: "欣賞歐風建築造景與浪漫繽紛的聖誕燈海展飾 (從海東龍宮寺步行或搭車約 5-10 分鐘)。", link: "https://map.naver.com/p/search/%EB%A1%87%EB%8D%B0%ED%94%84%EB%A6%AC%EB%AF%B8%EC%97%84%EC%95%84%EC%9A%83%EB%A0%9B%20%EB%8F%99%EB%B6%80%EC%82%B0%EC%A0%90", icon: "shopping-bag", tags: ["highlight"] },
+          { time: "18:00 之後", title: "🎟️ 釜山 X the Sky 高空觀景台 (Pass #2)", desc: "★ 刷 Pass 額度 ②：登頂韓國第二高樓俯瞰海雲台百萬夜景，晚餐於海雲台商圈解決 (公車 1001 號或計程車約 25-30 分鐘)。", link: "https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%20X%20the%20Sky", icon: "building", tags: ["pass", "highlight", "food"] }
+        ]
+      },
+      {
+        day: 5,
+        date: "2026/12/15",
+        dayOfWeek: "星期二",
+        theme: "松島海上纜車 ➔ 影島白淺灘 ➔ 太宗台 ➔ 扎嘎其海鮮 (Pass Big 3 ③)",
+        highlights: ["松島海上纜車 (Pass #3)", "白淺灘文化村", "太宗台 Danubi", "扎嘎其市場"],
+        items: [
+          { time: "09:30 - 11:30", title: "🎟️ 松島海上纜車 ＆ 龍宮雲橋 (Pass #3)", desc: "★ 刷 Pass 額度 ③：早晨搭乘水晶纜車橫越大海、漫步雲橋，避開人潮欣賞美景。", link: "https://map.naver.com/p/search/%EC%86%A1%EB%8F%84%ED%95%B4%EC%8C%80%EC%BC%80%EC%9D%B4%EB%B8%94%EC%B9%B4", icon: "cable-car", tags: ["pass", "highlight"] },
+          { time: "11:30 - 12:15", title: "跨區移動：松島 ➔ 影島西海岸", desc: "搭乘公車或短程計程車跨過釜山大橋前往影島白淺灘 (車程約 15-20 分鐘)。", link: "https://map.naver.com/p/search/%EC%86%A1%EB%8F%84", icon: "bus", tags: ["transport"] },
+          { time: "12:15 - 14:15", title: "白淺灘文化村 ＆ 海景午餐", desc: "沿著懸崖海岸白色步道漫步，在絕景海景咖啡廳享用甜點與午餐。", link: "https://map.naver.com/p/search/%ED%9D%B0%EC%97%AC%EC%9A%B8%EB%AC%B8%ED%99%94%EB%A7%88%EC%9D%84", icon: "camera", tags: ["food", "highlight"] },
+          { time: "14:15 - 14:45", title: "影島南移：白淺灘 ➔ 太宗台", desc: "搭乘影島在地公車繼續往南移動至太宗台 (公車約 20-25 分鐘)。", link: "https://map.naver.com/p/search/%ED%83%80%EC%A2%85%EB%8C%80", icon: "bus", tags: ["transport"] },
+          { time: "14:45 - 17:15", title: "太宗臺遊園地（Danubi 觀光列車）", desc: "搭乘 Danubi 觀光彩繪列車，探索壯麗懸崖峭壁與瞭望燈塔海景。", link: "https://map.naver.com/p/search/%ED%83%80%EC%A2%85%EB%8C%80", icon: "train-front", tags: ["highlight"] },
+          { time: "17:30 之後", title: "扎嘎其市場 ＆ 南浦洞海鮮大餐", desc: "返回南浦洞/扎嘎其 (搭公車約 30-35 分鐘)，享用極致豐盛鮮美的海鮮大餐。", link: "https://map.naver.com/p/search/%EC%9E%90%EA%B0%80%EC%B9%98%EC%8B%9C%EC%9E%A5", icon: "fish", tags: ["food", "highlight"] }
+        ]
+      },
+      {
+        day: 6,
+        date: "2026/12/16",
+        dayOfWeek: "星期三",
+        theme: "釜山港寄行李 ➔ ARTE MUSEUM ➔ 草梁故事路 ➔ 夜船赴福岡",
+        highlights: ["ARTE MUSEUM", "168階梯單軌", "新山茶花號渡輪"],
+        items: [
+          { time: "09:30 - 10:15", title: "飯店退房 ＆ 釜山港寄行李", desc: "退房後帶著行李前往【釜山港國際客運碼頭】寄存於櫃檯/寄物櫃，輕裝出發 (約 10-15 分鐘)。", link: "https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%ED%95%AD%EA%B5%AD%EC%A0%9C%EC%B3%B5%EC%97%AC%ED%84%B0%EB%AF%B8%EB%84%90", icon: "briefcase", tags: ["hotel", "transport"] },
+          { time: "10:15 - 11:00", title: "公車移動：釜山港 ➔ 影島 ARTE MUSEUM", desc: "於釜山站搭乘 66 號或 191 號公車至國立海洋博物館站下車 (車程約 25-30 分鐘)。", link: "https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%EC%97%AD", icon: "bus", tags: ["transport"] },
+          { time: "11:00 - 13:00", title: "ARTE MUSEUM Busan 沉浸式數位美術館", desc: "扎實停留約 2 小時，完整體驗震撼光影、音樂與香氣交織的數位視覺盛宴。", link: "https://map.naver.com/p/search/ARTE%20MUSEUM%20Busan", icon: "sparkles", tags: ["highlight"] },
+          { time: "13:00 - 13:40", title: "公車返回釜山站", desc: "搭乘 66 號公車原路返回釜山站 (車程約 25-30 分鐘)。", link: "https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%EC%97%AD", icon: "bus", tags: ["transport"] },
+          { time: "13:40 - 14:40", title: "釜山站周邊午餐", desc: "在釜山站附近享用在地傳統午餐（如經典豬肉湯飯或韓式拌飯）。", icon: "utensils", tags: ["food"] },
+          { time: "14:40 - 15:45", title: "草梁故事路 ＆ 168 階梯斜坡單軌電車", desc: "步行至草梁故事路，搭乘免費斜坡單軌電車登上 168 階梯俯瞰釜山港全景 (步行 5-8 分鐘)。", link: "https://map.naver.com/p/search/%EC%B4%88%EB%9F%89%EC%9D%B4%EB%B0%94%EA%B5%AC%EC%B8%B8", icon: "mountain", tags: ["highlight"] },
+          { time: "15:45 - 16:15", title: "返回釜山港碼頭取行李", desc: "返回【釜山港國際客運碼頭】取領寄放的大件行李準備辦理登船 (約 10-15 分鐘)。", icon: "luggage", tags: ["transport"] },
+          { time: "16:30 - 18:30", title: "🚢 新山茶花號 (New Camellia) 報到換票", desc: "至客運碼頭櫃檯辦理登船手續、領取實體船票與房卡。", icon: "ticket", tags: ["highlight", "transport"] },
+          { time: "19:00 - 20:00", title: "🚢 完成通關與登船（夜航前往福岡）", desc: "20:00 前完成出境審查登船，準備夜航橫越對馬海峽前往日本福岡博多港！", icon: "ship", tags: ["highlight", "transport"] }
+        ]
+      },
+      {
+        day: 7,
+        date: "2026/12/17",
+        dayOfWeek: "星期四",
+        theme: "抵達博多港・太宰府天滿宮・動植物園・teamLab 光之祭・屋台宵夜",
+        highlights: ["太宰府天滿宮", "福岡市動植物園", "teamLab 光之祭", "中洲屋台橫丁"],
+        items: [
+          { time: "08:30 - 09:30", title: "博多港入境 ＆ 飯店寄放行李", desc: "自博多港入境日本，搭乘大眾運輸前往博多站周邊飯店寄放行李 (車程/交通約 20-30 分鐘)。", link: "https://www.google.com/maps/search/%E5%8D%9A%E5%A4%9A%E6%B8%AF", icon: "ship", tags: ["transport"] },
+          { time: "10:00 - 12:30", title: "【太宰府天滿宮】晨間快閃", desc: "參拜主殿、摸御神牛，並在參道品嚐現烤梅枝餅 (從博多搭地鐵轉西鐵約 40 分鐘)。", link: "https://www.google.com/maps/search/%E5%A4%AA%E5%AE%B0%E5%BA%9C%E5%A4%A9%E6%BB%BF%E5%AE%AE", icon: "landmark", tags: ["highlight"] },
+          { time: "12:30 - 13:30", title: "太宰府表參道午餐", desc: "於太宰府表參道或返回市區途中享用午餐。", icon: "utensils", tags: ["food"] },
+          { time: "13:30 - 16:00", title: "【福岡市動植物園】疾走巡禮", desc: "高效觀賞人氣動物與熱帶溫室植栽 (搭乘地鐵轉公車約 30-40 分鐘)。", link: "https://www.google.com/maps/search/%E7%A6%8F%E5%B2%A1%E5%B8%82%E5%8B%95%E6%A4%8D%E7%89%A9%E5%9C%92", icon: "camera", tags: ["highlight"] },
+          { time: "16:00 - 18:00", title: "飯店 Check-in 休息", desc: "返回市區飯店辦理入住與短暫休息調整 (車程約 20 分鐘)。", icon: "hotel", tags: ["hotel"] },
+          { time: "18:00 - 21:00", title: "🔥【福岡城跡 (舞鶴公園)】teamLab 光之祭", desc: "沉浸於百年古城與夢幻數位光影互動藝術 (搭地鐵至大濠公園站步行約 10 分鐘)。", link: "https://www.google.com/maps/search/%E7%A6%8F%E5%B2%A1%E5%9F%8E%E8%B8%9F", icon: "sparkles", tags: ["highlight"] },
+          { time: "21:30 - 23:30", title: "【中洲屋台橫丁】宵夜漫遊", desc: "品嚐熱騰騰的博多拉麵、烤串與明太子料理 (搭地鐵或步行約 15-20 分鐘)。", link: "https://www.google.com/maps/search/%E4%B8%AD%E6%B4%B2%E5%B1%8B%E5%8F%8B%E6%A8%AA%E4%B8%81", icon: "utensils", tags: ["food", "highlight"] }
+        ]
+      },
+      {
+        day: 8,
+        date: "2026/12/18",
+        dayOfWeek: "星期五",
+        theme: "由布院之森鐵道・溫泉小鎮漫遊",
+        highlights: ["由布院之森", "湯之坪街道", "金鱗湖", "日歸溫泉"],
+        items: [
+          { time: "09:17 - 11:30", title: "搭乘人氣觀光列車【由布院之森】", desc: "由博多出發，沿途欣賞山林溪谷絕景 (車程約 2 小時 15 分鐘)。", link: "https://www.google.com/maps/search/%E7%94%B1%E5%B8%83%E9%99%A2%E4%B9%8B%E6%A3%AE", icon: "train", tags: ["highlight", "transport"] },
+          { time: "11:30 - 13:30", title: "【由布院溫泉 ➔ 湯之坪街道】美食掃街", desc: "品嚐 B-Speak 瑞士捲、可樂餅與起司蛋糕，享受美味午餐與街道漫遊。", link: "https://www.google.com/maps/search/%E7%94%B1%E5%B8%83%E9%99%A2%E6%B8%A9%E6%B3%89", icon: "coffee", tags: ["food", "highlight"] },
+          { time: "13:30 - 15:30", title: "【金鱗湖 ＆ Yufuin Floral Village】", desc: "童話村拍照打卡與金鱗湖畔漫步 (步行約 10-15 分鐘)。", link: "https://www.google.com/maps/search/%E9%87%91%E9%BA%9F%E6%B9%96", icon: "trees", tags: ["highlight"] },
+          { time: "15:30 - 17:00", title: "由布院日歸溫泉或午茶時光", desc: "享受溫泉放鬆身心或在特色咖啡廳愜意午茶。", icon: "cup-soda", tags: ["highlight"] },
+          { time: "17:00 - 19:15", title: "搭乘特急列車返回博多站", desc: "搭乘特急列車由由布院返回博多站 (車程約 2 小時)。", icon: "train-front", tags: ["transport"] },
+          { time: "19:30 之後", title: "博多站周邊晚餐與逛街", desc: "享用道地博多牛腸鍋晚餐與商場輕鬆逛街。", icon: "utensils", tags: ["food"] }
+        ]
+      },
+      {
+        day: 9,
+        date: "2026/12/19",
+        dayOfWeek: "星期六",
+        theme: "高千穗峽谷壯麗一日遊",
+        highlights: ["高千穗町峽谷", "真名井瀑布", "高千穗神社"],
+        items: [
+          { time: "07:30 - 10:30", title: "參加 KKday / Klook【高千穗峽谷一日遊】", desc: "專車出發，遠征宮崎縣高千穗町 (專車車程約 3 小時)。", link: "https://www.google.com/maps/search/%E9%AB%98%E5%8D%83%E7%A9%82%E7%94%BA", icon: "bus", tags: ["transport"] },
+          { time: "10:30 - 14:00", title: "【高千穗峽】峽谷漫步與乘船", desc: "漫步峽谷步道、欣賞真名井瀑布、乘船遊峽谷與享用在地午餐。", link: "https://www.google.com/maps/search/%E9%AB%98%E5%8D%83%E7%A9%82%E5%B3%A1", icon: "mountain", tags: ["highlight"] },
+          { time: "14:00 - 15:30", title: "參拜【高千穗神社】", desc: "祈福與欣賞千年夫妻杉 (車程/步行約 10-15 分鐘)。", link: "https://www.google.com/maps/search/%E9%AB%98%E5%8D%83%E7%A9%82%E7%A5%9E%E7%A4%BE", icon: "landmark", tags: ["highlight"] },
+          { time: "15:30 - 18:30", title: "專車返回博多市區", desc: "搭乘專車返回博多市區，可在車上稍作休息 (車程約 3 小時)。", link: "https://www.google.com/maps/search/%E9%AB%98%E5%8D%83%E7%A9%82%E7%94%BA", icon: "bus", tags: ["transport"] },
+          { time: "19:00 之後", title: "天神地下街與博多站晚餐", desc: "於天神地下街或博多站商場享用晚餐與採買藥妝。", icon: "shopping-bag", tags: ["food"] }
+        ]
+      },
+      {
+        day: 10,
+        date: "2026/12/20",
+        dayOfWeek: "星期日",
+        theme: "大濠公園晨間散策・伴手禮大採購・賦歸",
+        highlights: ["大濠公園", "阪急百貨伴手禮", "福岡機場賦歸"],
+        items: [
+          { time: "08:30 - 10:30", title: "【大濠公園 ＆ 福岡城跡周邊】", desc: "早起晨間湖畔散步、Starbucks 咖啡與拍攝晨光景致 (搭地鐵約 10 分鐘)。", link: "https://www.google.com/maps/search/%E5%A4%A7%E6%B4%81%E5%85%AC%E5%9C%92", icon: "sun", tags: ["highlight"] },
+          { time: "11:00 - 13:30", title: "【博多站商場 ＆ 阪急百貨】伴手禮大採購", desc: "伴手禮最後大衝刺 ➔ 採買明太子仙貝、博多通滿、筑紫餅等，並享用午餐。", icon: "shopping-bag", tags: ["food"] },
+          { time: "13:30 - 14:00", title: "前往福岡機場國際線", desc: "飯店領取行李，搭乘地鐵空港線直達【福岡機場國際線】 (車程僅約 5-10 分鐘)。", link: "https://www.google.com/maps/search/%E7%A6%8F%E5%B2%A1%E6%9C%BA%E5%9C%BA%E5%9B%BD%E9%99%85%E7%BA%BF", icon: "train", tags: ["transport"] },
+          { time: "14:00 - 16:00", title: "辦理登機與賦歸返台", desc: "辦理登機手續、免稅店最後採購，搭乘 16:00 左右班機順利返回台灣！", icon: "plane-landing", tags: ["transport", "highlight"] }
+        ]
+      }
+    ];
+
+    let activeDay = 1;
+    let currentFilter = 'all';
+    let completedItems = JSON.parse(localStorage.getItem('busan_fukuoka_completed_items') || '{}');
+
+    const dayTabsContainer = document.getElementById('day-tabs');
+    const itineraryContainer = document.getElementById('itinerary-container');
+    const completionStatsEl = document.getElementById('completion-stats');
+    const resetProgressBtn = document.getElementById('reset-progress-btn');
+    const mapQuickLauncher = document.getElementById('map-quick-launcher');
+    const mapModal = document.getElementById('map-modal');
+    const closeMapModalBtn = document.getElementById('close-map-modal');
+    const quickMapLinksContainer = document.getElementById('quick-map-links');
+
+    
+
+    function renderTabs() {
+      dayTabsContainer.innerHTML = '';
+      itineraryData.forEach(d => {
+        const isActive = d.day === activeDay;
+        const btn = document.createElement('button');
+        btn.className = `flex-shrink-0 px-3.5 py-2 rounded-xl text-left transition flex flex-col items-center justify-center border ${
+          isActive 
+            ? 'bg-gradient-to-b from-brand-600 to-brand-500 border-brand-400 text-white shadow-md shadow-brand-500/20 font-bold' 
+            : 'bg-slate-900/80 border-slate-800 text-slate-400 hover:text-slate-200'
+        }`;
+        btn.innerHTML = `
+          <span class="text-[10px] uppercase tracking-wider ${isActive ? 'text-brand-100' : 'text-slate-500'}">Day ${d.day}</span>
+          <span class="text-xs ${isActive ? 'text-white' : 'text-slate-300'} font-semibold">${d.date.slice(5)} (${d.dayOfWeek.slice(-1)})</span>
+        `;
+        btn.addEventListener('click', () => {
+          activeDay = d.day;
+          renderTabs();
+          renderItinerary();
+        });
+        dayTabsContainer.appendChild(btn);
+      });
+    }
+
+    function renderItinerary() {
+      itineraryContainer.innerHTML = '';
+      const dayData = itineraryData.find(d => d.day === activeDay);
+      if (!dayData) return;
+
+      const dayHeader = document.createElement('div');
+      dayHeader.className = "glass-card p-4 rounded-2xl border border-slate-800 relative overflow-hidden";
+      dayHeader.innerHTML = `
+        <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-brand-500/10 rounded-full blur-xl pointer-events-none"></div>
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="text-xs text-brand-400 font-medium">DAY ${dayData.day < 10 ? '0' + dayData.day : dayData.day} ・ ${dayData.date} (${dayData.dayOfWeek})</span>
+            <h2 class="text-lg font-bold text-white mt-0.5">${dayData.theme}</h2>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-1.5 mt-3">
+          ${dayData.highlights.map(h => `<span class="text-[11px] px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 border border-slate-700/60">✨ ${h}</span>`).join('')}
+        </div>
+      `;
+      itineraryContainer.appendChild(dayHeader);
+
+      const timelineContainer = document.createElement('div');
+      timelineContainer.className = "relative pl-3 border-l-2 border-slate-800 space-y-4 my-2 ml-2 pb-16";
+
+      const filteredItems = dayData.items.filter(item => {
+        if (currentFilter === 'all') return true;
+        if (currentFilter === 'pass') return item.tags && item.tags.includes('pass');
+        if (currentFilter === 'food') return item.tags && item.tags.includes('food');
+        if (currentFilter === 'highlight') return item.tags && item.tags.includes('highlight');
+        return true;
+      });
+
+      if (filteredItems.length === 0) {
+        timelineContainer.innerHTML = `<div class="py-8 text-center text-slate-500 text-xs">此篩選條件下無對應行程項目</div>`;
+      } else {
+        filteredItems.forEach((item, idx) => {
+          const itemId = `d${dayData.day}_i${idx}`;
+          const isDone = !!completedItems[itemId];
+
+          const cardWrapper = document.createElement('div');
+          cardWrapper.className = `relative pl-6 transition-all duration-300 ${isDone ? 'completed-item' : ''}`;
+
+          const dot = document.createElement('div');
+          dot.className = `absolute -left-[19px] top-4 w-3.5 h-3.5 rounded-full border-2 transition-colors ${isDone ? 'bg-emerald-500 border-emerald-400' : 'bg-slate-900 border-brand-400'}`;
+          cardWrapper.appendChild(dot);
+
+          const card = document.createElement('div');
+          card.className = "glass-card p-4 rounded-xl border border-slate-800/80 shadow-sm hover:border-slate-700 transition";
+          card.innerHTML = `
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex items-center space-x-2 text-brand-400 font-mono text-xs font-semibold">
+                <i data-lucide="${item.icon || 'clock'}" class="w-4 h-4 text-brand-400"></i>
+                <span>${item.time}</span>
+              </div>
+              <button class="toggle-done-btn p-1 rounded-lg text-slate-400 hover:text-emerald-400 hover:bg-slate-800 transition" data-id="${itemId}">
+                <i data-lucide="${isDone ? 'check-circle' : 'circle'}" class="w-5 h-5 ${isDone ? 'text-emerald-400 fill-emerald-500/20' : ''}"></i>
+              </button>
+            </div>
+            <h3 class="item-title font-bold text-slate-100 text-sm mt-1.5 leading-snug">${item.title}</h3>
+            <p class="text-xs text-slate-300 mt-1 leading-relaxed">${item.desc}</p>
+            ${item.link ? `
+              <div class="mt-3 pt-2.5 border-t border-slate-800/80 flex items-center justify-between">
+                <span class="text-[10px] text-slate-400 flex items-center gap-1"><i data-lucide="navigation" class="w-3 h-3 text-slate-400"></i> 地圖導航</span>
+                <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-brand-500/10 hover:bg-brand-500/20 text-brand-300 text-xs font-medium border border-brand-500/20 transition">
+                  <span>開啟導航</span><i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              </div>
+            ` : ''}
+          `;
+
+          const checkBtn = card.querySelector('.toggle-done-btn');
+          checkBtn.addEventListener('click', () => {
+            completedItems[itemId] = !completedItems[itemId];
+            localStorage.setItem('busan_fukuoka_completed_items', JSON.stringify(completedItems));
+            renderItinerary();
+            updateCompletionStats();
+          });
+
+          cardWrapper.appendChild(card);
+          timelineContainer.appendChild(cardWrapper);
+        });
+      }
+
+      itineraryContainer.appendChild(timelineContainer);
+      lucide.createIcons();
+    }
+
+    function updateCompletionStats() {
+      let total = 0, completed = 0;
+      itineraryData.forEach(d => {
+        d.items.forEach((_, idx) => {
+          total++;
+          if (completedItems[`d${d.day}_i${idx}`]) completed++;
+        });
+      });
+      completionStatsEl.textContent = `${completed} / ${total} (${Math.round((completed/total)*100 || 0)}%)`;
+    }
+
+    function setupQuickMapModal() {
+      const places = [
+        { name: "金海國際機場", url: "https://map.naver.com/p/search/%EA%B9%80%ED%95%B4%EA%B5%AD%EC%A0%9C%EA%B3%B5%ED%95%AD" },
+        { name: "沙上站", url: "https://map.naver.com/p/search/%EC%82%AC%EC%83%81%EC%97%AD" },
+        { name: "金海伽倻主題公園", url: "https://map.naver.com/p/search/%EA%B9%80%ED%95%B4%EA%B0%80%EC%95%BC%ED%85%8c%EB%A7%88%EA%B3%B5%EC%9B%90" },
+        { name: "Booking the bay", url: "https://map.naver.com/p/search/Booking%20the%20bay" },
+        { name: "友利換錢所", url: "https://map.naver.com/p/search/%EC%9A%B0%EB%A6%A1%ED%99%98%EC%A0%84%EC%86%8C" },
+        { name: "富平罐頭夜市", url: "https://map.naver.com/p/search/%EB%B6%80%ED%8F%89%EA%B0%95%ED%86%B5%EC%8B%9C%EC%9E%A5" },
+        { name: "佛國寺", url: "https://map.naver.com/p/search/%EB%B6%88%EA%B5%AD%EC%82%AC" },
+        { name: "東宮與月池", url: "https://map.naver.com/p/search/%EB%8F%99%EA%B6%81%EA%B3%BC%EC%9B%94%EC%A7%80" },
+        { name: "海雲台藍線尾浦站", url: "https://map.naver.com/p/search/%EB%AF%B8%ED%8F%AC%EC%A0%95" },
+        { name: "Skyline Luge", url: "https://map.naver.com/p/search/Skyline%20Luge%20Busan" },
+        { name: "釜山 X the Sky", url: "https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%20X%20the%20Sky" },
+        { name: "松島海上纜車", url: "https://map.naver.com/p/search/%EC%86%A1%EB%8F%84%ED%95%B4%EC%8C%80%EC%BC%80%EC%9D%B4%EB%B8%94%EC%B9%B4" },
+        { name: "白淺灘文化村", url: "https://map.naver.com/p/search/%ED%9D%B0%EC%97%AC%EC%9A%B8%EB%AC%B8%ED%99%94%EB%A7%88%EC%9D%84" },
+        { name: "ARTE MUSEUM", url: "https://map.naver.com/p/search/ARTE%20MUSEUM%20Busan" },
+        { name: "釜山港國際碼頭", url: "https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%ED%95%AD%EA%B5%AD%EC%A0%9C%EC%B3%B5%EC%97%AC%ED%84%B0%EB%AF%B8%EB%84%90" },
+        { name: "太宰府天滿宮", url: "https://www.google.com/maps/search/%E5%A4%AA%E5%AE%B0%E5%BA%9C%E5%A4%A9%E6%BB%BF%E5%AE%AE" },
+        { name: "福岡市動植物園", url: "https://www.google.com/maps/search/%E7%A6%8F%E5%B2%A1%E5%B8%82%E5%8B%95%E6%A4%8D%E7%89%A9%E5%9C%92" },
+        { name: "福岡城跡(舞鶴公園)", url: "https://www.google.com/maps/search/%E7%A6%8F%E5%B2%A1%E5%9F%8E%E8%B8%9F" },
+        { name: "中洲屋台橫丁", url: "https://www.google.com/maps/search/%E4%B8%AD%E6%B4%B2%E5%B1%8B%E5%8F%8B%E6%A8%AA%E4%B8%81" },
+        { name: "由布院溫泉", url: "https://www.google.com/maps/search/%E7%94%B1%E5%B8%83%E9%99%A2%E6%B8%A9%E6%B3%89" },
+        { name: "金鱗湖", url: "https://www.google.com/maps/search/%E9%87%91%E9%BA%9F%E6%B9%96" },
+        { name: "高千穗峽", url: "https://www.google.com/maps/search/%E9%AB%98%E5%8D%83%E7%A9%82%E5%B3%A1" },
+        { name: "大濠公園", url: "https://www.google.com/maps/search/%E5%A4%A7%E6%B4%81%E5%85%AC%E5%9C%92" },
+        { name: "福岡機場國際線", url: "https://www.google.com/maps/search/%E7%A6%8F%E5%B2%A1%E6%9C%BA%E5%9C%BA%E5%9B%BD%E9%99%85%E7%BA%BF" }
+      ];
+
+      quickMapLinksContainer.innerHTML = '';
+      places.forEach(p => {
+        const a = document.createElement('a');
+        a.href = p.url;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        a.className = "flex items-center justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800 hover:border-brand-500/50 hover:bg-slate-800/80 transition";
+        a.innerHTML = `<span class="truncate font-medium text-slate-200">${p.name}</span><i data-lucide="external-link" class="w-3.5 h-3.5 text-brand-400 flex-shrink-0 ml-1"></i>`;
+        quickMapLinksContainer.appendChild(a);
+      });
+    }
+
+    function closeMapModal() {
+      mapModal.classList.add('opacity-0');
+      setTimeout(() => mapModal.classList.add('hidden'), 300);
+    }
+
+    // 初始化執行與事件監聽
+    function init() {
+      renderTabs();
+      renderItinerary();
+      updateCompletionStats();
+      setupQuickMapModal();
+
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const clickedFilter = btn.getAttribute('data-filter');
+
+          if (currentFilter === clickedFilter && clickedFilter !== 'all') {
+            currentFilter = 'all';
+
+            document.querySelectorAll('.filter-btn').forEach(b => {
+              b.classList.remove('active', 'bg-slate-800', 'text-slate-300', 'border-slate-700');
+              b.classList.add('bg-slate-900/60', 'text-slate-400', 'border-slate-800');
+              if (b.getAttribute('data-filter') === 'all') {
+                b.classList.add('active', 'bg-slate-800', 'text-slate-300', 'border-slate-700');
+                b.classList.remove('bg-slate-900/60', 'text-slate-400');
+              }
+            });
+          } else {
+            currentFilter = clickedFilter;
+            document.querySelectorAll('.filter-btn').forEach(b => {
+              b.classList.remove('active', 'bg-slate-800', 'text-slate-300', 'border-slate-700');
+              b.classList.add('bg-slate-900/60', 'text-slate-400', 'border-slate-800');
+            });
+            btn.classList.add('active', 'bg-slate-800', 'text-slate-300', 'border-slate-700');
+            btn.classList.remove('bg-slate-900/60', 'text-slate-400');
+          }
+
+          renderItinerary();
+        });
+      });
+
+      resetProgressBtn.addEventListener('click', () => {
+        if (confirm('確定要重置所有已打勾完成的行程紀錄嗎？')) {
+          completedItems = {};
+          localStorage.setItem('busan_fukuoka_completed_items', JSON.stringify(completedItems));
+          renderItinerary();
+          updateCompletionStats();
+        }
+      });
+
+      mapQuickLauncher.addEventListener('click', () => {
+        mapModal.classList.remove('hidden');
+        setTimeout(() => mapModal.classList.remove('opacity-0'), 10);
+      });
+
+      closeMapModalBtn.addEventListener('click', closeMapModal);
+      mapModal.addEventListener('click', (e) => {
+        if (e.target === mapModal) closeMapModal();
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      init();
+      lucide.createIcons();
+    });
+
+  </script>
 </body>
 </html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>Redirecting...</title>
+    <script>
+        // 動態計算當前路徑的資料夾根目錄，完美適配本地端與 GitHub Pages 子路徑
+        var basePath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+        var targetUrl = basePath + 'Schedule.html';
+        
+        // 執行跳轉
+        window.location.replace(targetUrl);
+    </script>
+</head>
+<body>
+    <p>正在前往行程表，若未自動跳轉請點擊 <script>document.write('<a href="' + basePath + 'Schedule.html">這裡</a>');</script>。</p>
+</body>
+</html>
