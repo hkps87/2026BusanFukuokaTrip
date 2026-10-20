@@ -635,46 +635,52 @@
   <!-- 匯率換算 Modal 視窗 -->
   <div id="currency-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
     <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-sm p-5 shadow-2xl relative">
-    
-    <!-- 關閉按鈕 -->
-    <button type="button" id="close-currency-btn" class="absolute top-4 right-4 text-slate-400 hover:text-slate-200 p-1">
-      <i data-lucide="x" class="w-5 h-5"></i>
-    </button>
+      
+      <!-- 關閉按鈕 -->
+      <button type="button" id="close-currency-btn" class="absolute top-4 right-4 text-slate-400 hover:text-slate-200 p-1 rounded-lg transition">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
 
-    <!-- 標題 -->
-    <div class="flex items-center gap-2.5 mb-2">
-      <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center">
-        <i data-lucide="coins" class="w-4 h-4"></i>
+      <!-- 標題 -->
+      <div class="flex items-center gap-2.5 mb-2">
+        <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center">
+          <i data-lucide="coins" class="w-4 h-4"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-slate-100 text-base">即時匯率換算</h3>
+          <p id="rate-status" class="text-[11px] text-slate-400">正在取得最新匯率...</p>
+        </div>
       </div>
-      <div>
-        <h3 class="font-bold text-slate-100 text-base">即時匯率換算</h3>
-        <p id="rate-status" class="text-[11px] text-slate-400">正在取得最新匯率...</p>
+
+      <!-- 輸入區域（依當地使用情境調整順序） -->
+      <div class="space-y-3.5 mt-4">
+        <div>
+          <label for="krw-input" class="block text-xs font-medium text-slate-300 mb-1">🇰🇷 韓元 (KRW ₩)</label>
+          <input type="text" id="krw-input" inputmode="decimal" lang="en" placeholder="0" step="any"
+                class="w-full bg-slate-950 border border-slate-800 focus:border-amber-500 focus:outline-none rounded-xl px-3.5 py-2.5 text-slate-100 text-base transition">
+        </div>
+
+        <div>
+          <label for="jpy-input" class="block text-xs font-medium text-slate-300 mb-1">🇯🇵 日圓 (JPY ¥)</label>
+          <input type="text" id="jpy-input" inputmode="decimal" lang="en" placeholder="0" step="any"
+                class="w-full bg-slate-950 border border-slate-800 focus:border-amber-500 focus:outline-none rounded-xl px-3.5 py-2.5 text-slate-100 text-base transition">
+        </div>
+
+        <div>
+          <label for="twd-input" class="block text-xs font-medium text-slate-300 mb-1">🇹🇼 新台幣 (TWD NT$)</label>
+          <input type="text" id="twd-input" inputmode="decimal" lang="en" placeholder="0" step="any"
+                class="w-full bg-slate-950 border border-slate-800 focus:border-amber-500 focus:outline-none rounded-xl px-3.5 py-2.5 text-slate-100 text-base transition">
+        </div>
+
+        <!-- 清除按鈕 -->
+        <button type="button" id="clear-currency-btn" class="w-full mt-2 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-medium text-xs transition border border-slate-700/60 active:scale-[0.98]">
+          <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+          <span>清空重新計算</span>
+        </button>
       </div>
+
     </div>
-
-    <!-- 輸入區域 -->
-    <div class="space-y-3.5 mt-4">
-      <div>
-        <label class="block text-xs font-medium text-slate-300 mb-1">🇹🇼 新台幣 (TWD NT$)</label>
-        <input type="number" id="twd-input" inputmode="decimal" placeholder="0" step="any"
-               class="w-full bg-slate-950 border border-slate-800 focus:border-amber-500 focus:outline-none rounded-xl px-3.5 py-2.5 text-slate-100 text-base transition">
-      </div>
-
-      <div>
-        <label class="block text-xs font-medium text-slate-300 mb-1">🇯🇵 日圓 (JPY ¥)</label>
-        <input type="number" id="jpy-input" inputmode="decimal" placeholder="0" step="any"
-               class="w-full bg-slate-950 border border-slate-800 focus:border-amber-500 focus:outline-none rounded-xl px-3.5 py-2.5 text-slate-100 text-base transition">
-      </div>
-
-      <div>
-        <label class="block text-xs font-medium text-slate-300 mb-1">🇰🇷 韓元 (KRW ₩)</label>
-        <input type="number" id="krw-input" inputmode="decimal" placeholder="0" step="any"
-               class="w-full bg-slate-950 border border-slate-800 focus:border-amber-500 focus:outline-none rounded-xl px-3.5 py-2.5 text-slate-100 text-base transition">
-      </div>
-    </div>
-
   </div>
-</div>
 
 </body>
 </html>

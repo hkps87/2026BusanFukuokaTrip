@@ -167,31 +167,74 @@ document.addEventListener('DOMContentLoaded', () => {
   const jpyInput = document.getElementById('jpy-input');
   const krwInput = document.getElementById('krw-input');
   const statusEl = document.getElementById('rate-status');
+  const clearBtn = document.getElementById('clear-currency-btn');
 
-  // Modal 控制（如果採用方案 A）
+  // Modal 視窗開關控制
   const openBtn = document.getElementById('open-currency-btn');
   const closeBtn = document.getElementById('close-currency-btn');
   const modal = document.getElementById('currency-modal');
 
-  if (openBtn && modal) {
-    openBtn.addEventListener('click', () => modal.classList.remove('hidden'));
-  }
-  if (closeBtn && modal) {
-    closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
-  }
-  if (modal) {
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) modal.classList.add('hidden');
-    });
-  }
+  // 建立共用的關閉函式
+  const closeModal = () => {
+    modal.classList.add('hidden');
+    // 關閉時主動讓輸入框失去焦點，避免焦點卡死
+    krwInput.blur();
+    jpyInput.blur();
+    twdInput.blur();
+  };
 
-  // 若當前頁面無輸入框，終止執行
+  // 點擊漢堡選單內的按鈕開啟 Modal
+  openBtn.addEventListener('click', () => {
+    modal.classList.remove('hidden');
+    
+    // 使用小延遲確保 Modal 的 class 移除、DOM 顯示後再聚焦
+    setTimeout(() => {
+      krwInput.focus();
+    }, 50);
+  });
+
+  // 點擊 X 按鈕關閉
+  closeBtn.addEventListener('click', closeModal);
+
+  // 點擊 Modal 灰色背景半透明處關閉
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
+
+  // if (openBtn && modal) {
+  //   openBtn.addEventListener('click', () => {
+  //     modal.classList.remove('hidden');
+  //     if (krwInput) {
+  //       setTimeout(() => krwInput.focus(), 50); // 打開時自動聚焦
+  //     }
+  //   });
+  // }
+
+  // if (closeBtn && modal) {
+  //   closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+  // }
+
+  // if (modal) {
+  //   modal.addEventListener('click', (e) => {
+  //     if (e.target === modal) modal.classList.add('hidden');
+  //   });
+  // }
+
   if (!twdInput || !jpyInput || !krwInput) return;
 
-  // 備用匯率 (1 TWD 基準)
-  let rates = { TWD: 1, JPY: 4.65, KRW: 42.5 };
+  // 1. 初始化匯率：優先讀取離線快取，若無則用預設值
+  let savedRates = localStorage.getItem('cached_exchange_rates');
+  let rates = savedRates ? JSON.parse(savedRates) : { TWD: 1, JPY: 4.65, KRW: 42.5 };
 
-  // 抓取線上動態匯率
+  const savedTime = localStorage.getItem('cached_rate_time');
+  if (savedTime && statusEl) {
+    const localDate = new Date(savedTime).toLocaleDateString();
+    statusEl.textContent = `目前使用快取匯率（更新於：${localDate}）`;
+  }
+
+  // 2. 背景非同步抓取最新匯率並更新快取
   async function fetchExchangeRates() {
     try {
       const response = await fetch('https://open.er-api.com/v6/latest/TWD');
@@ -201,18 +244,30 @@ document.addEventListener('DOMContentLoaded', () => {
       rates.JPY = data.rates.JPY;
       rates.KRW = data.rates.KRW;
 
+      localStorage.setItem('cached_exchange_rates', JSON.stringify(rates));
+      localStorage.setItem('cached_rate_time', data.time_last_update_utc);
+
       const updateTime = new Date(data.time_last_update_utc).toLocaleDateString();
-      if (statusEl) statusEl.textContent = `匯率更新：${updateTime}`;
+      if (statusEl) statusEl.textContent = `即時匯率更新：${updateTime}`;
     } catch (error) {
-      if (statusEl) statusEl.textContent = '採用離線參考匯率';
+      const oldSavedRates = localStorage.getItem('cached_exchange_rates');
+      const oldSavedTime = localStorage.getItem('cached_rate_time');
+
+      if (oldSavedRates) {
+        rates = JSON.parse(oldSavedRates);
+        const timeStr = oldSavedTime ? new Date(oldSavedTime).toLocaleDateString() : '未知時間';
+        if (statusEl) statusEl.textContent = `目前無網路，使用上次快取（更新於：${timeStr}）`;
+      } else {
+        if (statusEl) statusEl.textContent = '無法取得網路，採用預設參考匯率';
+      }
     }
   }
 
-  // 即時計算
+  // 3. 核心即時換算邏輯
   function updateCurrencies(sourceInput, baseCurrency) {
     const val = parseFloat(sourceInput.value);
 
-    if (isNaN(val) || val === 0) {
+    if (isNaN(val) || sourceInput.value.trim() === '') {
       if (sourceInput !== twdInput) twdInput.value = '';
       if (sourceInput !== jpyInput) jpyInput.value = '';
       if (sourceInput !== krwInput) krwInput.value = '';
@@ -229,9 +284,41 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sourceInput !== krwInput) krwInput.value = Number((twdValue * rates.KRW).toFixed(2));
   }
 
-  twdInput.addEventListener('input', () => updateCurrencies(twdInput, 'TWD'));
-  jpyInput.addEventListener('input', () => updateCurrencies(jpyInput, 'JPY'));
-  krwInput.addEventListener('input', () => updateCurrencies(krwInput, 'KRW'));
+  // 4. 清空按鈕功能
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      twdInput.value = '';
+      jpyInput.value = '';
+      krwInput.value = '';
+      krwInput.focus();
+    });
+  }
+
+  // 5. 淨化輸入內容並即時連動
+  function handleInputClean(inputEl, currency) {
+    let cleanVal = inputEl.value.replace(/[^0-9.]/g, '');
+    
+    // 預防多個小數點
+    const parts = cleanVal.split('.');
+    if (parts.length > 2) {
+      cleanVal = parts[0] + '.' + parts.slice(1).join('');
+    }
+
+    if (inputEl.value !== cleanVal) {
+      inputEl.value = cleanVal;
+    }
+
+    updateCurrencies(inputEl, currency);
+  }
+
+  // 6. 綁定 input 事件
+  krwInput.addEventListener('input', () => handleInputClean(krwInput, 'KRW'));
+  jpyInput.addEventListener('input', () => handleInputClean(jpyInput, 'JPY'));
+  twdInput.addEventListener('input', () => handleInputClean(twdInput, 'TWD'));
+
+  inputs.forEach(({ el, currency }) => {
+    el.addEventListener('keydown', (e) => handleNumericKeydown(e, el, currency));
+  });
 
   fetchExchangeRates();
 });
