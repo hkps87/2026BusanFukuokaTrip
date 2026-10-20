@@ -316,9 +316,9 @@ document.addEventListener('DOMContentLoaded', () => {
   jpyInput.addEventListener('input', () => handleInputClean(jpyInput, 'JPY'));
   twdInput.addEventListener('input', () => handleInputClean(twdInput, 'TWD'));
 
-  inputs.forEach(({ el, currency }) => {
-    el.addEventListener('keydown', (e) => handleNumericKeydown(e, el, currency));
-  });
+  // inputs.forEach(({ el, currency }) => {
+  //   el.addEventListener('keydown', (e) => handleNumericKeydown(e, el, currency));
+  // });
 
   fetchExchangeRates();
 });
