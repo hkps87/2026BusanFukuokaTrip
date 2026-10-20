@@ -186,6 +186,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // 點擊漢堡選單內的按鈕開啟 Modal
   openBtn.addEventListener('click', () => {
     modal.classList.remove('hidden');
+
+    // 每次打開時，清空所有輸入框，不保留上次的結果
+    krwInput.value = '';
+    jpyInput.value = '';
+    twdInput.value = '';
     
     // 使用小延遲確保 Modal 的 class 移除、DOM 顯示後再聚焦
     setTimeout(() => {
