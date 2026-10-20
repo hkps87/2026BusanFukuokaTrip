@@ -202,6 +202,19 @@
           </div>
           <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-amber-400 transition"></i>
         </button>
+
+        <button type="button" id="open-currency-btn" class="flex items-center justify-between p-3.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500/50 hover:bg-slate-800/80 transition group text-left w-full">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center">
+              <i data-lucide="coins" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <span class="font-semibold text-slate-200 block text-sm">即時匯率換算</span>
+              <span class="text-[10px] text-slate-400">台幣 / 日圓 / 韓元 雙向計算</span>
+            </div>
+          </div>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-amber-400 transition"></i>
+        </button>
       </div>
 
       <!-- Markdown 預覽區塊 -->
@@ -360,12 +373,12 @@
         day: 10,
         date: "2026/12/20",
         dayOfWeek: "星期日",
-        theme: "大濠公園晨間散策・伴手禮大採購・賦歸",
-        highlights: ["大濠公園", "阪急百貨伴手禮", "福岡機場賦歸"],
+        theme: "在地市場文化・伴手禮大採購・賦歸",
+        highlights: ["柳橋連合市場", "藥院文青街區", "博多站伴手禮", "福岡機場賦歸"],
         items: [
-          { time: "08:30 - 10:30", title: "【大濠公園 ＆ 福岡城跡周邊】", desc: "早起晨間湖畔散步、Starbucks 咖啡與拍攝晨光景致 (搭地鐵約 10 分鐘)。", link: "https://www.google.com/maps/search/%E5%A4%A7%E6%B4%81%E5%85%AC%E5%9C%92", icon: "sun", tags: ["highlight"] },
-          { time: "11:00 - 13:30", title: "【博多站商場 ＆ 阪急百貨】伴手禮大採購", desc: "伴手禮最後大衝刺 ➔ 採買明太子仙貝、博多通滿、筑紫餅等，並享用午餐。", icon: "shopping-bag", tags: ["food"] },
-          { time: "13:30 - 14:00", title: "前往福岡機場國際線", desc: "飯店領取行李，搭乘地鐵空港線直達【福岡機場國際線】 (車程僅約 5-10 分鐘)。", link: "https://www.google.com/maps/search/%E7%A6%8F%E5%B2%A1%E6%9C%BA%E5%9C%BA%E5%9B%BD%E9%99%85%E7%BA%BF", icon: "train", tags: ["transport"] },
+          { time: "08:30 - 10:30", title: "【柳橋連合市場 ＆ 藥院文青街區】", desc: "早起探索在地傳統市場活力、品嚐市場美食與在地精品咖啡 (交通便利)。", link: "https://www.google.com/maps/search/%E6%9F%B3%E6%A9%8B%E9%80%A3%E5%90%88%E5%B8%82%E5%A0%B4", icon: "coffee", tags: ["highlight", "food"] },
+          { time: "11:00 - 13:30", title: "【博多站商場 ＆ 阪急百貨】伴手禮大採購", desc: "伴手禮最後大衝刺 ➔ 採買明太子仙貝、博多通滿、筑紫餅等，並享用午餐。", link: "https://www.google.com/maps/search/%E5%8D%9A%E5%A4%9A%E9%A7%95", icon: "shopping-bag", tags: ["food"] },
+          { time: "13:30 - 14:00", title: "前往福岡機場國際線", desc: "飯店領取行李，搭乘地鐵空港線直達【福岡機場國際線】 (車程僅約 5-10 分鐘)。", link: "https://www.google.com/maps/search/%E7%A6%8F%E5%B2%A1%E6%A9%9F%E5%A0%B4%E5%9C%8B%E9%9A%9B%E7%B7%9A", icon: "train", tags: ["transport"] },
           { time: "14:00 - 16:00", title: "辦理登機與賦歸返台", desc: "辦理登機手續、免稅店最後採購，搭乘 16:00 左右班機順利返回台灣！", icon: "plane-landing", tags: ["transport", "highlight"] }
         ]
       }
@@ -532,7 +545,11 @@
         { name: "金鱗湖", url: "https://www.google.com/maps/search/%E9%87%91%E9%BA%9F%E6%B9%96" },
         { name: "高千穗峽", url: "https://www.google.com/maps/search/%E9%AB%98%E5%8D%83%E7%A9%82%E5%B3%A1" },
         { name: "大濠公園", url: "https://www.google.com/maps/search/%E5%A4%A7%E6%B4%81%E5%85%AC%E5%9C%92" },
-        { name: "福岡機場國際線", url: "https://www.google.com/maps/search/%E7%A6%8F%E5%B2%A1%E6%9C%BA%E5%9C%BA%E5%9B%BD%E9%99%85%E7%BA%BF" }
+        { name: "福岡機場國際線", url: "https://www.google.com/maps/search/%E7%A6%8F%E5%B2%A1%E6%9C%BA%E5%9C%BA%E5%9B%BD%E9%99%85%E7%BA%BF" },
+        { name: "博多站", url: "https://www.google.com/maps/search/%E5%8D%9A%E5%A4%9A%E7%AB%99" },
+        { name: "天神地下街", url: "https://www.google.com/maps/search/%E5%A4%A9%E7%A5%9E%E5%9C%B0%E4%B8%8B%E8%A1%97" },
+        { name: "阪急百貨", url: "https://www.google.com/maps/search/%E9%98%AA%E7%B4%80%E7%99%BE%E8%B2%A8" },
+        { name: "柳橋連合市場", url: "https://maps.app.goo.gl/aYLoeHogFCcTGJ5s9" }
       ];
 
       quickMapLinksContainer.innerHTML = '';
@@ -614,5 +631,50 @@
     });
 
   </script>
+
+  <!-- 匯率換算 Modal 視窗 -->
+  <div id="currency-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-sm p-5 shadow-2xl relative">
+    
+    <!-- 關閉按鈕 -->
+    <button type="button" id="close-currency-btn" class="absolute top-4 right-4 text-slate-400 hover:text-slate-200 p-1">
+      <i data-lucide="x" class="w-5 h-5"></i>
+    </button>
+
+    <!-- 標題 -->
+    <div class="flex items-center gap-2.5 mb-2">
+      <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center">
+        <i data-lucide="coins" class="w-4 h-4"></i>
+      </div>
+      <div>
+        <h3 class="font-bold text-slate-100 text-base">即時匯率換算</h3>
+        <p id="rate-status" class="text-[11px] text-slate-400">正在取得最新匯率...</p>
+      </div>
+    </div>
+
+    <!-- 輸入區域 -->
+    <div class="space-y-3.5 mt-4">
+      <div>
+        <label class="block text-xs font-medium text-slate-300 mb-1">🇹🇼 新台幣 (TWD NT$)</label>
+        <input type="number" id="twd-input" inputmode="decimal" placeholder="0" step="any"
+               class="w-full bg-slate-950 border border-slate-800 focus:border-amber-500 focus:outline-none rounded-xl px-3.5 py-2.5 text-slate-100 text-base transition">
+      </div>
+
+      <div>
+        <label class="block text-xs font-medium text-slate-300 mb-1">🇯🇵 日圓 (JPY ¥)</label>
+        <input type="number" id="jpy-input" inputmode="decimal" placeholder="0" step="any"
+               class="w-full bg-slate-950 border border-slate-800 focus:border-amber-500 focus:outline-none rounded-xl px-3.5 py-2.5 text-slate-100 text-base transition">
+      </div>
+
+      <div>
+        <label class="block text-xs font-medium text-slate-300 mb-1">🇰🇷 韓元 (KRW ₩)</label>
+        <input type="number" id="krw-input" inputmode="decimal" placeholder="0" step="any"
+               class="w-full bg-slate-950 border border-slate-800 focus:border-amber-500 focus:outline-none rounded-xl px-3.5 py-2.5 text-slate-100 text-base transition">
+      </div>
+    </div>
+
+  </div>
+</div>
+
 </body>
 </html>

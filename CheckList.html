@@ -167,6 +167,19 @@
           </div>
           <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-amber-400 transition"></i>
         </button>
+
+        <button type="button" id="open-currency-btn" class="flex items-center justify-between p-3.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500/50 hover:bg-slate-800/80 transition group text-left w-full">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center">
+              <i data-lucide="coins" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <span class="font-semibold text-slate-200 block text-sm">即時匯率換算</span>
+              <span class="text-[10px] text-slate-400">台幣 / 日圓 / 韓元 雙向計算</span>
+            </div>
+          </div>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-amber-400 transition"></i>
+        </button>
       </div>
 
       <!-- Markdown 預覽區塊 -->
@@ -194,7 +207,7 @@
           { id: "c_t4", title: "高千穗一日遊", desc: "klook、12/19", important: true },
           { id: "c_t5", title: "慶州交通(來回)、韓服", desc: "klook、12/13", important: true },
           { id: "c_t6", title: "釜山 Pass (Big 3)", desc: "12/13", important: true },
-          { id: "c_t7", title: "塗鴉秀", desc: "12/12", important: true },
+          { id: "c_t7", title: "塗鴉秀", desc: "kkday出發前一個月才能訂、12/12", important: true },
           { id: "c_t8", title: "海岸列車", desc: "kkday出發前一個月才能訂、12/14", important: true },
           { id: "c_t9", title: "eSIM", desc: "各自找？", important: true },
           { id: "c_t10", title: "滑坡車(3/4/5趟)", desc: "12/14", important: true }
@@ -349,5 +362,49 @@
       lucide.createIcons();
     });
   </script>
+
+  <!-- 匯率換算 Modal 視窗 -->
+<div id="currency-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+  <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-sm p-5 shadow-2xl relative">
+    
+    <!-- 關閉按鈕 -->
+    <button type="button" id="close-currency-btn" class="absolute top-4 right-4 text-slate-400 hover:text-slate-200 p-1">
+      <i data-lucide="x" class="w-5 h-5"></i>
+    </button>
+
+    <!-- 標題 -->
+    <div class="flex items-center gap-2.5 mb-2">
+      <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center">
+        <i data-lucide="coins" class="w-4 h-4"></i>
+      </div>
+      <div>
+        <h3 class="font-bold text-slate-100 text-base">即時匯率換算</h3>
+        <p id="rate-status" class="text-[11px] text-slate-400">正在取得最新匯率...</p>
+      </div>
+    </div>
+
+    <!-- 輸入區域 -->
+    <div class="space-y-3.5 mt-4">
+      <div>
+        <label class="block text-xs font-medium text-slate-300 mb-1">🇹🇼 新台幣 (TWD NT$)</label>
+        <input type="number" id="twd-input" inputmode="decimal" placeholder="0" step="any"
+               class="w-full bg-slate-950 border border-slate-800 focus:border-amber-500 focus:outline-none rounded-xl px-3.5 py-2.5 text-slate-100 text-base transition">
+      </div>
+
+      <div>
+        <label class="block text-xs font-medium text-slate-300 mb-1">🇯🇵 日圓 (JPY ¥)</label>
+        <input type="number" id="jpy-input" inputmode="decimal" placeholder="0" step="any"
+               class="w-full bg-slate-950 border border-slate-800 focus:border-amber-500 focus:outline-none rounded-xl px-3.5 py-2.5 text-slate-100 text-base transition">
+      </div>
+
+      <div>
+        <label class="block text-xs font-medium text-slate-300 mb-1">🇰🇷 韓元 (KRW ₩)</label>
+        <input type="number" id="krw-input" inputmode="decimal" placeholder="0" step="any"
+               class="w-full bg-slate-950 border border-slate-800 focus:border-amber-500 focus:outline-none rounded-xl px-3.5 py-2.5 text-slate-100 text-base transition">
+      </div>
+    </div>
+
+  </div>
+</div>
 </body>
 </html>

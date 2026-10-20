@@ -161,3 +161,77 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 400);
   }
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const twdInput = document.getElementById('twd-input');
+  const jpyInput = document.getElementById('jpy-input');
+  const krwInput = document.getElementById('krw-input');
+  const statusEl = document.getElementById('rate-status');
+
+  // Modal 控制（如果採用方案 A）
+  const openBtn = document.getElementById('open-currency-btn');
+  const closeBtn = document.getElementById('close-currency-btn');
+  const modal = document.getElementById('currency-modal');
+
+  if (openBtn && modal) {
+    openBtn.addEventListener('click', () => modal.classList.remove('hidden'));
+  }
+  if (closeBtn && modal) {
+    closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+  }
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.add('hidden');
+    });
+  }
+
+  // 若當前頁面無輸入框，終止執行
+  if (!twdInput || !jpyInput || !krwInput) return;
+
+  // 備用匯率 (1 TWD 基準)
+  let rates = { TWD: 1, JPY: 4.65, KRW: 42.5 };
+
+  // 抓取線上動態匯率
+  async function fetchExchangeRates() {
+    try {
+      const response = await fetch('https://open.er-api.com/v6/latest/TWD');
+      if (!response.ok) throw new Error('API 讀取失敗');
+      const data = await response.json();
+      
+      rates.JPY = data.rates.JPY;
+      rates.KRW = data.rates.KRW;
+
+      const updateTime = new Date(data.time_last_update_utc).toLocaleDateString();
+      if (statusEl) statusEl.textContent = `匯率更新：${updateTime}`;
+    } catch (error) {
+      if (statusEl) statusEl.textContent = '採用離線參考匯率';
+    }
+  }
+
+  // 即時計算
+  function updateCurrencies(sourceInput, baseCurrency) {
+    const val = parseFloat(sourceInput.value);
+
+    if (isNaN(val) || val === 0) {
+      if (sourceInput !== twdInput) twdInput.value = '';
+      if (sourceInput !== jpyInput) jpyInput.value = '';
+      if (sourceInput !== krwInput) krwInput.value = '';
+      return;
+    }
+
+    let twdValue = 0;
+    if (baseCurrency === 'TWD') twdValue = val;
+    else if (baseCurrency === 'JPY') twdValue = val / rates.JPY;
+    else if (baseCurrency === 'KRW') twdValue = val / rates.KRW;
+
+    if (sourceInput !== twdInput) twdInput.value = Number(twdValue.toFixed(2));
+    if (sourceInput !== jpyInput) jpyInput.value = Number((twdValue * rates.JPY).toFixed(2));
+    if (sourceInput !== krwInput) krwInput.value = Number((twdValue * rates.KRW).toFixed(2));
+  }
+
+  twdInput.addEventListener('input', () => updateCurrencies(twdInput, 'TWD'));
+  jpyInput.addEventListener('input', () => updateCurrencies(jpyInput, 'JPY'));
+  krwInput.addEventListener('input', () => updateCurrencies(krwInput, 'KRW'));
+
+  fetchExchangeRates();
+});
