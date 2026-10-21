@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-TW" class="h-full bg-slate-950 text-slate-100">
+
 <head>
   <!--base href="/2026BusanFukuokaTrip/"-->
   <!-- === 支援 Android / 通用 PWA 設定 === -->
@@ -55,35 +56,43 @@
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <!-- 引入外接 CSS 檔案 -->
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/wheel.css">
 </head>
+
 <body class="h-full flex flex-col bg-slate-950 text-slate-100 overflow-x-hidden pb-20">
 
   <header class="sticky top-0 z-30 glass-header border-b border-slate-800/80 px-4 pt-4 pb-3 shadow-lg">
     <div class="max-w-4xl mx-auto flex items-center justify-between">
       <div class="flex items-center space-x-2.5">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-500 to-indigo-500 flex items-center justify-center shadow-lg shadow-brand-500/20">
+        <div
+          class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-500 to-indigo-500 flex items-center justify-center shadow-lg shadow-brand-500/20">
           <i data-lucide="plane-takeoff" class="w-5 h-5 text-white"></i>
         </div>
         <div>
           <h1 class="font-bold text-base tracking-tight text-white flex items-center gap-1.5">
             釜山・慶州・福岡浪漫之旅
-            <span class="text-[10px] px-2 py-0.5 rounded-full bg-brand-500/20 text-brand-400 font-medium border border-brand-500/30">10天9夜</span>
+            <span
+              class="text-[10px] px-2 py-0.5 rounded-full bg-brand-500/20 text-brand-400 font-medium border border-brand-500/30">10天9夜</span>
           </h1>
           <p class="text-xs text-slate-400">2026/12/11 - 12/20 · 韓日雙城遊</p>
         </div>
       </div>
       <div class="flex items-center gap-2">
-        <button id="reset-progress-btn" class="p-2 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-slate-200 transition text-xs flex items-center gap-1 border border-slate-700/50" title="重置進度">
+        <button id="reset-progress-btn"
+          class="p-2 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-slate-200 transition text-xs flex items-center gap-1 border border-slate-700/50"
+          title="重置進度">
           <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
         </button>
         <!-- 右上角三條橫線選單按鈕 -->
-        <button id="menu-drawer-btn" class="p-2 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-brand-400 hover:text-brand-300 transition text-xs flex items-center border border-slate-700/50" title="選單資訊">
+        <button id="menu-drawer-btn"
+          class="p-2 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-brand-400 hover:text-brand-300 transition text-xs flex items-center border border-slate-700/50"
+          title="選單資訊">
           <i data-lucide="menu" class="w-4 h-4"></i>
         </button>
       </div>
     </div>
 
-<!--
+    <!--
     <div class="max-w-4xl mx-auto mt-3 grid grid-cols-3 gap-2 text-center text-xs">
       <div class="bg-slate-900/60 border border-slate-800 rounded-lg p-1.5">
         <span class="text-slate-400 block text-[10px]">釜山 Pass</span>
@@ -102,11 +111,13 @@
 
     <!-- Navigation Tab -->
     <div class="max-w-4xl mx-auto mt-3 grid grid-cols-2 gap-2 text-xs">
-      <a href="index.html" class="flex items-center justify-center gap-1.5 py-2 rounded-xl bg-brand-600/20 border border-brand-500/40 text-brand-300 font-bold transition shadow-sm">
+      <a href="index.html"
+        class="flex items-center justify-center gap-1.5 py-2 rounded-xl bg-brand-600/20 border border-brand-500/40 text-brand-300 font-bold transition shadow-sm">
         <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
         <span>每日行程</span>
       </a>
-      <a href="CheckList.html" class="flex items-center justify-center gap-1.5 py-2 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-400 transition font-medium">
+      <a href="CheckList.html"
+        class="flex items-center justify-center gap-1.5 py-2 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-400 transition font-medium">
         <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
         <span>準備清單 CheckList</span>
       </a>
@@ -117,17 +128,26 @@
     </div>
 
     <div class="max-w-4xl mx-auto mt-2.5 flex items-center gap-1.5 overflow-x-auto no-scrollbar text-xs">
-      <button class="filter-btn active px-3 py-1 rounded-full border border-slate-700 bg-slate-800 text-slate-300 font-medium whitespace-nowrap" data-filter="all">全部</button>
-      <button class="filter-btn px-3 py-1 rounded-full border border-slate-800 bg-slate-900/60 text-slate-400 hover:text-slate-200 whitespace-nowrap" data-filter="pass">🎟️ Visit Busan Pass</button>
-      <button class="filter-btn px-3 py-1 rounded-full border border-slate-800 bg-slate-900/60 text-slate-400 hover:text-slate-200 whitespace-nowrap" data-filter="food">🍜 美食/夜市</button>
-      <button class="filter-btn px-3 py-1 rounded-full border border-slate-800 bg-slate-900/60 text-slate-400 hover:text-slate-200 whitespace-nowrap" data-filter="highlight">🔥 必看亮點</button>
+      <button
+        class="filter-btn active px-3 py-1 rounded-full border border-slate-700 bg-slate-800 text-slate-300 font-medium whitespace-nowrap"
+        data-filter="all">全部</button>
+      <button
+        class="filter-btn px-3 py-1 rounded-full border border-slate-800 bg-slate-900/60 text-slate-400 hover:text-slate-200 whitespace-nowrap"
+        data-filter="pass">🎟️ Visit Busan Pass</button>
+      <button
+        class="filter-btn px-3 py-1 rounded-full border border-slate-800 bg-slate-900/60 text-slate-400 hover:text-slate-200 whitespace-nowrap"
+        data-filter="food">🍜 美食/夜市</button>
+      <button
+        class="filter-btn px-3 py-1 rounded-full border border-slate-800 bg-slate-900/60 text-slate-400 hover:text-slate-200 whitespace-nowrap"
+        data-filter="highlight">🔥 必看亮點</button>
     </div>
   </header>
 
   <main class="flex-1 max-w-4xl w-full mx-auto px-4 pt-4 pb-24 space-y-6" id="itinerary-container">
     <!-- 放在兩個頁面的最下方，符合 Flaticon 免費授權規範 -->
     <footer class="max-w-4xl mx-auto px-4 py-8 text-center text-xs text-slate-500 border-t border-slate-900 mt-12">
-      <a href="https://www.flaticon.com/free-icons/ferry-boat" title="ferry boat icons" target="_blank" rel="noopener noreferrer" class="hover:text-slate-400 transition">
+      <a href="https://www.flaticon.com/free-icons/ferry-boat" title="ferry boat icons" target="_blank"
+        rel="noopener noreferrer" class="hover:text-slate-400 transition">
         Ferry boat icons created by Magnific - Flaticon
       </a>
     </footer>
@@ -139,7 +159,8 @@
         <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
         <span>行程完成度: <strong id="completion-stats" class="text-slate-200">0 / 0</strong></span>
       </div>
-      <button id="map-quick-launcher" class="flex items-center gap-1.5 px-3 py-1.5 bg-brand-600 hover:bg-brand-500 text-white font-medium rounded-lg shadow-lg shadow-brand-600/30 transition">
+      <button id="map-quick-launcher"
+        class="flex items-center gap-1.5 px-3 py-1.5 bg-brand-600 hover:bg-brand-500 text-white font-medium rounded-lg shadow-lg shadow-brand-600/30 transition">
         <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
         <span>地圖導航快捷</span>
       </button>
@@ -147,8 +168,10 @@
   </div>
 
   <!-- 地圖 Modal -->
-  <div id="map-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 hidden opacity-0 transition-opacity duration-300">
-    <div class="glass-card w-full max-w-4xl rounded-t-2xl sm:rounded-2xl border-t sm:border border-slate-700/80 p-5 space-y-4 max-h-[80vh] overflow-y-auto">
+  <div id="map-modal"
+    class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 hidden opacity-0 transition-opacity duration-300">
+    <div
+      class="glass-card w-full max-w-4xl rounded-t-2xl sm:rounded-2xl border-t sm:border border-slate-700/80 p-5 space-y-4 max-h-[80vh] overflow-y-auto">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
         <h3 class="font-bold text-base flex items-center gap-2">
           <i data-lucide="map" class="w-5 h-5 text-brand-400"></i>
@@ -163,8 +186,10 @@
   </div>
   <script src="js/main.js"></script>
   <!-- 三條橫線選單與 Markdown 預覽 Modal -->
-  <div id="menu-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 hidden opacity-0 transition-opacity duration-300">
-    <div class="glass-card w-full max-w-4xl rounded-t-2xl sm:rounded-2xl border-t sm:border border-slate-700/80 p-5 space-y-4 max-h-[85vh] overflow-y-auto flex flex-col">
+  <div id="menu-modal"
+    class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 hidden opacity-0 transition-opacity duration-300">
+    <div
+      class="glass-card w-full max-w-4xl rounded-t-2xl sm:rounded-2xl border-t sm:border border-slate-700/80 p-5 space-y-4 max-h-[85vh] overflow-y-auto flex flex-col">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
         <h3 class="font-bold text-base flex items-center gap-2" id="menu-modal-title">
           <i data-lucide="file-text" class="w-5 h-5 text-brand-400"></i>
@@ -177,7 +202,8 @@
 
       <!-- 選單按鈕區塊 -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs" id="md-links-container">
-        <button type="button" id="open-currency-btn" class="flex items-center justify-between p-3.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500/50 hover:bg-slate-800/80 transition group text-left w-full">
+        <button type="button" id="open-currency-btn"
+          class="flex items-center justify-between p-3.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500/50 hover:bg-slate-800/80 transition group text-left w-full">
           <div class="flex items-center gap-2.5">
             <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center">
               <i data-lucide="coins" class="w-4 h-4"></i>
@@ -189,7 +215,25 @@
           </div>
           <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-amber-400 transition"></i>
         </button>
-        <button data-md="Trip.md" data-title="文字版行程" class="md-load-btn flex items-center justify-between p-3.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-brand-500/50 hover:bg-slate-800/80 transition group text-left">
+
+        <!--轉盤開始-->
+        <button type="button" onclick="openFoodWheel()"
+          class="flex items-center justify-between p-3.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500/50 hover:bg-slate-800/80 transition group text-left w-full">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center">
+              <i data-lucide="utensils" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <span class="font-semibold text-slate-200 block text-sm">今天吃什麼？</span>
+              <span class="text-[10px] text-slate-400">日韓美食隨機轉盤</span>
+            </div>
+          </div>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-amber-400 transition"></i>
+        </button>
+        <!--轉盤結束-->
+
+        <button data-md="Trip.md" data-title="文字版行程"
+          class="md-load-btn flex items-center justify-between p-3.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-brand-500/50 hover:bg-slate-800/80 transition group text-left">
           <div class="flex items-center gap-2.5">
             <div class="w-8 h-8 rounded-lg bg-brand-500/20 text-brand-400 flex items-center justify-center">
               <i data-lucide="file-text" class="w-4 h-4"></i>
@@ -202,7 +246,8 @@
           <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-brand-400 transition"></i>
         </button>
 
-        <button data-md="BusanPassPriceCompare.md" data-title="釜山 Pass 比價" class="md-load-btn flex items-center justify-between p-3.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500/50 hover:bg-slate-800/80 transition group text-left">
+        <button data-md="BusanPassPriceCompare.md" data-title="釜山 Pass 比價"
+          class="md-load-btn flex items-center justify-between p-3.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500/50 hover:bg-slate-800/80 transition group text-left">
           <div class="flex items-center gap-2.5">
             <div class="w-8 h-8 rounded-lg bg-purple-500/20 text-pruple-400 flex items-center justify-center">
               <i data-lucide="calculator" class="w-4 h-4"></i>
@@ -231,11 +276,14 @@
 
       <!-- Markdown 預覽區塊 -->
       <div id="md-viewer-container" class="hidden flex-1 space-y-3 pt-2">
-        <button id="back-to-menu-btn" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white text-xs border border-slate-700 transition">
+        <button id="back-to-menu-btn"
+          class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white text-xs border border-slate-700 transition">
           <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
           <span>返回選單列表</span>
         </button>
-        <div id="md-content" class="markdown-body p-4 bg-slate-900/90 rounded-xl border border-slate-800 text-slate-300 overflow-y-auto max-h-[55vh]"></div>
+        <div id="md-content"
+          class="markdown-body p-4 bg-slate-900/90 rounded-xl border border-slate-800 text-slate-300 overflow-y-auto max-h-[55vh]">
+        </div>
       </div>
     </div>
   </div>
@@ -412,18 +460,17 @@
     const closeMapModalBtn = document.getElementById('close-map-modal');
     const quickMapLinksContainer = document.getElementById('quick-map-links');
 
-    
+
 
     function renderTabs() {
       dayTabsContainer.innerHTML = '';
       itineraryData.forEach(d => {
         const isActive = d.day === activeDay;
         const btn = document.createElement('button');
-        btn.className = `flex-shrink-0 px-3.5 py-2 rounded-xl text-left transition flex flex-col items-center justify-center border ${
-          isActive 
-            ? 'bg-gradient-to-b from-brand-600 to-brand-500 border-brand-400 text-white shadow-md shadow-brand-500/20 font-bold' 
-            : 'bg-slate-900/80 border-slate-800 text-slate-400 hover:text-slate-200'
-        }`;
+        btn.className = `flex-shrink-0 px-3.5 py-2 rounded-xl text-left transition flex flex-col items-center justify-center border ${isActive
+          ? 'bg-gradient-to-b from-brand-600 to-brand-500 border-brand-400 text-white shadow-md shadow-brand-500/20 font-bold'
+          : 'bg-slate-900/80 border-slate-800 text-slate-400 hover:text-slate-200'
+          }`;
         btn.innerHTML = `
           <span class="text-[10px] uppercase tracking-wider ${isActive ? 'text-brand-100' : 'text-slate-500'}">Day ${d.day}</span>
           <span class="text-xs ${isActive ? 'text-white' : 'text-slate-300'} font-semibold">${d.date.slice(5)} (${d.dayOfWeek.slice(-1)})</span>
@@ -532,7 +579,7 @@
           if (completedItems[`d${d.day}_i${idx}`]) completed++;
         });
       });
-      completionStatsEl.textContent = `${completed} / ${total} (${Math.round((completed/total)*100 || 0)}%)`;
+      completionStatsEl.textContent = `${completed} / ${total} (${Math.round((completed / total) * 100 || 0)}%)`;
     }
 
     function setupQuickMapModal() {
@@ -648,11 +695,13 @@
   </script>
 
   <!-- 匯率換算 Modal 視窗 -->
-  <div id="currency-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+  <div id="currency-modal"
+    class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
     <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-sm p-5 shadow-2xl relative">
-      
+
       <!-- 關閉按鈕 -->
-      <button type="button" id="close-currency-btn" class="absolute top-4 right-4 text-slate-400 hover:text-slate-200 p-1 rounded-lg transition">
+      <button type="button" id="close-currency-btn"
+        class="absolute top-4 right-4 text-slate-400 hover:text-slate-200 p-1 rounded-lg transition">
         <i data-lucide="x" class="w-5 h-5"></i>
       </button>
 
@@ -672,23 +721,24 @@
         <div>
           <label for="krw-input" class="block text-xs font-medium text-slate-300 mb-1">🇰🇷 韓元 (KRW ₩)</label>
           <input type="text" id="krw-input" inputmode="decimal" lang="en" placeholder="0" step="any"
-                class="w-full bg-slate-950 border border-slate-800 focus:border-amber-500 focus:outline-none rounded-xl px-3.5 py-2.5 text-slate-100 text-base transition">
+            class="w-full bg-slate-950 border border-slate-800 focus:border-amber-500 focus:outline-none rounded-xl px-3.5 py-2.5 text-slate-100 text-base transition">
         </div>
 
         <div>
           <label for="jpy-input" class="block text-xs font-medium text-slate-300 mb-1">🇯🇵 日圓 (JPY ¥)</label>
           <input type="text" id="jpy-input" inputmode="decimal" lang="en" placeholder="0" step="any"
-                class="w-full bg-slate-950 border border-slate-800 focus:border-amber-500 focus:outline-none rounded-xl px-3.5 py-2.5 text-slate-100 text-base transition">
+            class="w-full bg-slate-950 border border-slate-800 focus:border-amber-500 focus:outline-none rounded-xl px-3.5 py-2.5 text-slate-100 text-base transition">
         </div>
 
         <div>
           <label for="twd-input" class="block text-xs font-medium text-slate-300 mb-1">🇹🇼 新台幣 (TWD NT$)</label>
           <input type="text" id="twd-input" inputmode="decimal" lang="en" placeholder="0" step="any"
-                class="w-full bg-slate-950 border border-slate-800 focus:border-amber-500 focus:outline-none rounded-xl px-3.5 py-2.5 text-slate-100 text-base transition">
+            class="w-full bg-slate-950 border border-slate-800 focus:border-amber-500 focus:outline-none rounded-xl px-3.5 py-2.5 text-slate-100 text-base transition">
         </div>
 
         <!-- 清除按鈕 -->
-        <button type="button" id="clear-currency-btn" class="w-full mt-2 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-medium text-xs transition border border-slate-700/60 active:scale-[0.98]">
+        <button type="button" id="clear-currency-btn"
+          class="w-full mt-2 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-medium text-xs transition border border-slate-700/60 active:scale-[0.98]">
           <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
           <span>清空重新計算</span>
         </button>
@@ -697,5 +747,59 @@
     </div>
   </div>
 
+  <!-- 美食轉盤 Modal 容器 -->
+  <div id="food-wheel-modal">
+    <div class="wheel-card">
+      <button class="wheel-close-btn" onclick="closeFoodWheel()">✕</button>
+
+      <!-- 選擇國家 (韓國在前/左，日本在後/右) -->
+      <div id="country-view">
+        <div class="wheel-header">
+          <h3>今天想吃哪國美食？</h3>
+          <p>解決你的選擇困難症！</p>
+        </div>
+        <div class="country-selector">
+          <div class="country-card-btn kr" onclick="selectCountry('kr')">
+            <span class="country-flag">🇰🇷</span>
+            <span class="country-name">韓國美食</span>
+            <span class="country-tag">First Stop</span>
+          </div>
+          <div class="country-card-btn jp" onclick="selectCountry('jp')">
+            <span class="country-flag">🇯🇵</span>
+            <span class="country-name">日本美食</span>
+            <span class="country-tag">Next Stop</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 轉盤舞台 -->
+      <div id="wheel-view" class="wheel-stage">
+        <button class="back-to-country-btn" onclick="showCountryView()">← 切換國家</button>
+        <div class="wheel-header">
+          <h3 id="current-country-title">🇰🇷 韓國美食轉盤</h3>
+        </div>
+
+        <div class="wheel-canvas-box">
+          <div class="wheel-pointer"></div>
+          <canvas id="wheelCanvas" width="540" height="540"></canvas>
+        </div>
+
+        <button id="spinBtn" class="spin-action-btn" onclick="spinWheel()">🎲 開始抽籤！</button>
+
+        <!-- 結果區 -->
+        <div id="wheelResult" class="wheel-result-box">
+          <div class="result-title">🎉 今天決定吃這個：</div>
+          <div id="resultFoodName" class="result-food">韓式烤肉</div>
+          <a id="mapSearchBtn" class="map-search-btn" href="#" target="_blank">📍 在 Google Maps 搜尋周邊</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--轉盤容器結束-->
+
+  <script src="js/wheel.js"></script>
+
 </body>
+
 </html>

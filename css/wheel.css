@@ -1,0 +1,276 @@
+/* ==================== 美食轉盤 Modal 樣式 (暗色版) ==================== */
+
+/* 轉盤 Modal 全螢幕遮罩 */
+#food-wheel-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 99999;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+#food-wheel-modal.active {
+    display: flex;
+    animation: wheelFadeIn 0.25s ease-out;
+}
+
+@keyframes wheelFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Modal 卡片容器 (Slate 900) */
+.wheel-card {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    width: 100%;
+    max-width: 420px;
+    max-height: 90vh;
+    border-radius: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    overflow-y: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    box-sizing: border-box;
+    color: #f8fafc;
+}
+
+.wheel-close-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid #334155;
+    background: #1e293b;
+    color: #94a3b8;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.wheel-close-btn:active {
+    transform: scale(0.9);
+    color: #f8fafc;
+}
+
+.wheel-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.wheel-header h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: #f8fafc;
+}
+
+.wheel-header p {
+    margin: 6px 0 0 0;
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+/* 國家切換 (韓國在前/左，日本在後/右) */
+.country-selector {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 16px 0;
+}
+
+.country-card-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 12px;
+    border-radius: 16px;
+    border: 1px solid #334155;
+    background: #1e293b;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.country-card-btn:active {
+    transform: scale(0.96);
+}
+
+.country-card-btn.kr {
+    border-color: rgba(59, 130, 246, 0.4);
+}
+
+/* 韓國 藍色 border */
+.country-card-btn.kr:hover {
+    background: rgba(30, 58, 138, 0.3);
+}
+
+.country-card-btn.jp {
+    border-color: rgba(239, 68, 68, 0.4);
+}
+
+/* 日本 紅色 border */
+.country-card-btn.jp:hover {
+    background: rgba(127, 29, 29, 0.3);
+}
+
+.country-flag {
+    font-size: 36px;
+    margin-bottom: 8px;
+}
+
+.country-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #f1f5f9;
+}
+
+.country-tag {
+    font-size: 11px;
+    color: #f59e0b;
+    margin-top: 4px;
+    font-weight: 600;
+}
+
+/* 轉盤舞台 */
+.wheel-stage {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.wheel-stage.active {
+    display: flex;
+}
+
+.back-to-country-btn {
+    align-self: flex-start;
+    border: none;
+    background: none;
+    color: #f59e0b;
+    /* Amber 500 */
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Canvas 轉盤與頂針 */
+.wheel-canvas-box {
+    position: relative;
+    width: 270px;
+    height: 270px;
+    margin: 10px 0;
+}
+
+.wheel-pointer {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 14px solid transparent;
+    border-right: 14px solid transparent;
+    border-top: 24px solid #f59e0b;
+    /* 琥珀金頂針 */
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
+    z-index: 5;
+}
+
+#wheelCanvas {
+    width: 270px;
+    height: 270px;
+    border-radius: 50%;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.spin-action-btn {
+    width: 100%;
+    padding: 14px;
+    margin-top: 16px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #0f172a;
+    font-size: 17px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+    transition: all 0.2s;
+}
+
+.spin-action-btn:active {
+    transform: scale(0.97);
+}
+
+/* 抽籤結果提示框 */
+.wheel-result-box {
+    display: none;
+    text-align: center;
+    padding: 16px;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 16px;
+    margin-top: 16px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.wheel-result-box.active {
+    display: block;
+    animation: wheelFadeIn 0.3s ease;
+}
+
+.result-title {
+    font-size: 12px;
+    color: #34d399;
+    font-weight: 600;
+}
+
+.result-food {
+    font-size: 22px;
+    color: #10b981;
+    font-weight: 800;
+    margin: 6px 0;
+}
+
+.map-search-btn {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 8px 16px;
+    background: #10b981;
+    color: #0f172a;
+    text-decoration: none;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+}
