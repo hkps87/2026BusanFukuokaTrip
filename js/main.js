@@ -319,10 +319,62 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCurrencies(inputEl, currency);
   }
 
+  // ==========================================
+  // 【新加入】5.5 處理鍵盤強制輸入數字（解決電腦端注音打數字變注音的問題）
+  // ==========================================
+  function handleNumericKeydown(e, inputEl, currency) {
+    let charToInsert = '';
+
+    // 判斷主鍵盤數字鍵 (Digit0-9) 或右側數字鍵盤 (Numpad0-9)
+    if (e.code.startsWith('Digit')) {
+      charToInsert = e.code.replace('Digit', '');
+    } else if (e.code.startsWith('Numpad')) {
+      charToInsert = e.code.replace('Numpad', '');
+    } 
+    // 處理小數點
+    else if (e.code === 'Period' || e.code === 'NumpadDecimal') {
+      charToInsert = '.';
+    }
+
+    if (charToInsert !== '') {
+      e.preventDefault(); // 阻止注音輸入法攔截
+
+      const start = inputEl.selectionStart;
+      const end = inputEl.selectionEnd;
+      const val = inputEl.value;
+
+      // 預防重複輸入多個小數點
+      if (charToInsert === '.' && val.includes('.')) return;
+
+      // 插入數字到游標位置
+      inputEl.value = val.substring(0, start) + charToInsert + val.substring(end);
+      inputEl.selectionStart = inputEl.selectionEnd = start + 1;
+
+      // 觸發連動與淨化
+      handleInputClean(inputEl, currency);
+    }
+  }
+
+  // ==========================================
+  // 6. 統一綁定三個輸入框的 input 與 keydown 事件
+  // ==========================================
+  const currencyInputs = [
+    { el: krwInput, currency: 'KRW' },
+    { el: jpyInput, currency: 'JPY' },
+    { el: twdInput, currency: 'TWD' }
+  ];
+
+  currencyInputs.forEach(({ el, currency }) => {
+    // 一般輸入、手機虛擬鍵盤、貼上等行為
+    el.addEventListener('input', () => handleInputClean(el, currency));
+    
+    // 電腦實體鍵盤強制攔截（解決注音模式無法直接打數字的問題）
+    el.addEventListener('keydown', (e) => handleNumericKeydown(e, el, currency));
+  });
   // 6. 綁定 input 事件
-  krwInput.addEventListener('input', () => handleInputClean(krwInput, 'KRW'));
-  jpyInput.addEventListener('input', () => handleInputClean(jpyInput, 'JPY'));
-  twdInput.addEventListener('input', () => handleInputClean(twdInput, 'TWD'));
+  // krwInput.addEventListener('input', () => handleInputClean(krwInput, 'KRW'));
+  // jpyInput.addEventListener('input', () => handleInputClean(jpyInput, 'JPY'));
+  // twdInput.addEventListener('input', () => handleInputClean(twdInput, 'TWD'));
 
   // inputs.forEach(({ el, currency }) => {
   //   el.addEventListener('keydown', (e) => handleNumericKeydown(e, el, currency));
