@@ -340,30 +340,33 @@
         day: 7,
         date: "2026/12/17",
         dayOfWeek: "星期四",
-        theme: "抵達博多港・動植物園巡禮・太宰府天滿宮 ＆ 九州國立博物館・teamLab 光之祭・屋台宵夜",
-        highlights: ["福岡市動植物園", "太宰府天滿宮", "九州國立博物館", "舞鶴公園 teamLab", "中洲屋台"],
+        theme: "博多港入境・動植物園・太宰府文華巡禮 ＆ teamLab 古城光之祭",
+        highlights: ["博多港", "福岡市動植物園", "太宰府天滿宮", "九州國立博物館", "舞鶴公園 teamLab", "中洲屋台"],
         items: [
-          { time: "08:30 - 09:30", title: "博多港入境 ➔ 飯店寄放行李", desc: "自博多港入境，搭乘大眾運輸前往博多站周邊飯店寄放行李 (車程/交通約 20-30 分鐘)。", icon: "ship", tags: ["transport"] },
-          { time: "09:30 - 11:30", title: "【福岡市動植物園】疾走巡禮", desc: "高效觀賞人氣動物與熱帶溫室植栽 (從博多站搭公車或地鐵轉乘約 20-30 分鐘)。", link: "https://www.google.com/maps/search/%E7%A6%8F%E5%B2%A1%E5%B8%82%E5%8B%95%E6%A4%8D%E7%89%A9%E5%9C%92", icon: "sun", tags: ["highlight"] },
-          { time: "12:00 - 15:30", title: "【太宰府天滿宮 ＆ 九州國立博物館】", desc: "搭西鐵電車至太宰府，參拜天滿宮與享用表參道美食午餐，並順遊走訪日本四大國立博物館之一的九州國立博物館。", link: "https://www.google.com/maps/search/%E5%A4%AA%E5%AE%B0%E5%BA%9C%E5%A4%A9%E2%BD%A4%E5%AE%AE", icon: "sparkles", tags: ["highlight", "food"] },
-          { time: "16:00 - 17:00", title: "返回市區 ➔ 飯店快速辦理 Check-in", desc: "搭車返回市區飯店 Check-in 並放好隨身裝備 (車程約 40 分鐘)。", icon: "coffee", tags: ["transport"] },
-          { time: "17:00 - 19:30", title: "【福岡城跡 (舞鶴公園)】teamLab 光之祭", desc: "沉浸於百年古城與夢幻數位光影互動藝術 (搭地鐵至大濠公園站步行約 10 分鐘)。", link: "https://www.google.com/maps/search/%E8%88%9E%E9%B6%B2%E5%85%AC%E5%9C%92", icon: "sparkles", tags: ["highlight"] },
-          { time: "20:00 - 22:00", title: "【中洲屋台橫丁】宵夜漫遊", desc: "品嚐熱騰騰的博多拉麵、烤串與明太子料理 (搭地鐵或步行約 15-20 分鐘)。", link: "https://www.google.com/maps/search/%E4%B8%AD%E6%B4%B2%E屋%E5%8F%B0", icon: "utensils", tags: ["food"] }
+          { time: "08:30 - 09:30", title: "博多港入境 ➔ 飯店寄放行李", desc: "自博多港入境，搭乘公車或計程車至博多站周邊飯店寄放大型行李 (預先寄放行李，傍晚再回來 Check-in)。", link: "https://www.google.com/maps/search/%E5%8D%9A%E5%A4%9A%EB%B8%AF", icon: "ship", tags: ["transport"] },
+          { time: "09:30 - 11:30", title: "【福岡市動植物園】快閃巡禮", desc: "動植物園 09:00 開園。搭地鐵至櫻坂站或搭乘公車抵達，欣賞熱帶溫室植栽與人氣動物 (停留約 1.5 小時)。", link: "https://www.google.com/maps/search/%E7%A6%8F%E5%B2%A1%E5%B8%82%E5%8B%95%E6%A4%8D%E7%89%A9%E5%9C%92", icon: "trees", tags: ["highlight"] },
+          { time: "11:30 - 12:30", title: "跨區交通：前往太宰府", desc: "由藥院站搭乘西鐵天神大牟田線/太宰府線前往太宰府站 (車程與轉乘約 45-50 分鐘)。", icon: "train", tags: ["transport"] },
+          { time: "12:30 - 17:00", title: "【太宰府天滿宮 ＆ 九州國立博物館】漫遊深度半日遊", desc: "表參道享用現烤梅枝餅與午餐、參拜主殿與摸御神牛，隨後經由手扶梯連通長廊參觀九州國立博物館 (充裕停留約 4.5 小時，愜意不趕時間)。", link: "https://www.google.com/maps/search/%E5%A4%AA%E5%AE%B0%E5%BA%9C%E5%A4%A9%E6%BB%BF%E5%AE%AE", icon: "sparkles", tags: ["highlight", "food"] },
+          { time: "17:00 - 18:00", title: "跨區交通：太宰府前往舞鶴公園", desc: "搭乘西鐵電車返回天神，轉乘地鐵空港線至大濠公園站步行至舞鶴公園 (車程約 50 分鐘，抵達時天色已全黑)。", icon: "train", tags: ["transport"] },
+          { time: "18:00 - 19:30", title: "【舞鶴公園】teamLab 福岡城跡光之祭", desc: "天黑後精準入場！沉浸於百年古城石牆與夢幻夜間數位光學互動藝術中 (停留約 1.5 小時)。", link: "https://www.google.com/maps/search/%E8%88%9E%E9%B6 me%E5%85%AC%E5%9C%92", icon: "sparkles", tags: ["highlight"] },
+          { time: "19:30 - 20:15", title: "返回飯店正式 Check-in", desc: "搭乘地鐵返回博多站飯店辦理入住手續、領取房間鑰匙與放購物戰利品。", icon: "hotel", tags: ["transport"] },
+          { time: "20:15 - 22:30", title: "【中洲屋台橫丁】宵夜漫遊", desc: "漫步那珂川河畔，品嚐熱騰騰的博多豚骨拉麵、明太子煎蛋捲與現烤串燒，感受道地夜市人情味。", link: "https://www.google.com/maps/search/%E4%B8%AD%E6%B4%B2%E屋%E5%8F%B0", icon: "utensils", tags: ["food", "highlight"] }
         ]
       },
       {
         day: 8,
         date: "2026/12/18",
         dayOfWeek: "星期五",
-        theme: "由布院之森鐵道・溫泉小鎮漫遊",
-        highlights: ["由布院之森", "湯之坪街道", "金鱗湖", "日歸溫泉"],
+        theme: "由布院之森鐵道・金鱗湖漫步 ＆ 日田小京都豆田町雙城深度行",
+        highlights: ["由布院之森", "湯之坪街道", "金鱗湖", "日田豆田町", "進擊的巨人銅像", "日田香脆炒麵"],
         items: [
-          { time: "09:17 - 11:30", title: "搭乘人氣觀光列車【由布院之森】", desc: "由博多出發，沿途欣賞山林溪谷絕景 (車程約 2 小時 15 分鐘)。", link: "https://www.google.com/maps/search/%E7%94%B1%E5%B8%83%E9%99%A2%E4%B9%8B%E6%A3%AE", icon: "train", tags: ["highlight", "transport"] },
-          { time: "11:30 - 13:30", title: "【由布院溫泉 ➔ 湯之坪街道】美食掃街", desc: "品嚐 B-Speak 瑞士捲、可樂餅與起司蛋糕，享受美味午餐與街道漫遊。", link: "https://www.google.com/maps/search/%E7%94%B1%E5%B8%83%E9%99%A2%E6%B8%A9%E6%B3%89", icon: "coffee", tags: ["food", "highlight"] },
-          { time: "13:30 - 15:30", title: "【金鱗湖 ＆ Yufuin Floral Village】", desc: "童話村拍照打卡與金鱗湖畔漫步 (步行約 10-15 分鐘)。", link: "https://www.google.com/maps/search/%E9%87%91%E9%BA%9F%E6%B9%96", icon: "trees", tags: ["highlight"] },
-          { time: "15:30 - 17:00", title: "由布院日歸溫泉或午茶時光", desc: "享受溫泉放鬆身心或在特色咖啡廳愜意午茶。", icon: "cup-soda", tags: ["highlight"] },
-          { time: "17:00 - 19:15", title: "搭乘特急列車返回博多站", desc: "搭乘特急列車由由布院返回博多站 (車程約 2 小時)。", icon: "train-front", tags: ["transport"] },
-          { time: "19:30 之後", title: "博多站周邊晚餐與逛街", desc: "享用道地博多牛腸鍋晚餐與商場輕鬆逛街。", icon: "utensils", tags: ["food"] }
+          { time: "09:17 - 11:31", title: "搭乘人氣觀光列車【由布院之森 1 號】", desc: "由博多站出發，沿途享用車上限定甜點並欣賞山林溪谷絕景 (車程約 2 小時 14 分鐘，全車指定席)。", link: "https://www.google.com/maps/search/%E7%94%B1%E5%B8%83%E9%99%A2%E6%B8%A9%E6%B3%89", icon: "train", tags: ["highlight", "transport"] },
+          { time: "11:30 - 13:00", title: "【湯之坪街道 ＆ Yufuin Floral Village】美食掃街", desc: "搶購 B-Speak 瑞士捲、金賞可樂餅與 Milch 起司蛋糕，漫步歐風童話小鎮與文青雜貨舖。", link: "https://www.google.com/maps/search/%E6%B9%AF%E4%B9%8B%E5%9D%AA%E8%A1%97%E9%81%93", icon: "coffee", tags: ["food", "highlight"] },
+          { time: "13:00 - 14:50", title: "【金鱗湖】湖畔悠閒漫步與景觀午餐", desc: "造訪湖畔夢幻天祖神社水中鳥居，享用豐後牛午餐或於湖畔咖啡廳愜意歇腳 (充裕停留不趕時間)。", link: "https://www.google.com/maps/search/%E9%87%91%E9%BA%9F%E6%B9%96", icon: "trees", tags: ["highlight", "food"] },
+          { time: "15:07 - 16:11", title: "搭乘 JR 久大本線前往【日田】", desc: "由由布院站搭乘 JR 久大本線普通列車前往日田 (車程約 1 小時 04 分鐘，現場自動售票機購買 860 日圓紙本票)。", icon: "train", tags: ["transport"] },
+          { time: "16:15 - 18:00", title: "【日田豆田町】古街夕照拍照 ＆ 兵長銅像 ＆ 日田炒麵", desc: "趁日落前捕捉豆田町江戶白壁夕照與站前兵長銅像，隨後享用香氣逼人的日田香脆炒麵晚餐。", link: "https://www.google.com/maps/search/%E8%B1%86%E7%94%B0%E7%94%BA", icon: "sparkles", tags: ["highlight", "food"] },
+          { time: "18:12 - 19:27", title: "搭乘 JR 特急列車返回博多站", desc: "由日田站搭乘 JR 特急由布 6 號直達返回博多站 (車程約 1 小時 15 分鐘)。", icon: "train-front", tags: ["transport"] },
+          { time: "19:30 之後", title: "返回博多市區 ＆ 宵夜採買", desc: "回到博多站周邊，輕鬆逛街採買或享用居酒屋夜宵。", icon: "utensils", tags: ["food"] }
         ]
       },
       {
