@@ -141,6 +141,17 @@ function playTickSound() {
 // 觸發旋轉動畫
 function spinWheel() {
     if (isSpinning) return;
+
+    // 💡【手機解鎖關鍵】在使用者點擊按鈕的當下，立刻初始化並解鎖 AudioContext
+    try {
+        if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
+        }
+    } catch (e) { }
+
     isSpinning = true;
     document.getElementById('wheelResult').classList.remove('active');
     document.getElementById('spinBtn').disabled = true;
