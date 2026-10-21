@@ -192,10 +192,13 @@ document.addEventListener('DOMContentLoaded', () => {
     jpyInput.value = '';
     twdInput.value = '';
     
-    // 使用小延遲確保 Modal 的 class 移除、DOM 顯示後再聚焦
-    setTimeout(() => {
-      krwInput.focus();
-    }, 50);
+    // // 使用小延遲確保 Modal 的 class 移除、DOM 顯示後再聚焦
+    // setTimeout(() => {
+    //   krwInput.focus();
+    // }, 50);
+
+    // 2. 當下立即同步聚焦，手機就會直接彈出數字鍵盤！
+    krwInput.focus();
   });
 
   // 點擊 X 按鈕關閉
