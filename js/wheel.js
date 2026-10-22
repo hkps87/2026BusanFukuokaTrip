@@ -1,26 +1,26 @@
-// ==================== 美食轉盤邏輯模組 ====================
+// ==================== 美食轉盤邏輯模組 (支援 Naver Map 韓文與手機音訊優化) ====================
 
-// 美食選單資料庫
+// 美食選單資料庫 (韓國加入 Naver 專用韓文搜尋關鍵字)
 const foodData = {
     kr: [
-        { name: "韓式烤肉 🥩", color: "#ef4444" },
-        { name: "炸雞啤酒 🍗", color: "#f97316" },
-        { name: "豬腳/菜包肉 🥓", color: "#f59e0b" },
-        { name: "韓式炸醬麵 🍜", color: "#84cc16" },
-        { name: "辣炒年糕 🍢", color: "#10b981" },
-        { name: "豬肉湯飯 🍲", color: "#06b6d4" },
-        { name: "部隊鍋 🥘", color: "#6366f1" },
-        { name: "布帳馬車 ⛺", color: "#a855f7" }
+        { name: "韓式烤肉 🥩", search: "삼겹살", color: "#ef4444" },
+        { name: "炸雞啤酒 🍗", search: "치킨", color: "#f97316" },
+        { name: "豬腳/菜包肉 🥓", search: "족발", color: "#f59e0b" },
+        { name: "韓式炸醬麵 🍜", search: "짜장면", color: "#84cc16" },
+        { name: "辣炒年糕 🍢", search: "떡볶이", color: "#10b981" },
+        { name: "豬肉湯飯 🍲", search: "돼지국밥", color: "#06b6d4" }, // 釜山必吃！
+        { name: "部隊鍋 🥘", search: "부대찌개", color: "#6366f1" },
+        { name: "布帳馬車 ⛺", search: "포장마차", color: "#a855f7" }
     ],
     jp: [
-        { name: "拉麵 🍜", color: "#ef4444" },
-        { name: "壽司 🍣", color: "#f97316" },
-        { name: "燒肉 🥩", color: "#f59e0b" },
-        { name: "居酒屋 🍶", color: "#84cc16" },
-        { name: "炸豬排 🥩", color: "#10b981" },
-        { name: "鰻魚飯 🍱", color: "#06b6d4" },
-        { name: "大阪燒 🐙", color: "#6366f1" },
-        { name: "便利商店 🏪", color: "#a855f7" }
+        { name: "拉麵 🍜", search: "ラーメン", color: "#ef4444" },
+        { name: "壽司 🍣", search: "寿司", color: "#f97316" },
+        { name: "燒肉 🥩", search: "焼肉", color: "#f59e0b" },
+        { name: "居酒屋 🍶", search: "居酒屋", color: "#84cc16" },
+        { name: "炸豬排 🥩", search: "とんかつ", color: "#10b981" },
+        { name: "鰻魚飯 🍱", search: "うなぎ", color: "#06b6d4" },
+        { name: "大阪燒 🐙", search: "お好み焼き", color: "#6366f1" },
+        { name: "便利商店 🏪", search: "コンビニ", color: "#a855f7" }
     ]
 };
 
@@ -30,8 +30,22 @@ let currentAngle = 0;
 let isSpinning = false;
 let audioCtx = null;
 
+// 初始化或解鎖音訊 (針對手機端嚴格的 Autoplay 政策)
+function initAudio() {
+    try {
+        if (!audioCtx) {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            audioCtx = new AudioContext();
+        }
+        if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
+        }
+    } catch (e) { }
+}
+
 // 開啟 Modal
 function openFoodWheel() {
+    initAudio(); // 點擊選單按鈕時預先解鎖音訊
     const modal = document.getElementById('food-wheel-modal');
     if (modal) {
         modal.classList.add('active');
@@ -56,6 +70,7 @@ function showCountryView() {
 
 // 選擇國家
 function selectCountry(country) {
+    initAudio(); // 點擊國家時再次確保音訊解鎖
     currentCountry = country;
     currentItems = foodData[country];
     document.getElementById('current-country-title').innerText = country === 'kr' ? '🇰🇷 韓國美食轉盤' : '🇯🇵 日本美食轉盤';
@@ -120,16 +135,17 @@ function drawWheel() {
     ctx.restore();
 }
 
-// Web Audio API 撥放 Sound Effect
+// 撥放轉盤清脆音效
 function playTickSound() {
     try {
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        if (audioCtx.state === 'suspended') audioCtx.resume();
+        initAudio();
+        if (!audioCtx) return;
+
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.type = 'sine';
         osc.frequency.setValueAtTime(650, audioCtx.currentTime);
-        gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.04);
         osc.connect(gain);
         gain.connect(audioCtx.destination);
@@ -138,19 +154,41 @@ function playTickSound() {
     } catch (e) { }
 }
 
+// 撥放決定美食時的歡慶音效 (三連音和絃)
+function playWinSound() {
+    try {
+        initAudio();
+        if (!audioCtx) return;
+
+        // 音符頻率：C5 (523Hz) -> E5 (659Hz) -> G5 (783Hz) -> C6 (1046Hz)
+        const notes = [523.25, 659.25, 783.99, 1046.50];
+        const now = audioCtx.currentTime;
+
+        notes.forEach((freq, index) => {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+
+            osc.type = 'triangle'; // 使用較為溫和明亮的三角波
+            osc.frequency.setValueAtTime(freq, now + index * 0.08);
+
+            // 漸弱音效
+            gain.gain.setValueAtTime(0, now + index * 0.08);
+            gain.gain.linearRampToValueAtTime(0.15, now + index * 0.08 + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + index * 0.08 + 0.35);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.start(now + index * 0.08);
+            osc.stop(now + index * 0.08 + 0.35);
+        });
+    } catch (e) { }
+}
+
 // 觸發旋轉動畫
 function spinWheel() {
     if (isSpinning) return;
-
-    // 💡【手機解鎖關鍵】在使用者點擊按鈕的當下，立刻初始化並解鎖 AudioContext
-    try {
-        if (!audioCtx) {
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        }
-        if (audioCtx.state === 'suspended') {
-            audioCtx.resume();
-        }
-    } catch (e) { }
+    initAudio(); // 點擊按鈕時強制解鎖音訊
 
     isSpinning = true;
     document.getElementById('wheelResult').classList.remove('active');
@@ -193,19 +231,30 @@ function spinWheel() {
     requestAnimationFrame(animate);
 }
 
-// 顯示結果
+// 顯示結果與地圖聯動
 function showResult(arc) {
     const pointerAngle = (3 * Math.PI / 2 - (currentAngle % (2 * Math.PI)) + 100 * Math.PI) % (2 * Math.PI);
     const selectedIndex = Math.floor(pointerAngle / arc) % currentItems.length;
-    const selectedFood = currentItems[selectedIndex].name;
+    const selectedItem = currentItems[selectedIndex];
 
-    document.getElementById('resultFoodName').innerText = selectedFood;
+    document.getElementById('resultFoodName').innerText = selectedItem.name;
 
-    const countryKeyword = currentCountry === 'kr' ? '韓國' : '日本';
-    const cleanFoodName = selectedFood.replace(/[\u{1F300}-\u{1F9FF}]/gu, '').trim();
-    const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(countryKeyword + ' ' + cleanFoodName)}`;
-    document.getElementById('mapSearchBtn').href = mapsUrl;
+    const mapBtn = document.getElementById('mapSearchBtn');
+
+    if (currentCountry === 'kr') {
+        // 🇰🇷 韓國：Naver Map + 韓文關鍵字 (例如: 삼겹살)
+        const naverUrl = `https://map.naver.com/p/search/${encodeURIComponent(selectedItem.search)}`;
+        mapBtn.href = naverUrl;
+        mapBtn.innerText = `🇰🇷 在 Naver Map 搜尋 (${selectedItem.search})`;
+    } else {
+        // 🇯🇵 日本：Google Maps + 日文關鍵字 (例如: ラーメン)
+        const googleUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(selectedItem.search)}`;
+        mapBtn.href = googleUrl;
+        mapBtn.innerText = `🇯🇵 在 Google Maps 搜尋 (${selectedItem.search})`;
+    }
 
     document.getElementById('wheelResult').classList.add('active');
+    // 💡 【新增】播放勝出歡聲音效與手機雙重震動
+    playWinSound();
     if (navigator.vibrate) navigator.vibrate([80, 50, 80]);
 }
