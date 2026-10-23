@@ -76,4 +76,4 @@ Arte美術館
 * 現場票價1000韓元=$25
 
 ![B區-1](https://raw.githubusercontent.com/hkps87/2026BusanFukuokaTrip/main/Images/B_Zone_1.png)
-![B區-2](https://raw.githubusercontent.com/hkps87/2026BusanFukuokaTrip/main/Images/B_Zone_1.png)
+![B區-2](https://raw.githubusercontent.com/hkps87/2026BusanFukuokaTrip/main/Images/B_Zone_2.png)
