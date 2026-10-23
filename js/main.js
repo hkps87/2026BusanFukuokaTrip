@@ -20,7 +20,7 @@ function configureMarkedRenderer() {
 
   const renderer = new marked.Renderer();
 
-  renderer.image = function(href, title, text) {
+  renderer.image = function (href, title, text) {
     let cleanHref = typeof href === 'object' ? href.href : href;
     let cleanAlt = typeof href === 'object' ? href.text : (text || '');
     let cleanTitle = typeof href === 'object' ? href.title : (title || '');
@@ -33,7 +33,7 @@ function configureMarkedRenderer() {
     return `<img src="${cleanHref}" alt="${cleanAlt}" title="${cleanTitle || ''}" class="max-w-full h-auto rounded-lg my-3 border border-slate-700" loading="lazy" />`;
   };
 
-  renderer.heading = function(tokenOrText, levelOrUndefined) {
+  renderer.heading = function (tokenOrText, levelOrUndefined) {
     let text = typeof tokenOrText === 'object' && tokenOrText !== null ? tokenOrText.text : (tokenOrText || '');
     let level = typeof tokenOrText === 'object' && tokenOrText !== null ? tokenOrText.depth : (levelOrUndefined || 1);
 
@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
     krwInput.value = '';
     jpyInput.value = '';
     twdInput.value = '';
-    
+
     // // 使用小延遲確保 Modal 的 class 移除、DOM 顯示後再聚焦
     // setTimeout(() => {
     //   krwInput.focus();
@@ -248,7 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const response = await fetch('https://open.er-api.com/v6/latest/TWD');
       if (!response.ok) throw new Error('API 讀取失敗');
       const data = await response.json();
-      
+
       rates.JPY = data.rates.JPY;
       rates.KRW = data.rates.KRW;
 
@@ -305,7 +305,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // 5. 淨化輸入內容並即時連動
   function handleInputClean(inputEl, currency) {
     let cleanVal = inputEl.value.replace(/[^0-9.]/g, '');
-    
+
     // 預防多個小數點
     const parts = cleanVal.split('.');
     if (parts.length > 2) {
@@ -320,7 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================
-  // 【新加入】5.5 處理鍵盤強制輸入數字（解決電腦端注音打數字變注音的問題）
+  // 5.5 處理鍵盤強制輸入數字（僅限電腦端，解決注音打數字問題）
   // ==========================================
   function handleNumericKeydown(e, inputEl, currency) {
     let charToInsert = '';
@@ -330,7 +330,7 @@ document.addEventListener('DOMContentLoaded', () => {
       charToInsert = e.code.replace('Digit', '');
     } else if (e.code.startsWith('Numpad')) {
       charToInsert = e.code.replace('Numpad', '');
-    } 
+    }
     // 處理小數點
     else if (e.code === 'Period' || e.code === 'NumpadDecimal') {
       charToInsert = '.';
@@ -356,7 +356,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================
-  // 6. 統一綁定三個輸入框的 input 與 keydown 事件
+  // 6. 統一綁定三個輸入框的事件（加入行動裝置判斷）
   // ==========================================
   const currencyInputs = [
     { el: krwInput, currency: 'KRW' },
@@ -364,13 +364,71 @@ document.addEventListener('DOMContentLoaded', () => {
     { el: twdInput, currency: 'TWD' }
   ];
 
+  // 偵測是否為手機或平板等觸控裝置
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || ('ontouchstart' in window);
+
   currencyInputs.forEach(({ el, currency }) => {
-    // 一般輸入、手機虛擬鍵盤、貼上等行為
+    // 1. 所有裝置都需要這行：處理一般輸入、手機虛擬鍵盤、貼上等行為
     el.addEventListener('input', () => handleInputClean(el, currency));
-    
-    // 電腦實體鍵盤強制攔截（解決注音模式無法直接打數字的問題）
-    el.addEventListener('keydown', (e) => handleNumericKeydown(e, el, currency));
+
+    // 2. 只有「非手機（電腦桌機）」才綁定 keydown 強制攔截
+    if (!isMobile) {
+      el.addEventListener('keydown', (e) => handleNumericKeydown(e, el, currency));
+    }
   });
+
+  // // ==========================================
+  // // 【新加入】5.5 處理鍵盤強制輸入數字（解決電腦端注音打數字變注音的問題）
+  // // ==========================================
+  // function handleNumericKeydown(e, inputEl, currency) {
+  //   let charToInsert = '';
+
+  //   // 判斷主鍵盤數字鍵 (Digit0-9) 或右側數字鍵盤 (Numpad0-9)
+  //   if (e.code.startsWith('Digit')) {
+  //     charToInsert = e.code.replace('Digit', '');
+  //   } else if (e.code.startsWith('Numpad')) {
+  //     charToInsert = e.code.replace('Numpad', '');
+  //   } 
+  //   // 處理小數點
+  //   else if (e.code === 'Period' || e.code === 'NumpadDecimal') {
+  //     charToInsert = '.';
+  //   }
+
+  //   if (charToInsert !== '') {
+  //     e.preventDefault(); // 阻止注音輸入法攔截
+
+  //     const start = inputEl.selectionStart;
+  //     const end = inputEl.selectionEnd;
+  //     const val = inputEl.value;
+
+  //     // 預防重複輸入多個小數點
+  //     if (charToInsert === '.' && val.includes('.')) return;
+
+  //     // 插入數字到游標位置
+  //     inputEl.value = val.substring(0, start) + charToInsert + val.substring(end);
+  //     inputEl.selectionStart = inputEl.selectionEnd = start + 1;
+
+  //     // 觸發連動與淨化
+  //     handleInputClean(inputEl, currency);
+  //   }
+  // }
+
+  // // ==========================================
+  // // 6. 統一綁定三個輸入框的 input 與 keydown 事件
+  // // ==========================================
+  // const currencyInputs = [
+  //   { el: krwInput, currency: 'KRW' },
+  //   { el: jpyInput, currency: 'JPY' },
+  //   { el: twdInput, currency: 'TWD' }
+  // ];
+
+  // currencyInputs.forEach(({ el, currency }) => {
+  //   // 一般輸入、手機虛擬鍵盤、貼上等行為
+  //   el.addEventListener('input', () => handleInputClean(el, currency));
+
+  //   // 電腦實體鍵盤強制攔截（解決注音模式無法直接打數字的問題）
+  //   el.addEventListener('keydown', (e) => handleNumericKeydown(e, el, currency));
+  // });
   // 6. 綁定 input 事件
   // krwInput.addEventListener('input', () => handleInputClean(krwInput, 'KRW'));
   // jpyInput.addEventListener('input', () => handleInputClean(jpyInput, 'JPY'));
