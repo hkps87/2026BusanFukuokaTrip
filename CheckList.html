@@ -147,7 +147,7 @@
       class="glass-card w-full max-w-4xl rounded-t-2xl sm:rounded-2xl border-t sm:border border-slate-700/80 p-5 space-y-4 max-h-[85vh] overflow-y-auto flex flex-col">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
         <h3 class="font-bold text-base flex items-center gap-2" id="menu-modal-title">
-          <i data-lucide="paperclip" class="w-5 h-5 text-emerald-400"></i>
+          <i data-lucide="paperclip" class="w-5 h-5 text-brand-400"></i>
           詳細資訊與 Markdown 文件
         </h3>
         <button id="close-menu-modal" class="p-1 text-slate-400 hover:text-white rounded-lg">
@@ -232,18 +232,6 @@
           <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-amber-400 transition"></i>
         </button>
 
-        <!-- <button type="button" id="open-currency-btn" class="flex items-center justify-between p-3.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500/50 hover:bg-slate-800/80 transition group text-left w-full">
-          <div class="flex items-center gap-2.5">
-            <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center">
-              <i data-lucide="coins" class="w-4 h-4"></i>
-            </div>
-            <div>
-              <span class="font-semibold text-slate-200 block text-sm">即時匯率換算</span>
-              <span class="text-[10px] text-slate-400">台幣 / 日圓 / 韓元 雙向計算</span>
-            </div>
-          </div>
-          <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-amber-400 transition"></i>
-        </button> -->
       </div>
 
       <!-- Markdown 預覽區塊 -->
@@ -520,7 +508,7 @@
           <canvas id="wheelCanvas" width="540" height="540"></canvas>
         </div>
 
-        <button id="spinBtn" class="spin-action-btn" onclick="spinWheel()">🎲 開始抽籤！</button>
+        <!-- <button id="spinBtn" class="spin-action-btn" onclick="spinWheel()">🎲 開始抽籤！</button> -->
 
         <!-- 結果區 -->
         <div id="wheelResult" class="wheel-result-box">
@@ -577,7 +565,7 @@
           </div>
         </div>
 
-        <button id="diceBtn" class="action-start-btn" onclick="startLottery()">🎲 擲骰子！</button>
+        <!-- <button id="diceBtn" class="action-start-btn" onclick="startLottery()">🎲 擲骰子！</button> -->
       </div>
 
       <!-- 2. 拉霸機模式舞台 -->
@@ -585,13 +573,22 @@
         <button class="back-to-mode-btn" onclick="showLotteryModeView()">← 切換模式</button>
         <div class="lottery-header">
           <h3>🎰 拉霸機選人</h3>
+          <p style="font-size: 11px; color: #10b981; margin-top: 2px;">💡 點擊右側把手，或在畫面上「下滑」即可拉霸！</p>
         </div>
 
-        <div class="slot-machine-box">
-          <div id="slotReel" class="slot-reel"></div>
+        <!-- 拉霸機與實體拉桿容器 -->
+        <div class="slot-wrapper" id="slotWrapper">
+          <div class="slot-machine-box">
+            <div id="slotReel" class="slot-reel"></div>
+          </div>
+          <!-- 右側拉桿把手 -->
+          <div class="slot-handle" id="slotHandle" onclick="triggerSlotHandle()">
+            <div class="slot-handle-rod"></div>
+            <div class="slot-handle-knob"></div>
+          </div>
         </div>
 
-        <button id="slotBtn" class="action-start-btn" onclick="startLottery()">🎰 啟動拉霸機！</button>
+        <!-- <button id="slotBtn" class="action-start-btn" onclick="startLottery()">🎰 啟動拉霸機！</button> -->
       </div>
 
       <!-- 抽籤結果顯示區 -->

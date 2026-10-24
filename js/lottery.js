@@ -12,6 +12,7 @@ const members = [
 
 let lotteryAudioCtx = null;
 let currentMode = 'dice'; // 'dice' 或 'slot'
+let activeMembers = [...members]; // 💡 新增：儲存每次洗牌後的名單
 let isLotteryRunning = false;
 
 // 初始化音訊
@@ -32,6 +33,9 @@ function initLotteryAudio() {
 
 function openLotteryModal() {
   initLotteryAudio();
+
+  activeMembers = [...members].sort(() => Math.random() - 0.5); // 💡 新增這行：每次打開隨機洗牌
+
   const modal = document.getElementById('lottery-modal');
   if (modal) {
     modal.classList.add('active');
@@ -56,6 +60,9 @@ function showLotteryModeView() {
 function selectLotteryMode(mode) {
   initLotteryAudio();
   currentMode = mode;
+
+  activeMembers = [...members].sort(() => Math.random() - 0.5); // 💡 新增這行：每次切換模式隨機洗牌
+
   document.getElementById('lottery-mode-view').style.display = 'none';
   document.getElementById('lotteryResult').classList.remove('active');
 
@@ -78,7 +85,7 @@ const memberColors = [
   { bg: 'rgba(168, 85, 247, 0.25)', border: '#a855f7', text: '#d8b4fe' }  // 成員F：紫羅蘭
 ];
 
-// 設定 3D 骰子的 6 個面與專屬色彩
+// 設定 3D 骰子的 6 個面（套用隨機洗牌後的名單，並對應正確的專屬色彩）
 function setupDiceFaces() {
   const diceBox = document.getElementById('diceBox');
   diceBox.style.transform = 'rotateX(0deg) rotateY(0deg)';
@@ -86,10 +93,13 @@ function setupDiceFaces() {
   for (let i = 0; i < 6; i++) {
     const face = diceBox.querySelector(`.face-${i + 1}`);
     if (face) {
-      face.innerText = members[i];
+      const name = activeMembers[i]; // 💡 改用洗牌後的 activeMembers
+      face.innerText = name;
 
-      // 綁定對應的成員色彩
-      const col = memberColors[i];
+      // 💡 透過原本的 members 陣列找出成員的固定索引，確保顏色對應正確
+      const originalIndex = members.indexOf(name);
+      const col = memberColors[originalIndex];
+
       face.style.backgroundColor = col.bg;
       face.style.borderColor = col.border;
       face.style.color = col.text;
@@ -98,17 +108,37 @@ function setupDiceFaces() {
   }
 }
 
-// 設定拉霸機列表
+// 設定拉霸機列表（每個成員擁有專屬色彩膠囊）
 function setupSlotReel() {
   const reel = document.getElementById('slotReel');
   reel.innerHTML = '';
 
   // 建立重複的名單以實現滾動效果
-  const list = [...members, ...members, ...members, ...members];
-  list.forEach(name => {
+  const list = [...activeMembers, ...activeMembers, ...activeMembers, ...activeMembers]; // 👈 改成 activeMembers
+  list.forEach((name, index) => {
+    // 算出對應原本 6 個成員的索引 (0~5)
+    const originalIndex = index % members.length;
+    const col = memberColors[originalIndex];
+
     const item = document.createElement('div');
     item.className = 'slot-item';
-    item.innerText = name;
+
+    // 透過專屬色彩建立精緻的成員膠囊外框
+    item.innerHTML = `
+      <span style="
+        background: ${col.bg};
+        border: 1px solid ${col.border};
+        color: ${col.text};
+        padding: 6px 20px;
+        border-radius: 14px;
+        box-shadow: 0 4px 15px ${col.border}40;
+        display: inline-block;
+        min-width: 110px;
+        text-align: center;
+        letter-spacing: 1px;
+      ">${name}</span>
+    `;
+
     reel.appendChild(item);
   });
   reel.style.top = '0px';
@@ -162,7 +192,7 @@ function startLottery() {
 
   document.getElementById('lotteryResult').classList.remove('active');
   const selectedIndex = Math.floor(Math.random() * 6);
-  const selectedName = members[selectedIndex];
+  const selectedName = activeMembers[selectedIndex]; // 👈 改成 activeMembers
 
   if (currentMode === 'dice') {
     rollDice(selectedIndex, selectedName);
@@ -175,7 +205,7 @@ function startLottery() {
 function rollDice(targetIndex, selectedName) {
   const diceBox = document.getElementById('diceBox');
   const btn = document.getElementById('diceBtn');
-  btn.disabled = true;
+  if (btn) btn.disabled = true; // 加上 if (btn)
 
   // 對應 6 個面的 3D 旋轉角度
   const rotations = [
@@ -201,7 +231,7 @@ function rollDice(targetIndex, selectedName) {
   setTimeout(() => {
     clearInterval(interval);
     isLotteryRunning = false;
-    btn.disabled = false;
+    if (btn) btn.disabled = false;
     showLotteryResult(selectedName);
   }, 1500);
 }
@@ -210,7 +240,7 @@ function rollDice(targetIndex, selectedName) {
 function spinSlot(targetIndex, selectedName) {
   const reel = document.getElementById('slotReel');
   const btn = document.getElementById('slotBtn');
-  btn.disabled = true;
+  if (btn) btn.disabled = true;
 
   const itemHeight = 100;
   const targetTop = -((12 + targetIndex) * itemHeight); // 滾動數圈後停在目標
@@ -224,7 +254,7 @@ function spinSlot(targetIndex, selectedName) {
       reel.style.top = currentTop + 'px';
       clearInterval(interval);
       isLotteryRunning = false;
-      btn.disabled = false;
+      if (btn) btn.disabled = false;
       showLotteryResult(selectedName);
     } else {
       reel.style.top = currentTop + 'px';
@@ -234,39 +264,62 @@ function spinSlot(targetIndex, selectedName) {
   }, 30);
 }
 
-// 顯示結果
+// 顯示結果（動態套用該成員的專屬色彩與發光外框）
 function showLotteryResult(name) {
-  document.getElementById('kingName').innerText = name;
-  document.getElementById('lotteryResult').classList.add('active');
+  const nameElement = document.getElementById('kingName');
+  const resultBox = document.getElementById('lotteryResult');
+
+  // 找出該成員在名單中的索引，取得其專屬色彩
+  const memberIndex = members.indexOf(name);
+  const col = memberIndex !== -1 ? memberColors[memberIndex] : { bg: 'rgba(16, 185, 129, 0.1)', border: '#10b981', text: '#10b981' };
+
+  // 設定成員名字與專屬文字顏色
+  nameElement.innerText = name;
+  nameElement.style.color = col.text;
+
+  // 動態將結果框的背景、邊框與陰影換成該成員的專屬顏色
+  resultBox.style.background = col.bg;
+  resultBox.style.borderColor = col.border;
+  resultBox.style.boxShadow = `0 4px 20px ${col.border}40`;
+
+  // 顯示結果區塊
+  resultBox.classList.add('active');
+
   playWinFanfare();
   if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
 }
 
-// 💡【點擊背景空白處關閉 Modal】
+// 🎰 觸發拉桿動作（包含視覺動畫與抽籤啟動）
+function triggerSlotHandle() {
+  if (isLotteryRunning) return;
+
+  // 播放拉桿向下拉動的視覺動畫
+  const handle = document.getElementById('slotHandle');
+  if (handle) {
+    handle.classList.add('pull');
+    setTimeout(() => {
+      handle.classList.remove('pull');
+    }, 300); // 0.3秒後彈回原位
+  }
+
+  // 執行原本的抽籤邏輯
+  startLottery();
+}
+
+// ==================== 頁面載入完成後的統一事件綁定 ====================
 document.addEventListener('DOMContentLoaded', () => {
+
+  // 1. 💡 點擊背景空白處關閉 Modal
   const lotteryModal = document.getElementById('lottery-modal');
   if (lotteryModal) {
     lotteryModal.addEventListener('click', (event) => {
-      // 當點擊的目標剛好就是外層的遮罩背景（#lottery-modal），而不是卡片內部時關閉
       if (event.target === lotteryModal) {
         closeLotteryModal();
       }
     });
   }
-});
 
-// 💡【新增】點擊背景關閉 Modal 與 點擊骰子本身直接擲骰
-document.addEventListener('DOMContentLoaded', () => {
-  const lotteryModal = document.getElementById('lottery-modal');
-  if (lotteryModal) {
-    lotteryModal.addEventListener('click', (event) => {
-      if (event.target === lotteryModal) {
-        closeLotteryModal();
-      }
-    });
-  }
-
-  // 綁定 3D 骰子點擊事件（僅在骰子模式下有效）
+  // 2. 💡 點擊 3D 骰子本身直接擲骰
   const diceBox = document.getElementById('diceBox');
   if (diceBox) {
     diceBox.addEventListener('click', () => {
@@ -275,4 +328,34 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // 3. 💡 點擊拉霸機顯示螢幕本身直接抽籤
+  const slotBox = document.querySelector('.slot-machine-box');
+  if (slotBox) {
+    slotBox.style.cursor = 'pointer'; // 讓滑鼠移上去變手形
+    slotBox.addEventListener('click', () => {
+      if (currentMode === 'slot') {
+        triggerSlotHandle();
+      }
+    });
+  }
+
+  // 4. 💡 支援手機螢幕「下滑」手勢直接觸發拉霸
+  const slotWrapper = document.getElementById('slotWrapper');
+  if (slotWrapper) {
+    let touchStartY = 0;
+
+    slotWrapper.addEventListener('touchstart', (e) => {
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+
+    slotWrapper.addEventListener('touchend', (e) => {
+      let touchEndY = e.changedTouches[0].clientY;
+      // 如果手指往下滑動超過 40px，就自動觸發拉霸
+      if (touchEndY - touchStartY > 40) {
+        triggerSlotHandle();
+      }
+    }, { passive: true });
+  }
+
 });

@@ -192,7 +192,9 @@ function spinWheel() {
 
     isSpinning = true;
     document.getElementById('wheelResult').classList.remove('active');
-    document.getElementById('spinBtn').disabled = true;
+    // 💡 加上防呆：如果按鈕存在才去更改狀態
+    const spinBtn = document.getElementById('spinBtn');
+    if (spinBtn) spinBtn.disabled = true;
 
     const numItems = currentItems.length;
     const arc = (2 * Math.PI) / numItems;
@@ -223,7 +225,7 @@ function spinWheel() {
             requestAnimationFrame(animate);
         } else {
             isSpinning = false;
-            document.getElementById('spinBtn').disabled = false;
+            if (spinBtn) spinBtn.disabled = false;
             showResult(arc);
         }
     }

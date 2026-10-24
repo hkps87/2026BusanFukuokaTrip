@@ -802,7 +802,7 @@
           <canvas id="wheelCanvas" width="540" height="540"></canvas>
         </div>
 
-        <button id="spinBtn" class="spin-action-btn" onclick="spinWheel()">🎲 開始抽籤！</button>
+        <!-- <button id="spinBtn" class="spin-action-btn" onclick="spinWheel()">🎲 開始抽籤！</button> -->
 
         <!-- 結果區 -->
         <div id="wheelResult" class="wheel-result-box">
@@ -859,7 +859,7 @@
           </div>
         </div>
 
-        <button id="diceBtn" class="action-start-btn" onclick="startLottery()">🎲 擲骰子！</button>
+        <!-- <button id="diceBtn" class="action-start-btn" onclick="startLottery()">🎲 擲骰子！</button> -->
       </div>
 
       <!-- 2. 拉霸機模式舞台 -->
@@ -867,13 +867,22 @@
         <button class="back-to-mode-btn" onclick="showLotteryModeView()">← 切換模式</button>
         <div class="lottery-header">
           <h3>🎰 拉霸機選人</h3>
+          <p style="font-size: 11px; color: #10b981; margin-top: 2px;">💡 點擊右側把手，或在畫面上「下滑」即可拉霸！</p>
         </div>
 
-        <div class="slot-machine-box">
-          <div id="slotReel" class="slot-reel"></div>
+        <!-- 拉霸機與實體拉桿容器 -->
+        <div class="slot-wrapper" id="slotWrapper">
+          <div class="slot-machine-box">
+            <div id="slotReel" class="slot-reel"></div>
+          </div>
+          <!-- 右側拉桿把手 -->
+          <div class="slot-handle" id="slotHandle" onclick="triggerSlotHandle()">
+            <div class="slot-handle-rod"></div>
+            <div class="slot-handle-knob"></div>
+          </div>
         </div>
 
-        <button id="slotBtn" class="action-start-btn" onclick="startLottery()">🎰 啟動拉霸機！</button>
+        <!-- <button id="slotBtn" class="action-start-btn" onclick="triggerSlotHandle()">🎰 點擊按鈕拉霸</button> -->
       </div>
 
       <!-- 抽籤結果顯示區 -->
