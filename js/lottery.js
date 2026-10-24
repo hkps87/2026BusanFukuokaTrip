@@ -201,13 +201,17 @@ function playWinFanfare() {
 //   }
 // }
 
+// 全域變數：紀錄骰子目前累積的總旋轉角度
+let diceCurrentX = 0;
+let diceCurrentY = 0;
+
 // 骰子轉動動畫
 function rollDice(targetIndex, selectedName) {
   const diceBox = document.getElementById('diceBox');
   const btn = document.getElementById('diceBtn');
-  if (btn) btn.disabled = true; // 加上 if (btn)
+  if (btn) btn.disabled = true;
 
-  // 對應 6 個面的 3D 旋轉角度
+  // 對應 6 個面的 3D 基礎角度
   const rotations = [
     { x: 0, y: 0 },         // 面 1 (正)
     { x: 0, y: -180 },      // 面 2 (反)
@@ -218,10 +222,46 @@ function rollDice(targetIndex, selectedName) {
   ];
 
   const target = rotations[targetIndex];
-  const extraX = (3 + Math.floor(Math.random() * 3)) * 360;
-  const extraY = (3 + Math.floor(Math.random() * 3)) * 360;
 
-  diceBox.style.transform = `rotateX(${target.x + extraX}deg) rotateY(${target.y + extraY}deg)`;
+  // 1. 決定這次要額外多轉幾圈 (隨機 3 到 5 圈 = 1080 ~ 1800 度)
+  const extraRoundsX = (3 + Math.floor(Math.random() * 3)) * 360;
+  const extraRoundsY = (3 + Math.floor(Math.random() * 3)) * 360;
+
+  // 2. 利用公式計算「下一次的累計角度」
+  // 這樣能確保旋轉方向永遠是往前加圈，並精準停在 target 的角度位置
+  diceCurrentX = diceCurrentX + extraRoundsX + ((target.x - (diceCurrentX % 360) + 360) % 360) - (diceCurrentX % 360);
+  diceCurrentY = diceCurrentY + extraRoundsY + ((target.y - (diceCurrentY % 360) + 360) % 360) - (diceCurrentY % 360);
+
+  // 或是更簡單精準的寫法：直接疊加額外圈數，並將目標面角度對齊
+  // 為了保證每次都能完美對齊目標面且角度穩定增加，我們也可以這樣寫：
+  // 讓當前角度推進到下一個大循環，並加上目標面的差值：
+  /*
+  const baseTargetX = target.x + Math.ceil(diceCurrentX / 360) * 360;
+  const baseTargetY = target.y + Math.ceil(diceCurrentY / 360) * 360;
+  // 如果算出來比當前小，就再多加一圈
+  diceCurrentX = baseTargetX < diceCurrentX ? baseTargetX + 360 : baseTargetX;
+  diceCurrentY = baseTargetY < diceCurrentY ? baseTargetY + 360 : baseTargetY;
+  // 再加上額外的隨機圈數
+  diceCurrentX += extraRoundsX;
+  diceCurrentY += extraRoundsY;
+  */
+
+  // 其實最穩定、不易出錯的寫法是「直接拿目標面角度作為 360 度取餘數的基準」：
+  const targetX = target.x;
+  const targetY = target.y;
+
+  // 計算累積角度：確保每一次目標角度與當前角度同餘（% 360 相同），並加上 3~5 圈
+  const currentModX = ((diceCurrentX % 360) + 360) % 360;
+  const currentModY = ((diceCurrentY % 360) + 360) % 360;
+
+  const diffX = ((targetX - currentModX) % 360 + 360) % 360;
+  const diffY = ((targetY - currentModY) % 360 + 360) % 360;
+
+  diceCurrentX += extraRoundsX + diffX;
+  diceCurrentY += extraRoundsY + diffY;
+
+  // 3. 套用新的 transform
+  diceBox.style.transform = `rotateX(${diceCurrentX}deg) rotateY(${diceCurrentY}deg)`;
 
   let interval = setInterval(() => {
     playClickSound();
@@ -235,6 +275,43 @@ function rollDice(targetIndex, selectedName) {
     showLotteryResult(selectedName);
   }, 1500);
 }
+
+// // 骰子轉動動畫
+// function rollDice(targetIndex, selectedName) {
+//   const diceBox = document.getElementById('diceBox');
+//   const btn = document.getElementById('diceBtn');
+//   if (btn) btn.disabled = true; // 加上 if (btn)
+
+//   // 對應 6 個面的 3D 旋轉角度
+//   const rotations = [
+//     { x: 0, y: 0 },         // 面 1 (正)
+//     { x: 0, y: -180 },      // 面 2 (反)
+//     { x: 0, y: -90 },       // 面 3 (右)
+//     { x: 0, y: 90 },        // 面 4 (左)
+//     { x: -90, y: 0 },       // 面 5 (上)
+//     { x: 90, y: 0 }         // 面 6 (下)
+//   ];
+
+//   const target = rotations[targetIndex];
+//   const extraX = (3 + Math.floor(Math.random() * 3)) * 360;
+//   const extraY = (3 + Math.floor(Math.random() * 3)) * 360;
+
+//   diceBox.style.transform = `rotateX(${target.x + extraX}deg) rotateY(${target.y + extraY}deg)`;
+
+//   let interval = setInterval(() => {
+//     playClickSound();
+//     if (navigator.vibrate) navigator.vibrate(10);
+//   }, 100);
+
+//   setTimeout(() => {
+//     clearInterval(interval);
+//     isLotteryRunning = false;
+//     if (btn) btn.disabled = false;
+//     showLotteryResult(selectedName);
+//   }, 1500);
+// }
+
+
 
 // 拉霸機滾動動畫
 function spinSlot(targetIndex, selectedName) {
