@@ -184,22 +184,22 @@ function playWinFanfare() {
   } catch (e) { }
 }
 
-// 執行抽籤
-function startLottery() {
-  if (isLotteryRunning) return;
-  isLotteryRunning = true;
-  initLotteryAudio();
+// // 執行抽籤
+// function startLottery() {
+//   if (isLotteryRunning) return;
+//   isLotteryRunning = true;
+//   initLotteryAudio();
 
-  document.getElementById('lotteryResult').classList.remove('active');
-  const selectedIndex = Math.floor(Math.random() * 6);
-  const selectedName = activeMembers[selectedIndex]; // 👈 改成 activeMembers
+//   document.getElementById('lotteryResult').classList.remove('active');
+//   const selectedIndex = Math.floor(Math.random() * 6);
+//   const selectedName = activeMembers[selectedIndex]; // 👈 改成 activeMembers
 
-  if (currentMode === 'dice') {
-    rollDice(selectedIndex, selectedName);
-  } else {
-    spinSlot(selectedIndex, selectedName);
-  }
-}
+//   if (currentMode === 'dice') {
+//     rollDice(selectedIndex, selectedName);
+//   } else {
+//     spinSlot(selectedIndex, selectedName);
+//   }
+// }
 
 // 骰子轉動動畫
 function rollDice(targetIndex, selectedName) {
@@ -359,3 +359,61 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 });
+
+// 🤫 點擊指定格子時，對應固定的成員名單（加上 Log）
+function setRiggedByGrid(index) {
+  console.log(`🛠️ [黑箱偵錯] 點擊了網格索引: ${index}`);
+  console.log(`🛠️ [黑箱偵錯] 當前固定的 members 陣列:`, members);
+
+  if (typeof members !== 'undefined' && members[index]) {
+    riggedWinner = members[index];
+    console.log(`🎯 [黑箱偵錯] 成功設定 riggedWinner 為: ${riggedWinner} (對應 members[${index}])`);
+  } else {
+    console.log(`❌ [黑箱偵錯] 錯誤：找不到 members[${index}]`);
+  }
+  console.log(`🔀 [黑箱偵錯] 目前當前的 activeMembers (洗牌後):`, activeMembers);
+}
+
+// 🤫 點擊 4、5、6 格時，解除內定，恢復 100% 隨機（加上 Log）
+function setRiggedRandom() {
+  riggedWinner = null;
+  console.log(`🔓 [黑箱偵錯] 觸發安全區（隨機），riggedWinner 已設為 null`);
+}
+
+// 執行抽籤（加上 Log）
+function startLottery() {
+  if (isLotteryRunning) return;
+  isLotteryRunning = true;
+  // 💡 修正音效呼叫（如果沒有這個函數就安全跳過，不會報錯卡死）
+  if (typeof initAudioContext === 'function') {
+    initAudioContext();
+  } else if (typeof initAudio === 'function') {
+    initAudio();
+  }
+
+  document.getElementById('lotteryResult').classList.remove('active');
+
+  let selectedIndex;
+  let selectedName;
+
+  console.log(`🎰 [抽籤偵錯] 開始抽籤，當前 riggedWinner 狀態:`, riggedWinner);
+  console.log(`🎰 [抽籤偵錯] 當前洗牌後的 activeMembers:`, activeMembers);
+
+  // 💡【黑箱機制判定】
+  if (riggedWinner && activeMembers.includes(riggedWinner)) {
+    selectedName = riggedWinner;
+    selectedIndex = activeMembers.indexOf(riggedWinner);
+    console.log(`🕵️‍♂️ [抽籤偵錯] 命中黑箱內定！強制指定為: ${selectedName}，其在 activeMembers 中的索引為: ${selectedIndex}`);
+  } else {
+    // 正常 100% 隨機
+    selectedIndex = Math.floor(Math.random() * 6);
+    selectedName = activeMembers[selectedIndex];
+    console.log(`🎲 [抽籤偵錯] 正常隨機抽籤，選中索引: ${selectedIndex}，名字: ${selectedName}`);
+  }
+
+  if (currentMode === 'dice') {
+    rollDice(selectedIndex, selectedName);
+  } else {
+    spinSlot(selectedIndex, selectedName);
+  }
+}

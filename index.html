@@ -872,8 +872,26 @@
 
         <!-- 拉霸機與實體拉桿容器 -->
         <div class="slot-wrapper" id="slotWrapper">
-          <div class="slot-machine-box">
+          <div class="slot-machine-box" style="position: relative;">
             <div id="slotReel" class="slot-reel"></div>
+
+            <!-- 🤫 3x3 隱形九宮格（精準對應你的 1~9 位置） -->
+            <div class="rigged-grid">
+              <!-- 第一列 (1, 2, 3) -->
+              <button class="rigged-cell" onclick="setRiggedByGrid(0)"></button> <!-- 1：成員A -->
+              <button class="rigged-cell" onclick="setRiggedByGrid(1)"></button> <!-- 2：成員B -->
+              <button class="rigged-cell" onclick="setRiggedByGrid(2)"></button> <!-- 3：成員C -->
+
+              <!-- 第二列 (4, 5, 6) -> 全部設為 100% 隨機 -->
+              <button class="rigged-cell" onclick="setRiggedRandom()"></button> <!-- 4：隨機 -->
+              <button class="rigged-cell" onclick="setRiggedRandom()"></button> <!-- 5：隨機 -->
+              <button class="rigged-cell" onclick="setRiggedRandom()"></button> <!-- 6：隨機 -->
+
+              <!-- 第三列 (7, 8, 9) -->
+              <button class="rigged-cell" onclick="setRiggedByGrid(3)"></button> <!-- 7：成員D -->
+              <button class="rigged-cell" onclick="setRiggedByGrid(4)"></button> <!-- 8：成員E -->
+              <button class="rigged-cell" onclick="setRiggedByGrid(5)"></button> <!-- 9：成員F -->
+            </div>
           </div>
           <!-- 右側拉桿把手 -->
           <div class="slot-handle" id="slotHandle" onclick="triggerSlotHandle()">
