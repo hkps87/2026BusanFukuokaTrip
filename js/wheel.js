@@ -258,3 +258,15 @@ function showResult(arc) {
     playWinSound();
     if (navigator.vibrate) navigator.vibrate([80, 50, 80]);
 }
+
+// 💡【點擊背景空白處關閉 Modal】
+document.addEventListener('DOMContentLoaded', () => {
+    const wheelModal = document.getElementById('food-wheel-modal');
+    if (wheelModal) {
+        wheelModal.addEventListener('click', (event) => {
+            if (event.target === wheelModal) {
+                closeFoodWheel();
+            }
+        });
+    }
+});

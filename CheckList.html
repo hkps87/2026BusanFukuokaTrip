@@ -64,6 +64,7 @@
   <!-- 引入外接 CSS 檔案 -->
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/wheel.css">
+  <link rel="stylesheet" href="css/lottery.css">
 </head>
 
 <body class="h-full flex flex-col bg-slate-950 text-slate-100 overflow-x-hidden pb-24">
@@ -170,7 +171,24 @@
           <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-amber-400 transition"></i>
         </button>
 
-        <!--轉盤開始-->
+        <!--誰是籤王開始-->
+        <button type="button" onclick="openLotteryModal()"
+          class="flex items-center justify-between p-3.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-emerald-500/50 hover:bg-slate-800/80 transition group text-left w-full mt-2">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+              <i data-lucide="dices" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <span class="font-semibold text-slate-200 block text-sm">誰是籤王？</span>
+              <span class="text-[10px] text-slate-400">骰子 & 拉霸機選人工具</span>
+            </div>
+          </div>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-emerald-400 transition"></i>
+        </button>
+
+        <!--誰是籤王結束-->
+
+        <!--食物轉盤開始-->
         <button type="button" onclick="openFoodWheel()"
           class="flex items-center justify-between p-3.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-rose-500/50 hover:bg-slate-800/80 transition group text-left w-full">
           <div class="flex items-center gap-2.5">
@@ -184,7 +202,7 @@
           </div>
           <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-rose-400 transition"></i>
         </button>
-        <!--轉盤結束-->
+        <!--食物轉盤結束-->
 
         <button data-md="Trip.md" data-title="文字版行程"
           class="md-load-btn flex items-center justify-between p-3.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-emerald-500/50 hover:bg-slate-800/80 transition group text-left">
@@ -490,7 +508,7 @@
         </div>
       </div>
 
-      <!-- 轉盤舞台 -->
+      <!-- 食物轉盤舞台 -->
       <div id="wheel-view" class="wheel-stage">
         <button class="back-to-country-btn" onclick="showCountryView()">← 切換國家</button>
         <div class="wheel-header">
@@ -514,9 +532,80 @@
     </div>
   </div>
 
-  <!--轉盤容器結束-->
+  <!--食物轉盤容器結束-->
+
+  <!-- ==================== 誰是籤王 Modal ==================== -->
+  <div id="lottery-modal">
+    <div class="lottery-card">
+      <button class="lottery-close-btn" onclick="closeLotteryModal()">✕</button>
+
+      <!-- 選擇模式 (骰子 vs 拉霸機) -->
+      <div id="lottery-mode-view">
+        <div class="lottery-header">
+          <h3>👑 誰是籤王？</h3>
+          <p>抽籤、懲罰、買早餐專用！</p>
+        </div>
+        <div class="mode-selector">
+          <div class="mode-card-btn" onclick="selectLotteryMode('dice')">
+            <span class="mode-icon">🎲</span>
+            <span class="mode-name">3D 骰子</span>
+            <span class="mode-desc">Dice Mode</span>
+          </div>
+          <div class="mode-card-btn" onclick="selectLotteryMode('slot')">
+            <span class="mode-icon">🎰</span>
+            <span class="mode-name">拉霸機</span>
+            <span class="mode-desc">Slot Mode</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 1. 骰子模式舞台 -->
+      <div id="dice-stage" class="lottery-stage">
+        <button class="back-to-mode-btn" onclick="showLotteryModeView()">← 切換模式</button>
+        <div class="lottery-header">
+          <h3>🎲 3D 骰子選人</h3>
+        </div>
+
+        <div class="dice-container">
+          <div id="diceBox" class="dice-box">
+            <div class="dice-face face-1"></div>
+            <div class="dice-face face-2"></div>
+            <div class="dice-face face-3"></div>
+            <div class="dice-face face-4"></div>
+            <div class="dice-face face-5"></div>
+            <div class="dice-face face-6"></div>
+          </div>
+        </div>
+
+        <button id="diceBtn" class="action-start-btn" onclick="startLottery()">🎲 擲骰子！</button>
+      </div>
+
+      <!-- 2. 拉霸機模式舞台 -->
+      <div id="slot-stage" class="lottery-stage">
+        <button class="back-to-mode-btn" onclick="showLotteryModeView()">← 切換模式</button>
+        <div class="lottery-header">
+          <h3>🎰 拉霸機選人</h3>
+        </div>
+
+        <div class="slot-machine-box">
+          <div id="slotReel" class="slot-reel"></div>
+        </div>
+
+        <button id="slotBtn" class="action-start-btn" onclick="startLottery()">🎰 啟動拉霸機！</button>
+      </div>
+
+      <!-- 抽籤結果顯示區 -->
+      <div id="lotteryResult" class="lottery-result-box">
+        <div style="font-size: 13px; color: #34d399; font-weight: 600;">👑 恭喜今天的籤王是：</div>
+        <div id="kingName" class="result-king-name">成員A</div>
+      </div>
+    </div>
+  </div>
+
+  <!--誰是籤王容器結束-->
 
   <script src="js/wheel.js"></script>
+  <script src="js/lottery.js"></script>
 
 </body>
 

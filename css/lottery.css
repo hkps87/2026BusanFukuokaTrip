@@ -1,0 +1,220 @@
+/* ==================== 誰是籤王 Modal 樣式 (暗色版) ==================== */
+
+#lottery-modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 99999;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+#lottery-modal.active {
+  display: flex;
+  animation: lotteryFadeIn 0.25s ease-out;
+}
+
+@keyframes lotteryFadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.lottery-card {
+  background: #0f172a; /* Slate 900 */
+  border: 1px solid #1e293b;
+  width: 100%;
+  max-width: 420px;
+  max-height: 90vh;
+  border-radius: 24px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  overflow-y: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  box-sizing: border-box;
+  color: #f8fafc;
+}
+
+.lottery-close-btn {
+  position: absolute;
+  top: 16px; right: 16px;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid #334155;
+  background: #1e293b;
+  color: #94a3b8;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.lottery-close-btn:active {
+  transform: scale(0.9);
+  color: #f8fafc;
+}
+
+.lottery-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.lottery-header h3 {
+  margin: 0; font-size: 20px; font-weight: 700; color: #f8fafc;
+}
+.lottery-header p {
+  margin: 6px 0 0 0; font-size: 13px; color: #94a3b8;
+}
+
+/* 模式選擇器 (骰子模式 vs 拉霸機模式) */
+.mode-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.mode-card-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 12px;
+  border-radius: 16px;
+  border: 1px solid #334155;
+  background: #1e293b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.mode-card-btn:active { transform: scale(0.96); }
+.mode-card-btn:hover { background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.5); }
+.mode-icon { font-size: 36px; margin-bottom: 8px; }
+.mode-name { font-size: 15px; font-weight: 700; color: #f1f5f9; }
+.mode-desc { font-size: 11px; color: #10b981; margin-top: 4px; font-weight: 600; }
+
+/* 舞台共通 */
+.lottery-stage {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.lottery-stage.active { display: flex; }
+
+.back-to-mode-btn {
+  align-self: flex-start;
+  border: none; background: none;
+  color: #10b981;
+  font-weight: 600; font-size: 13px;
+  cursor: pointer; padding: 0; margin-bottom: 12px;
+}
+
+/* 1. 骰子模式 UI */
+.dice-container {
+  perspective: 600px;
+  width: 120px; height: 120px;
+  margin: 20px 0;
+}
+
+.dice-box {
+  width: 100%; height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 1.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.dice-face {
+  position: absolute;
+  width: 120px; height: 120px;
+  background: #1e293b;
+  border: 2px solid #10b981;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 800;
+  color: #f8fafc;
+  box-shadow: inset 0 0 15px rgba(16, 185, 129, 0.3);
+  text-align: center;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+/* 3D 骰子 6 面定位 */
+.face-1 { transform: translateZ(60px); }
+.face-2 { transform: rotateY(180deg) translateZ(60px); }
+.face-3 { transform: rotateY(90deg) translateZ(60px); }
+.face-4 { transform: rotateY(-90deg) translateZ(60px); }
+.face-5 { transform: rotateX(90deg) translateZ(60px); }
+.face-6 { transform: rotateX(-90deg) translateZ(60px); }
+
+/* 2. 拉霸機模式 UI */
+.slot-machine-box {
+  background: #1e293b;
+  border: 2px solid #334155;
+  border-radius: 20px;
+  width: 100%;
+  height: 100px;
+  overflow: hidden;
+  position: relative;
+  margin: 20px 0;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+}
+
+.slot-reel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  transition: top 0.1s linear;
+}
+
+.slot-item {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 800;
+  color: #10b981;
+}
+
+/* 抽籤按鈕與結果 */
+.action-start-btn {
+  width: 100%;
+  padding: 14px;
+  margin-top: 16px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #0f172a;
+  font-size: 17px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+  transition: all 0.2s;
+}
+.action-start-btn:active { transform: scale(0.97); }
+
+.lottery-result-box {
+  display: none;
+  text-align: center;
+  padding: 16px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 16px;
+  margin-top: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.lottery-result-box.active { display: block; animation: lotteryFadeIn 0.3s ease; }
+.result-king-name { font-size: 26px; color: #10b981; font-weight: 800; margin-top: 4px; }
