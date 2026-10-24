@@ -270,3 +270,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// 💡【新增】點擊轉盤畫布本身也可以直接開始抽籤
+document.addEventListener('DOMContentLoaded', () => {
+    const wheelModal = document.getElementById('food-wheel-modal');
+    if (wheelModal) {
+        wheelModal.addEventListener('click', (event) => {
+            if (event.target === wheelModal) {
+                closeFoodWheel();
+            }
+        });
+    }
+
+    // 綁定轉盤點擊事件
+    const canvas = document.getElementById('wheelCanvas');
+    if (canvas) {
+        canvas.addEventListener('click', () => {
+            spinWheel();
+        });
+    }
+});

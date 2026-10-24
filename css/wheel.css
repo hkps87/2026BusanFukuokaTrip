@@ -211,6 +211,8 @@
     height: 270px;
     border-radius: 50%;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    /* 💡 讓滑鼠/手指移上去時變成點擊手勢 */
+    cursor: pointer;
 }
 
 .spin-action-btn {

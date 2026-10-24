@@ -68,13 +68,33 @@ function selectLotteryMode(mode) {
   }
 }
 
-// 設定 3D 骰子的 6 個面
+// 💡 6位成員專屬的 6 種繽紛色彩配置 (背景、邊框、文字顏色)
+const memberColors = [
+  { bg: 'rgba(239, 68, 68, 0.25)', border: '#ef4444', text: '#fca5a5' }, // 成員A：紅
+  { bg: 'rgba(249, 115, 22, 0.25)', border: '#f97316', text: '#fdba74' }, // 成員B：橙
+  { bg: 'rgba(245, 158, 11, 0.25)', border: '#f59e0b', text: '#fde047' }, // 成員C：琥珀金
+  { bg: 'rgba(16, 185, 129, 0.25)', border: '#10b981', text: '#6ee7b7' }, // 成員D：翡翠綠
+  { bg: 'rgba(6, 182, 212, 0.25)', border: '#06b6d4', text: '#67e8f9' },  // 成員E：青藍
+  { bg: 'rgba(168, 85, 247, 0.25)', border: '#a855f7', text: '#d8b4fe' }  // 成員F：紫羅蘭
+];
+
+// 設定 3D 骰子的 6 個面與專屬色彩
 function setupDiceFaces() {
   const diceBox = document.getElementById('diceBox');
   diceBox.style.transform = 'rotateX(0deg) rotateY(0deg)';
+
   for (let i = 0; i < 6; i++) {
     const face = diceBox.querySelector(`.face-${i + 1}`);
-    if (face) face.innerText = members[i];
+    if (face) {
+      face.innerText = members[i];
+
+      // 綁定對應的成員色彩
+      const col = memberColors[i];
+      face.style.backgroundColor = col.bg;
+      face.style.borderColor = col.border;
+      face.style.color = col.text;
+      face.style.boxShadow = `inset 0 0 20px ${col.border}40`;
+    }
   }
 }
 
@@ -230,6 +250,28 @@ document.addEventListener('DOMContentLoaded', () => {
       // 當點擊的目標剛好就是外層的遮罩背景（#lottery-modal），而不是卡片內部時關閉
       if (event.target === lotteryModal) {
         closeLotteryModal();
+      }
+    });
+  }
+});
+
+// 💡【新增】點擊背景關閉 Modal 與 點擊骰子本身直接擲骰
+document.addEventListener('DOMContentLoaded', () => {
+  const lotteryModal = document.getElementById('lottery-modal');
+  if (lotteryModal) {
+    lotteryModal.addEventListener('click', (event) => {
+      if (event.target === lotteryModal) {
+        closeLotteryModal();
+      }
+    });
+  }
+
+  // 綁定 3D 骰子點擊事件（僅在骰子模式下有效）
+  const diceBox = document.getElementById('diceBox');
+  if (diceBox) {
+    diceBox.addEventListener('click', () => {
+      if (currentMode === 'dice') {
+        startLottery();
       }
     });
   }
