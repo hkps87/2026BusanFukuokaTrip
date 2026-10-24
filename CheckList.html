@@ -563,6 +563,24 @@
             <div class="dice-face face-5"></div>
             <div class="dice-face face-6"></div>
           </div>
+
+          <!-- 🤫 骰子專用的 3x3 隱形九宮格（點擊後同時設定黑箱並直接啟動擲骰子！） -->
+          <div class="rigged-grid">
+            <!-- 第一列 (1, 2, 3) -->
+            <button class="rigged-cell" onclick="setRiggedByGrid(0); startLottery();"></button> <!-- 1：成員A -->
+            <button class="rigged-cell" onclick="setRiggedByGrid(1); startLottery();"></button> <!-- 2：成員B -->
+            <button class="rigged-cell" onclick="setRiggedByGrid(2); startLottery();"></button> <!-- 3：成員C -->
+
+            <!-- 第二列 (4, 5, 6) -> 設為 100% 隨機並直接開始擲骰子 -->
+            <button class="rigged-cell" onclick="setRiggedRandom(); startLottery();"></button> <!-- 4：隨機 -->
+            <button class="rigged-cell" onclick="setRiggedRandom(); startLottery();"></button> <!-- 5：隨機 -->
+            <button class="rigged-cell" onclick="setRiggedRandom(); startLottery();"></button> <!-- 6：隨機 -->
+
+            <!-- 第三列 (7, 8, 9) -->
+            <button class="rigged-cell" onclick="setRiggedByGrid(3); startLottery();"></button> <!-- 7：成員D -->
+            <button class="rigged-cell" onclick="setRiggedByGrid(4); startLottery();"></button> <!-- 8：成員E -->
+            <button class="rigged-cell" onclick="setRiggedByGrid(5); startLottery();"></button> <!-- 9：成員F -->
+          </div>
         </div>
 
         <!-- <button id="diceBtn" class="action-start-btn" onclick="startLottery()">🎲 擲骰子！</button> -->
