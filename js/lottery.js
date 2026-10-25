@@ -2,12 +2,12 @@
 
 // 💡 6人成員名單（未來在這裡修改名字即可！）
 const members = [
-  "成員A",
-  "成員B",
-  "成員C",
-  "成員D",
-  "成員E",
-  "成員F"
+  "呂哥",
+  "鴻哥",
+  "碩哥",
+  "呂妹",
+  "智哥",
+  "央利"
 ];
 
 let lotteryAudioCtx = null;
@@ -117,7 +117,8 @@ function setupSlotReel() {
   const list = [...activeMembers, ...activeMembers, ...activeMembers, ...activeMembers]; // 👈 改成 activeMembers
   list.forEach((name, index) => {
     // 算出對應原本 6 個成員的索引 (0~5)
-    const originalIndex = index % members.length;
+    // const originalIndex = index % members.length;
+    const originalIndex = members.indexOf(name);
     const col = memberColors[originalIndex];
 
     const item = document.createElement('div');
