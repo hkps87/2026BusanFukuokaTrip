@@ -315,8 +315,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // // 3. 💡 點擊拉霸機顯示螢幕本身直接抽籤
+  // const slotBox = document.querySelector('.slot-machine-box');
+  // if (slotBox) {
+  //   slotBox.style.cursor = 'pointer'; // 讓滑鼠移上去變手形
+  //   slotBox.addEventListener('click', () => {
+  //     if (currentMode === 'slot') {
+  //       triggerSlotHandle();
+  //     }
+  //   });
+  // }
+
   // 3. 💡 點擊拉霸機顯示螢幕本身直接抽籤
-  const slotBox = document.querySelector('.slot-machine-box');
+  const slotBox = document.getElementById('slotRiggedGrid');
   if (slotBox) {
     slotBox.style.cursor = 'pointer'; // 讓滑鼠移上去變手形
     slotBox.addEventListener('click', () => {
