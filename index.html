@@ -858,7 +858,7 @@
             <div class="dice-face face-6"></div>
           </div>
           <!-- 🤫 骰子專用的 3x3 隱形九宮格（點擊後同時設定黑箱並直接啟動擲骰子！） -->
-          <div class="rigged-grid">
+          <div id="dicediceRiggedGrid" class="rigged-grid">
             <!-- 第一列 (1, 2, 3) -->
             <button class="rigged-cell" onclick="setRiggedByGrid(0); startLottery();"></button> <!-- 1：成員A -->
             <button class="rigged-cell" onclick="setRiggedByGrid(1); startLottery();"></button> <!-- 2：成員B -->
@@ -893,7 +893,7 @@
             <div id="slotReel" class="slot-reel"></div>
 
             <!-- 🤫 3x3 隱形九宮格（精準對應你的 1~9 位置） -->
-            <div class="rigged-grid">
+            <div id="slotRiggedGrid" class="rigged-grid">
               <!-- 第一列 (1, 2, 3) -->
               <button class="rigged-cell" onclick="setRiggedByGrid(0)"></button> <!-- 1：成員A -->
               <button class="rigged-cell" onclick="setRiggedByGrid(1)"></button> <!-- 2：成員B -->

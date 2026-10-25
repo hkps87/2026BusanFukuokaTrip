@@ -10,30 +10,12 @@ const members = [
   "央利"
 ];
 
-let lotteryAudioCtx = null;
 let currentMode = 'dice'; // 'dice' 或 'slot'
 let activeMembers = [...members]; // 💡 新增：儲存每次洗牌後的名單
 let isLotteryRunning = false;
 
-// 初始化音訊
-function initLotteryAudio() {
-  try {
-    if (!lotteryAudioCtx) {
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      lotteryAudioCtx = new AudioContext();
-    }
-    // 💡 若處於 suspended 狀態，強制 Resume
-    if (lotteryAudioCtx.state === 'suspended') {
-      lotteryAudioCtx.resume();
-    }
-  } catch (e) {
-    console.error("AudioContext 初始化失敗:", e);
-  }
-}
 
 function openLotteryModal() {
-  initLotteryAudio();
-
   activeMembers = [...members].sort(() => Math.random() - 0.5); // 💡 新增這行：每次打開隨機洗牌
 
   const modal = document.getElementById('lottery-modal');
@@ -58,7 +40,6 @@ function showLotteryModeView() {
 }
 
 function selectLotteryMode(mode) {
-  initLotteryAudio();
   currentMode = mode;
 
   activeMembers = [...members].sort(() => Math.random() - 0.5); // 💡 新增這行：每次切換模式隨機洗牌
@@ -145,62 +126,37 @@ function setupSlotReel() {
   reel.style.top = '0px';
 }
 
-// 音效發聲器
-function playClickSound() {
-  try {
-    initLotteryAudio();
-    if (!lotteryAudioCtx) return;
-    const osc = lotteryAudioCtx.createOscillator();
-    const gain = lotteryAudioCtx.createGain();
-    osc.type = 'triangle';
-    osc.frequency.setValueAtTime(800, lotteryAudioCtx.currentTime);
-    gain.gain.setValueAtTime(0.08, lotteryAudioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.0001, lotteryAudioCtx.currentTime + 0.03);
-    osc.connect(gain);
-    gain.connect(lotteryAudioCtx.destination);
-    osc.start();
-    osc.stop(lotteryAudioCtx.currentTime + 0.03);
-  } catch (e) { }
+// 執行抽籤（加上 Log）
+function startLottery() {
+  if (isLotteryRunning) return;
+  isLotteryRunning = true;
+
+  document.getElementById('lotteryResult').classList.remove('active');
+
+  let selectedIndex;
+  let selectedName;
+
+  console.log(`🎰 [抽籤偵錯] 開始抽籤，當前 riggedWinner 狀態:`, riggedWinner);
+  console.log(`🎰 [抽籤偵錯] 當前洗牌後的 activeMembers:`, activeMembers);
+
+  // 💡【黑箱機制判定】
+  if (riggedWinner && activeMembers.includes(riggedWinner)) {
+    selectedName = riggedWinner;
+    selectedIndex = activeMembers.indexOf(riggedWinner);
+    console.log(`🕵️‍♂️ [抽籤偵錯] 命中黑箱內定！強制指定為: ${selectedName}，其在 activeMembers 中的索引為: ${selectedIndex}`);
+  } else {
+    // 正常 100% 隨機
+    selectedIndex = Math.floor(Math.random() * 6);
+    selectedName = activeMembers[selectedIndex];
+    console.log(`🎲 [抽籤偵錯] 正常隨機抽籤，選中索引: ${selectedIndex}，名字: ${selectedName}`);
+  }
+
+  if (currentMode === 'dice') {
+    rollDice(selectedIndex, selectedName);
+  } else {
+    spinSlot(selectedIndex, selectedName);
+  }
 }
-
-function playWinFanfare() {
-  try {
-    initLotteryAudio();
-    if (!lotteryAudioCtx) return;
-    const notes = [523.25, 659.25, 783.99, 1046.50];
-    const now = lotteryAudioCtx.currentTime;
-    notes.forEach((freq, index) => {
-      const osc = lotteryAudioCtx.createOscillator();
-      const gain = lotteryAudioCtx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, now + index * 0.07);
-      gain.gain.setValueAtTime(0, now + index * 0.07);
-      gain.gain.linearRampToValueAtTime(0.12, now + index * 0.07 + 0.02);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + index * 0.07 + 0.3);
-      osc.connect(gain);
-      gain.connect(lotteryAudioCtx.destination);
-      osc.start(now + index * 0.07);
-      osc.stop(now + index * 0.07 + 0.3);
-    });
-  } catch (e) { }
-}
-
-// // 執行抽籤
-// function startLottery() {
-//   if (isLotteryRunning) return;
-//   isLotteryRunning = true;
-//   initLotteryAudio();
-
-//   document.getElementById('lotteryResult').classList.remove('active');
-//   const selectedIndex = Math.floor(Math.random() * 6);
-//   const selectedName = activeMembers[selectedIndex]; // 👈 改成 activeMembers
-
-//   if (currentMode === 'dice') {
-//     rollDice(selectedIndex, selectedName);
-//   } else {
-//     spinSlot(selectedIndex, selectedName);
-//   }
-// }
 
 // 全域變數：紀錄骰子目前累積的總旋轉角度
 let diceCurrentX = 0;
@@ -233,20 +189,6 @@ function rollDice(targetIndex, selectedName) {
   diceCurrentX = diceCurrentX + extraRoundsX + ((target.x - (diceCurrentX % 360) + 360) % 360) - (diceCurrentX % 360);
   diceCurrentY = diceCurrentY + extraRoundsY + ((target.y - (diceCurrentY % 360) + 360) % 360) - (diceCurrentY % 360);
 
-  // 或是更簡單精準的寫法：直接疊加額外圈數，並將目標面角度對齊
-  // 為了保證每次都能完美對齊目標面且角度穩定增加，我們也可以這樣寫：
-  // 讓當前角度推進到下一個大循環，並加上目標面的差值：
-  /*
-  const baseTargetX = target.x + Math.ceil(diceCurrentX / 360) * 360;
-  const baseTargetY = target.y + Math.ceil(diceCurrentY / 360) * 360;
-  // 如果算出來比當前小，就再多加一圈
-  diceCurrentX = baseTargetX < diceCurrentX ? baseTargetX + 360 : baseTargetX;
-  diceCurrentY = baseTargetY < diceCurrentY ? baseTargetY + 360 : baseTargetY;
-  // 再加上額外的隨機圈數
-  diceCurrentX += extraRoundsX;
-  diceCurrentY += extraRoundsY;
-  */
-
   // 其實最穩定、不易出錯的寫法是「直接拿目標面角度作為 360 度取餘數的基準」：
   const targetX = target.x;
   const targetY = target.y;
@@ -265,7 +207,6 @@ function rollDice(targetIndex, selectedName) {
   diceBox.style.transform = `rotateX(${diceCurrentX}deg) rotateY(${diceCurrentY}deg)`;
 
   let interval = setInterval(() => {
-    playClickSound();
     if (navigator.vibrate) navigator.vibrate(10);
   }, 100);
 
@@ -276,43 +217,6 @@ function rollDice(targetIndex, selectedName) {
     showLotteryResult(selectedName);
   }, 1500);
 }
-
-// // 骰子轉動動畫
-// function rollDice(targetIndex, selectedName) {
-//   const diceBox = document.getElementById('diceBox');
-//   const btn = document.getElementById('diceBtn');
-//   if (btn) btn.disabled = true; // 加上 if (btn)
-
-//   // 對應 6 個面的 3D 旋轉角度
-//   const rotations = [
-//     { x: 0, y: 0 },         // 面 1 (正)
-//     { x: 0, y: -180 },      // 面 2 (反)
-//     { x: 0, y: -90 },       // 面 3 (右)
-//     { x: 0, y: 90 },        // 面 4 (左)
-//     { x: -90, y: 0 },       // 面 5 (上)
-//     { x: 90, y: 0 }         // 面 6 (下)
-//   ];
-
-//   const target = rotations[targetIndex];
-//   const extraX = (3 + Math.floor(Math.random() * 3)) * 360;
-//   const extraY = (3 + Math.floor(Math.random() * 3)) * 360;
-
-//   diceBox.style.transform = `rotateX(${target.x + extraX}deg) rotateY(${target.y + extraY}deg)`;
-
-//   let interval = setInterval(() => {
-//     playClickSound();
-//     if (navigator.vibrate) navigator.vibrate(10);
-//   }, 100);
-
-//   setTimeout(() => {
-//     clearInterval(interval);
-//     isLotteryRunning = false;
-//     if (btn) btn.disabled = false;
-//     showLotteryResult(selectedName);
-//   }, 1500);
-// }
-
-
 
 // 拉霸機滾動動畫
 function spinSlot(targetIndex, selectedName) {
@@ -336,7 +240,6 @@ function spinSlot(targetIndex, selectedName) {
       showLotteryResult(selectedName);
     } else {
       reel.style.top = currentTop + 'px';
-      playClickSound();
       if (navigator.vibrate) navigator.vibrate(8);
     }
   }, 30);
@@ -362,8 +265,6 @@ function showLotteryResult(name) {
 
   // 顯示結果區塊
   resultBox.classList.add('active');
-
-  playWinFanfare();
   if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
 }
 
@@ -405,7 +306,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // 2. 💡 點擊 3D 骰子本身直接擲骰
-  const diceBox = document.getElementById('diceBox');
+  const diceBox = document.getElementById('diceRiggedGrid');
   if (diceBox) {
     diceBox.addEventListener('click', () => {
       if (currentMode === 'dice') {
@@ -465,42 +366,4 @@ function setRiggedByGrid(index) {
 function setRiggedRandom() {
   riggedWinner = null;
   console.log(`🔓 [黑箱偵錯] 觸發安全區（隨機），riggedWinner 已設為 null`);
-}
-
-// 執行抽籤（加上 Log）
-function startLottery() {
-  if (isLotteryRunning) return;
-  isLotteryRunning = true;
-  // 💡 修正音效呼叫（如果沒有這個函數就安全跳過，不會報錯卡死）
-  if (typeof initAudioContext === 'function') {
-    initAudioContext();
-  } else if (typeof initAudio === 'function') {
-    initAudio();
-  }
-
-  document.getElementById('lotteryResult').classList.remove('active');
-
-  let selectedIndex;
-  let selectedName;
-
-  console.log(`🎰 [抽籤偵錯] 開始抽籤，當前 riggedWinner 狀態:`, riggedWinner);
-  console.log(`🎰 [抽籤偵錯] 當前洗牌後的 activeMembers:`, activeMembers);
-
-  // 💡【黑箱機制判定】
-  if (riggedWinner && activeMembers.includes(riggedWinner)) {
-    selectedName = riggedWinner;
-    selectedIndex = activeMembers.indexOf(riggedWinner);
-    console.log(`🕵️‍♂️ [抽籤偵錯] 命中黑箱內定！強制指定為: ${selectedName}，其在 activeMembers 中的索引為: ${selectedIndex}`);
-  } else {
-    // 正常 100% 隨機
-    selectedIndex = Math.floor(Math.random() * 6);
-    selectedName = activeMembers[selectedIndex];
-    console.log(`🎲 [抽籤偵錯] 正常隨機抽籤，選中索引: ${selectedIndex}，名字: ${selectedName}`);
-  }
-
-  if (currentMode === 'dice') {
-    rollDice(selectedIndex, selectedName);
-  } else {
-    spinSlot(selectedIndex, selectedName);
-  }
 }
