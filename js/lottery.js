@@ -366,6 +366,13 @@ function showLotteryResult(name) {
   if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
 }
 
+// 🎰 觸發拉桿點擊事件
+function triggerRedDot() {
+  // 清除內定，設為完全隨機
+  setRiggedRandom();
+  triggerSlotHandle();
+}
+
 // 🎰 觸發拉桿動作（包含視覺動畫與抽籤啟動）
 function triggerSlotHandle() {
   if (isLotteryRunning) return;
@@ -430,6 +437,8 @@ document.addEventListener('DOMContentLoaded', () => {
       let touchEndY = e.changedTouches[0].clientY;
       // 如果手指往下滑動超過 40px，就自動觸發拉霸
       if (touchEndY - touchStartY > 40) {
+        // 清除內定，設為完全隨機
+        setRiggedRandom();
         triggerSlotHandle();
       }
     }, { passive: true });

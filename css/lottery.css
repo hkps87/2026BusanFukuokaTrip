@@ -385,5 +385,5 @@
   border: none;
   cursor: pointer;
   /* (測試時如果想看格子位置，可將下面這行取消註解) */
-  /* border: 1px dashed rgba(255, 255, 255, 0.3); */
+  border: 1px dashed rgba(255, 255, 255, 0.3);
 }
