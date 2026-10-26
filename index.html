@@ -277,19 +277,6 @@
           </div>
           <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-amber-400 transition"></i>
         </button>
-
-        <!-- <button type="button" id="open-currency-btn" class="flex items-center justify-between p-3.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500/50 hover:bg-slate-800/80 transition group text-left w-full">
-          <div class="flex items-center gap-2.5">
-            <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center">
-              <i data-lucide="coins" class="w-4 h-4"></i>
-            </div>
-            <div>
-              <span class="font-semibold text-slate-200 block text-sm">即時匯率換算</span>
-              <span class="text-[10px] text-slate-400">台幣 / 日圓 / 韓元 雙向計算</span>
-            </div>
-          </div>
-          <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-amber-400 transition"></i>
-        </button> -->
       </div>
 
       <!-- Markdown 預覽區塊 -->
@@ -325,14 +312,130 @@
         day: 2,
         date: "2026/12/12",
         dayOfWeek: "星期六",
-        theme: "金海塗鴉秀 ➔ 飯店 Check-in ➔ 南浦洞換錢 ➔ 夜市漫遊",
-        highlights: ["塗鴉秀", "Booking the bay", "友利換錢所", "富平罐頭夜市"],
+        theme: "金海塗鴉秀 ➔ 南浦洞換錢 ➔ 樂天光復夜景 ➔ 罐頭夜市 ➔ 廣安里 21:00 無人機秀 ➔ 廣安里海景宵夜漫遊",
+        highlights: [
+          "金海伽倻主題公園",
+          "塗鴉秀",
+          "樂天光復夜景",
+          "罐頭夜市",
+          "廣安里無人機秀"
+        ],
         items: [
-          { time: "09:30 - 14:30", title: "金海伽倻主題公園 觀賞《塗鴉秀》", desc: "從沙上搭地鐵轉公車/計程車約 40-50 分鐘至【金海伽倻主題公園】，觀賞著名「塗鴉秀 (The Painters)」藝術表演並園區漫步。", link: "https://map.naver.com/p/search/%EA%B9%80%ED%95%B4%EA%B0%80%EC%95%BC%ED%85%8c%EB%A7%88%EA%B3%B5%EC%9B%90", icon: "palette", tags: ["highlight"] },
-          { time: "14:30 - 15:15", title: "飯店 Check-in 卸行李", desc: "搭乘交通工具返回市區，前往 【Booking the bay】 辦理入住與放置行李 (車程約 40-50 分鐘)。", link: "https://map.naver.com/p/search/Booking%20the%20bay", icon: "building-2", tags: ["hotel"] },
-          { time: "15:15 - 16:00", title: "南浦洞友利換錢所 兌換韓元", desc: "搭地鐵前往【南浦洞】(約 10-15 分鐘)，至「友利換錢所」用台幣兌換韓元現金。", link: "https://map.naver.com/p/search/%EC%9A%B0%EB%A6%A1%ED%99%98%EC%A0%84%EC%86%8C", icon: "coins", tags: ["food"] },
-          { time: "16:00 - 18:00", title: "龍頭山公園 ＆ BIFF 廣場漫步", desc: "散步前往龍頭山公園與 BIFF 廣場，品嚐釜山必吃的熱騰騰「種子黑糖餅」(步行約 5-10 分鐘)。", link: "https://map.naver.com/p/search/%EC%9A%B9%EB%91%90%EC%82%B0%EA%B3%B5%EC%9B%90", icon: "utensils", tags: ["food", "highlight"] },
-          { time: "18:00 之後", title: "富平罐頭夜市（週末限定露天夜市）", desc: "前往富平罐頭夜市，品嚐各式豐富特色異國小吃與道地韓味當晚餐 (從 BIFF 廣場步行約 5-10 分鐘)。", link: "https://map.naver.com/p/search/%EB%B6%80%ED%8F%89%EA%B0%95%ED%86%B5%EC%8B%9C%EC%9E%A5", icon: "store", tags: ["food", "highlight"] }
+          {
+            time: "08:30 - 09:15",
+            title: "寄放行李與搭車前往仁濟大學站",
+            desc: "在住宿地點寄放行李後，搭乘釜山-金海輕電鐵至「인제대역 (仁濟大學站)」。*(註：原住宿規定 12:00 前退房)*",
+            icon: "baggage-claim",
+            tags: ["transport", "hotel"]
+          },
+          {
+            time: "09:25 - 09:45",
+            title: "搭乘免費接駁車前往金海伽倻主題公園",
+            desc: "於仁濟大學站 1號出口搭乘第一班 09:25 園區免費接駁車前往金海伽倻主題公園 *(約 15-20 分鐘抵達)*。",
+            link: "https://map.naver.com/p/search/%EA%B9%80%ED%95%B4%EA%B0%80%EC%95%BC%ED%85%8c%EB%A7%88%EA%B3%B5%EC%9B%90",
+            icon: "bus",
+            tags: ["transport", "spot"]
+          },
+          {
+            time: "09:45 - 13:30",
+            title: "金海伽倻主題公園漫步與享用午餐",
+            desc: "園區漫步拍照、體驗設施、享用午餐並準備觀賞塗鴉秀。",
+            link: "https://map.naver.com/p/search/%EA%B9%80%ED%95%B4%EA%B0%80%EC%95%BC%ED%85%8c%EB%A7%88%EA%B3%B5%EC%9B%90",
+            icon: "camera",
+            tags: ["spot", "food"]
+          },
+          {
+            time: "13:30 - 14:30",
+            title: "觀賞「塗鴉秀 (The Painters)」",
+            desc: "觀賞 13:30 場次之塗鴉秀演出，演出時間約 60 分鐘。",
+            icon: "ticket",
+            tags: ["spot"]
+          },
+          {
+            time: "15:00 - 15:20",
+            title: "搭乘接駁車返回仁濟大學站",
+            desc: "搭乘 15:00 園區免費接駁車返回仁濟大學站。",
+            icon: "bus",
+            tags: ["transport"]
+          },
+          {
+            time: "15:20 - 16:15",
+            title: "取行李與 Check-in",
+            desc: "搭乘輕電鐵返回沙上住宿點取行李，再前往 Booking the bay 完成 Check-in 與卸行李 *(車程約 45-50 分鐘，16:00 可 check in)*。",
+            link: "https://map.naver.com/p/search/Booking%20the%20bay",
+            icon: "key",
+            tags: ["transport", "hotel"]
+          },
+          {
+            time: "16:15 - 16:45",
+            title: "搭地鐵前往南浦洞友利換錢所",
+            desc: "搭地鐵前往南浦洞 *(地鐵約 10-15 分鐘)*，至釜山南浦洞友利換錢所拿台幣兌換韓元現金。",
+            link: "https://map.naver.com/p/search/%EC%9A%B0%EB%A6%A1%ED%99%98%EC%A0%84%EC%86%80",
+            icon: "dollar-sign",
+            tags: ["transport"]
+          },
+          {
+            time: "16:45 - 18:00",
+            title: "龍頭山公園 & BIFF 廣場散步與小吃",
+            desc: "至龍頭山公園、BIFF 廣場散步，品嚐種子黑糖餅與週邊小吃 *(步行約 5-10 分鐘)*。",
+            link: "https://map.naver.com/p/search/BIFF%EA%B4%91%EC%9E%A5",
+            icon: "utensils",
+            tags: ["spot", "food"]
+          },
+          {
+            time: "18:00 - 18:40",
+            title: "樂天百貨光復店 The Sky Park 觀賞夜景",
+            desc: "前往樂天百貨光復店 13 樓頂樓觀景台快閃拍照，俯瞰釜山港與影島大橋夜景 *(從 BIFF 廣場步行約 10 分鐘)*。",
+            link: "https://map.naver.com/p/search/%EB%A1%87%EB%8D%B0%B0%B1%ED%99%98%EC%A0%84%EC%86%80%20%EA%B4%91%EB%B3%B5%EC%A0%90",
+            icon: "moon",
+            tags: ["spot", "camera"]
+          },
+          {
+            time: "18:45 - 19:50",
+            title: "富平罐頭夜市享用晚餐",
+            desc: "造訪週末限定露天夜市，享用在地特色小吃與熱湯點心晚餐 *(從樂天百貨步行約 10-15 分鐘)*。",
+            link: "https://map.naver.com/p/search/%EB%B6%80%ED%8F%89%EA%B0%95%ED%86%B5%EC%8B%9C%EC%9E%A5",
+            icon: "store",
+            tags: ["food", "spot"]
+          },
+          {
+            time: "19:50 - 20:30",
+            title: "搭乘地鐵前往廣安里海水浴場",
+            desc: "從札嘎其/南浦站搭地鐵至廣安站，步行至海邊 *(約 35-40 分鐘)*。",
+            icon: "train-front",
+            tags: ["transport"]
+          },
+          {
+            time: "20:30 - 21:00",
+            title: "廣安里海邊散步與卡位",
+            desc: "廣安里海邊散步、買熱飲卡位預備觀賞無人機秀。",
+            icon: "footprints",
+            tags: ["spot", "coffee"]
+          },
+          {
+            time: "21:00 - 21:15",
+            title: "觀賞廣安里 M 無人機燈光秀",
+            desc: "觀賞 21:00 場次 *(600+ 架無人機搭配廣安大橋夜景)*。",
+            link: "https://map.naver.com/p/search/%EA%B4%91%EC%9A%88%EB%A6%AC%EB%94%A5%ED%8C%8C%EC%9D%B4%ED%8A%B8%EC%87%BC",
+            icon: "sparkles",
+            tags: ["spot"]
+          },
+          {
+            time: "21:15 - 22:00",
+            title: "廣安里海景宵夜與深夜漫遊",
+            desc: "於第一排海景居酒屋、橋村/BHC 韓式炸雞或海景咖啡廳享用宵夜，邊吃邊欣賞無人機退場後的廣安大橋燈光與沙灘夜景。",
+            link: "https://map.naver.com/p/search/%EA%B4%91%EC%9A%88%EB%A6%AC%ED%95%B4%EC%88%98%EC%9C%A1%EC%9E%A5",
+            icon: "beer",
+            tags: ["food", "spot"]
+          },
+          {
+            time: "22:00 之後",
+            title: "返回飯店休息",
+            desc: "搭乘地鐵返回 Booking the bay 休息。",
+            link: "https://map.naver.com/p/search/Booking%20the%20bay",
+            icon: "hotel",
+            tags: ["transport", "hotel"]
+          }
         ]
       },
       {
@@ -340,263 +443,661 @@
         date: "2026/12/13",
         dayOfWeek: "星期日",
         theme: "慶州世界遺產與古都漫遊一日遊（冬日日落優化版）",
-        highlights: ["佛國寺", "皇理團路", "大陵苑", "瞻星台", "東宮與月池夜景"],
+        highlights: [
+          "佛國寺",
+          "皇理團路",
+          "大陵苑與天馬塚",
+          "瞻星台",
+          "月精橋",
+          "東宮與月池"
+        ],
         items: [
-          { time: "08:30 - 09:30", title: "釜山前往慶州", desc: "搭乘 KTX 至新慶州站轉公車，或搭長途巴士直達慶州市區 (車程約 1 - 1.5 小時)。", icon: "bus", tags: ["transport"] },
-          { time: "09:30 - 11:30", title: "【佛國寺】千年世界文化遺產", desc: "早晨山區空氣清新、光線通透，愜意欣賞千年石造藝術與世界文化遺產建築。", link: "https://map.naver.com/p/search/%EB%B6%88%EA%B5%AD%EC%82%AC", icon: "landmark", tags: ["highlight"] },
-          { time: "11:30 - 12:00", title: "搭車返回慶州市區", desc: "搭乘市區公車 10/11 號返回慶州市區 (約 30-40 分鐘)。", icon: "bus", tags: ["transport"] },
-          { time: "12:00 - 13:30", title: "【皇理團路】韓屋巷弄午餐", desc: "在傳統韓屋改建的特色餐廳或文青咖啡廳享用慶州特色美食與甜點。", link: "https://map.naver.com/p/search/%ED%99%A9%EB%A6%AC%EB%8B%A8%EB%A1%9C", icon: "coffee", tags: ["food"] },
-          { time: "13:30 - 15:30", title: "【大陵苑 / 天馬塚】古墓巡禮", desc: "漫步在巨型草綠色新羅王陵間，並入內探索神秘的天馬塚古墓 (從皇理團路步行約 5 分鐘)。", link: "https://map.naver.com/p/search/%EB%8C%80%EB%A6%89%EC%9B%90", icon: "trees", tags: ["highlight"] },
-          { time: "15:30 - 16:45", title: "【瞻星台】與周邊草地散步", desc: "漫步拍照，捕捉東方最古老天文台在冬日午後溫暖的斜陽餘暉 (從大陵苑步行約 5-10 分鐘)。", link: "https://map.naver.com/p/search/%EC%B2%A8%EC%84%B1%EB%8C%80", icon: "sun", tags: ["highlight"] },
-          { time: "16:45 - 18:30", title: "🔥【東宮與月池（雁鴨池）】黃金日落夜景", desc: "🔥【黃金亮點】：冬日 17:00 日落，17:10 入園捕捉微光晚霞與金碧輝煌的水中倒影絕景 (從瞻星台步行約 10-15 分鐘)。", link: "https://map.naver.com/p/search/%EB%8F%99%EA%B6%81%EA%B3%BC%EC%9B%94%EC%A7%80", icon: "sparkles", tags: ["highlight"] },
-          { time: "18:30 之後", title: "慶州晚餐 ＆ 返回釜山飯店", desc: "市區享用輕鬆晚餐，搭乘長途巴士或 KTX 返回釜山休息 (車程約 1 - 1.5 小時)。", icon: "moon", tags: ["transport", "food"] }
+          {
+            time: "07:30 - 07:50",
+            title: "出門前往釜山站",
+            desc: "從 Booking the bay 出門，步行約 5-10 分鐘至釜山站候車。",
+            link: "https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%EC%97%AD",
+            icon: "footprints",
+            tags: ["transport"]
+          },
+          {
+            time: "08:05 - 08:38",
+            title: "搭乘 KTX 前往新慶州站",
+            desc: "搭乘 KTX (146次) 從釜山站前往新慶州站 *(車程約 33 分鐘)*。",
+            link: "https://map.naver.com/p/search/%EC%8A%A9%EA%B2%BD%EC%A3%BC%EC%97%AD",
+            icon: "train-front",
+            tags: ["transport"]
+          },
+          {
+            time: "08:38 - 08:50",
+            title: "抵達新慶州站與前往公車轉乘廣場",
+            desc: "抵達新慶州站，從 1 號出口步行至站前公車轉乘廣場 *(步行約 3-5 分鐘，留有約 12 分鐘轉乘緩衝時間)*。",
+            icon: "footprints",
+            tags: ["transport"]
+          },
+          {
+            time: "08:50 - 09:35",
+            title: "搭乘公車直達佛國寺",
+            desc: "搭乘 700 號公車直達佛國寺 *(公車車程約 40-45 分鐘，於佛國寺站下車)*。",
+            link: "https://map.naver.com/p/search/%EB%B6%88%EA%B5%AD%EC%82%AC",
+            icon: "bus",
+            tags: ["transport", "spot"]
+          },
+          {
+            time: "09:35 - 11:30",
+            title: "參觀佛國寺",
+            desc: "【佛國寺】免門票，早晨山區空氣清新、光線通透，愜意欣賞世界文化遺產與千年石造藝術。",
+            link: "https://map.naver.com/p/search/%EB%B6%88%EA%B5%AD%EC%82%AC",
+            icon: "landmark",
+            tags: ["spot", "camera"]
+          },
+          {
+            time: "11:30 - 12:00",
+            title: "搭乘公車返回慶州市區",
+            desc: "於佛國寺前搭乘 10/11 號公車返回慶州市區 *(車程約 30-40 分鐘)*。",
+            icon: "bus",
+            tags: ["transport"]
+          },
+          {
+            time: "12:00 - 13:30",
+            title: "皇理團路午餐與韓服租借",
+            desc: "【皇理團路】享用韓屋定食（如「香華室」生牛肉拌飯、韓式烤肉或小吃），並可租借韓服漫步拍照。",
+            link: "https://map.naver.com/p/search/%ED%99%A9%EB%A6%AC%EB%8B%A8%EB%A1%9C",
+            icon: "utensils",
+            tags: ["food", "spot"]
+          },
+          {
+            time: "13:30 - 15:30",
+            title: "大陵苑與天馬塚探秘",
+            desc: "【大陵苑 / 天馬塚】大陵苑園區免費；入內探索天馬塚內部古墓 *(🎫 需購票：成人 3,000 韓元，從皇理團路步行約 5 分鐘)*。",
+            link: "https://map.naver.com/p/search/%EB%8C%80%EB%A6%89%EC%9B%90",
+            icon: "ticket",
+            tags: ["spot"]
+          },
+          {
+            time: "15:30 - 16:30",
+            title: "瞻星台散步與拍攝冬日斜陽",
+            desc: "【瞻星台與周邊草地】免門票，漫步拍照捕捉冬日午後溫暖斜陽餘暉，拍完可順路歸還韓服 *(從大陵苑步行約 5-10 分鐘)*。",
+            link: "https://map.naver.com/p/search/%EC%B2%B8%EC%84%B1%EB%8C%80",
+            icon: "camera",
+            tags: ["spot"]
+          },
+          {
+            time: "16:30 - 17:15",
+            title: "月精橋藍調夜夜景",
+            desc: "【月精橋】免門票，黃金藍調時刻：日落剛過，天空呈現神祕深藍色，木造古橋燈光全開，倒影絕美 *(從瞻星台步行約 10-12 分鐘)*。",
+            link: "https://map.naver.com/p/search/%EC%9B%94%EC%A0%95%EA%B0%95",
+            icon: "moon",
+            tags: ["spot", "camera"]
+          },
+          {
+            time: "17:15 - 18:30",
+            title: "東宮與月池夜景與倒影絕景",
+            desc: "【東宮與月池（雁鴨池）】🎫 需購票：成人 3,000 韓元；17:00 日落，17:10 左右購票入園，完美捕捉微光晚霞交織金碧輝煌夜景的倒影絕景 *(從月精橋步行約 10-12 分鐘)*。",
+            link: "https://map.naver.com/p/search/%EB%8F%99%EA%B6%81%EA%B3%BC%EC%9B%94%EC%A7%80",
+            icon: "sparkles",
+            tags: ["spot", "camera"]
+          },
+          {
+            time: "18:30 之後",
+            title: "享用在地晚餐與返程釜山",
+            desc: "於市區享用在地晚餐，隨後返回新慶州站搭乘 KTX 返回釜山 Booking the bay 飯店休息。",
+            link: "https://map.naver.com/p/search/Booking%20the%20bay",
+            icon: "hotel",
+            tags: ["food", "transport", "hotel"]
+          }
         ]
       },
       {
         day: 4,
         date: "2026/12/14",
         dayOfWeek: "星期一",
-        theme: "海雲台雙列車 ➔ 機張 Luge ➔ 高空夜景日 (Pass Big 3 ①②)",
-        highlights: ["天空膠囊列車", "海岸列車", "Skyline Luge (Pass #1)", "釜山 X the Sky (Pass #2)"],
+        theme: "海雲台雙列車 ➔ 機張 Luge ➔ 傳統市場與汗蒸幕夜（Pass Big 3 ①②）",
+        highlights: [
+          "天空膠囊列車",
+          "海岸列車",
+          "Skyline Luge 機張",
+          "海東龍宮寺",
+          "樂天頂級 Outlet 東釜山店",
+          "海雲台傳統市場",
+          "Spa Land 汗蒸幕"
+        ],
         items: [
-          { time: "09:30 - 10:15", title: "天空膠囊列車（尾浦 ➔ 青沙浦）", desc: "【海雲台藍線公園 尾浦站】搭乘夢幻天空膠囊列車至青沙浦 (官網預約，車程約 30 分鐘)。", link: "https://map.naver.com/p/search/%EB%AF%B8%ED%8F%AC%EC%A0%95", icon: "tram", tags: ["highlight", "pass"] },
-          { time: "10:15 - 11:00", title: "青沙浦天空步道 ＆ 灌籃高手平交道", desc: "遊覽青沙浦踏石天空步道，打卡韓版灌籃高手海景平交道並享用外帶咖啡。", link: "https://map.naver.com/p/search/%EC%B2%AD%EC%82%AC%ED%8F%AC%EB%8B%A5%EB%A6%BF%EB%8F%8C%EC%A0%84%EB%A7%9D%EB%8C%80", icon: "camera", tags: ["highlight"] },
-          { time: "11:00 - 11:25", title: "海岸列車（青沙浦 ➔ 松亭站）", desc: "搭乘海岸列車往北方前進至松亭站，近距離欣賞沿途湛藍海景 (約 15-20 分鐘)。", link: "https://map.naver.com/p/search/%EC%86%A1%EC%A0%95%EC%A0%95", icon: "train", tags: ["transport"] },
-          { time: "11:30 - 12:30", title: "松亭海景午餐", desc: "於松亭海灘周邊特色餐廳享用美味海景午餐。", icon: "utensils", tags: ["food"] },
-          { time: "12:45 - 14:15", title: "🎟️ Skyline Luge Busan 機張斜坡滑車 (Pass #1)", desc: "★ 刷 Pass 額度 ①：體驗刺激好玩的斜坡滑車 (從松亭搭公車/計程車約 20-25 分鐘)。", link: "https://map.naver.com/p/search/Skyline%20Luge%20Busan", icon: "ticket", tags: ["pass", "highlight"] },
-          { time: "14:30 - 16:00", title: "海東龍宮寺", desc: "參觀全韓唯一座落海岸懸崖上的寺廟，欣賞壯麗海景與冬日夕陽 (從 Luge 搭公車/計程車約 10-15 分鐘)。", link: "https://map.naver.com/p/search/%ED%95%B4%EB%8F%99%EC%9A%A9%EA%B6%81%EC%82%AC", icon: "landmark", tags: ["highlight"] },
-          { time: "16:15 - 17:45", title: "樂天 Premium Outlet 東釜山店", desc: "欣賞歐風建築造景與浪漫繽紛的聖誕燈海展飾 (從海東龍宮寺步行或搭車約 5-10 分鐘)。", link: "https://map.naver.com/p/search/%EB%A1%87%EB%8D%B0%ED%94%84%EB%A6%AC%EB%AF%B8%EC%97%84%EC%95%84%EC%9A%83%EB%A0%9B%20%EB%8F%99%EB%B6%80%EC%82%B0%EC%A0%90", icon: "shopping-bag", tags: ["highlight"] },
-          { time: "18:00 之後", title: "🎟️ 釜山 X the Sky 高空觀景台 (Pass #2)", desc: "★ 刷 Pass 額度 ②：登頂韓國第二高樓俯瞰海雲台百萬夜景，晚餐於海雲台商圈解決 (公車 1001 號或計程車約 25-30 分鐘)。", link: "https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%20X%20the%20Sky", icon: "building", tags: ["pass", "highlight", "food"] }
+          {
+            time: "09:30 - 10:15",
+            title: "海雲台藍線公園 天空膠囊列車",
+            desc: "【海雲台藍線公園 尾浦站】搭乘天空膠囊列車（尾浦 ➔ 青沙浦，kkday預約）*(搭乘約 30 分鐘)*。",
+            link: "https://map.naver.com/p/search/%EB%AF%B8%ED%8F%AC%EC%A0%95",
+            icon: "train-front",
+            tags: ["transport", "spot"]
+          },
+          {
+            time: "10:15 - 11:00",
+            title: "青沙浦漫步與拍照",
+            desc: "造訪青沙浦天空步道、平交道拍照，並外帶海景咖啡。",
+            link: "https://map.naver.com/p/search/%EC%B2%AD%EC%82%AC%ED%8F%AC%EB%8B%A5%EB%A6%BF%EB%8F%8C%EC%A0%95%EB%A7%9D%EB%8C%80",
+            icon: "camera",
+            tags: ["spot", "coffee"]
+          },
+          {
+            time: "11:00 - 11:25",
+            title: "搭乘海岸列車至松亭",
+            desc: "搭乘海岸列車從青沙浦至松亭站（朝北方前進，欣賞沿途海景）*(搭乘約 15-20 分鐘)*。",
+            link: "https://map.naver.com/p/search/%EC%86%A1%EC%A0%95%EC%A0%95",
+            icon: "train-front",
+            tags: ["transport", "spot"]
+          },
+          {
+            time: "11:30 - 12:30",
+            title: "松亭周邊享用海景午餐",
+            desc: "於松亭周邊享用美味海景午餐。",
+            icon: "utensils",
+            tags: ["food"]
+          },
+          {
+            time: "12:45 - 14:15",
+            title: "Skyline Luge 機張斜坡滑車",
+            desc: "【Skyline Luge Busan】體驗機張斜坡滑車 ➔ ★ 刷 Pass 額度 ① *(從松亭搭公車或計程車約 20-25 分鐘)*。",
+            link: "https://map.naver.com/p/search/Skyline%20Luge%20Busan",
+            icon: "ticket",
+            tags: ["spot"]
+          },
+          {
+            time: "14:30 - 16:00",
+            title: "海東龍宮寺參觀",
+            desc: "【海東龍宮寺】欣賞海崖絕景與下午夕陽 *(從 Luge 搭公車或計程車約 10-15 分鐘)*。",
+            link: "https://map.naver.com/p/search/%ED%95%B4%EB%8F%99%EC%9A%A9%EA%B6%81%EC%82%AC",
+            icon: "landmark",
+            tags: ["spot", "camera"]
+          },
+          {
+            time: "16:15 - 17:45",
+            title: "樂天頂級 Outlet 東釜山店購物與造景拍照",
+            desc: "【樂天頂級outlet 東釜山店】欣賞城堡風歐式建築與聖誕燈海 *(從海東龍宮寺步行或搭車約 5-10 分鐘)*。",
+            link: "https://map.naver.com/p/search/%EB%A1%87%EB%8D%B0%ED%94%84%EB%A6%AF%EB%AF%B8%EC%97%84%EC%95%84%EC%9A%83%EB%A0%9B%20%EB%8F%99%EB%B6%80%EC%82%B0%EC%A0%90",
+            icon: "shopping-bag",
+            tags: ["shopping", "spot"]
+          },
+          {
+            time: "18:00 - 19:30",
+            title: "海雲台傳統市場美味晚餐",
+            desc: "【海雲台傳統市場】享用美味晚餐與在地小吃巡禮 *(從 Outlet 搭乘公車 1001 號或計程車至海雲台約 25-30 分鐘)*。",
+            link: "https://map.naver.com/p/search/%ED%95%B4%EC%9A%B4%EB%8C%80%EC%A0%80%ED%86%B5%EC%8B%9C%EC%9E%A5",
+            icon: "store",
+            tags: ["food", "spot"]
+          },
+          {
+            time: "19:45 - 21:45",
+            title: "新世界 Spa Land 汗蒸幕放鬆",
+            desc: "【新世界 Spa Land 汗蒸幕】➔ ★ 刷 Pass 額度 ②，徹底放訟泡湯、享用甜米露與烤雞蛋 *(從海雲台搭地鐵至 Centum City 站約 5-10 分鐘)*。",
+            link: "https://map.naver.com/p/search/%EC%8B%A0%EC%84%B8%EA%B3%84%20%EC%8A%A4%ED%8C%8C%EB%9E%9C%EB%93%9C",
+            icon: "sparkles",
+            tags: ["spot", "food"]
+          }
         ]
       },
       {
         day: 5,
         date: "2026/12/15",
         dayOfWeek: "星期二",
-        theme: "松島海上纜車 ➔ 影島白淺灘 ➔ 太宗台 ➔ 扎嘎其海鮮 (Pass Big 3 ③)",
-        highlights: ["松島海上纜車 (Pass #3)", "白淺灘文化村", "太宗台 Danubi", "扎嘎其市場"],
+        theme: "松島海上纜車 ➔ 影島白淺灘 ➔ 太宗台觀光列車 ➔ Running Man 體驗館 ➔ 扎嘎其海鮮晚餐（Pass Big 3 ③）",
+        highlights: [
+          "松島海上纜車",
+          "龍宮雲橋",
+          "白淺灘文化村",
+          "太宗台遊園地",
+          "Running Man 釜山體驗館",
+          "扎嘎其市場"
+        ],
         items: [
-          { time: "09:30 - 11:30", title: "🎟️ 松島海上纜車 ＆ 龍宮雲橋 (Pass #3)", desc: "★ 刷 Pass 額度 ③：早晨搭乘水晶纜車橫越大海、漫步雲橋，避開人潮欣賞美景。", link: "https://map.naver.com/p/search/%EC%86%A1%EB%8F%84%ED%95%B4%EC%8C%80%EC%BC%80%EC%9D%B4%EB%B8%94%EC%B9%B4", icon: "cable-car", tags: ["pass", "highlight"] },
-          { time: "11:30 - 12:15", title: "跨區移動：松島 ➔ 影島西海岸", desc: "搭乘公車或短程計程車跨過釜山大橋前往影島白淺灘 (車程約 15-20 分鐘)。", link: "https://map.naver.com/p/search/%EC%86%A1%EB%8F%84", icon: "bus", tags: ["transport"] },
-          { time: "12:15 - 14:15", title: "白淺灘文化村 ＆ 海景午餐", desc: "沿著懸崖海岸白色步道漫步，在絕景海景咖啡廳享用甜點與午餐。", link: "https://map.naver.com/p/search/%ED%9D%B0%EC%97%AC%EC%9A%B8%EB%AC%B8%ED%99%94%EB%A7%88%EC%9D%84", icon: "camera", tags: ["food", "highlight"] },
-          { time: "14:15 - 14:45", title: "影島南移：白淺灘 ➔ 太宗台", desc: "搭乘影島在地公車繼續往南移動至太宗台 (公車約 20-25 分鐘)。", link: "https://map.naver.com/p/search/%ED%83%80%EC%A2%85%EB%8C%80", icon: "bus", tags: ["transport"] },
-          { time: "14:45 - 17:15", title: "太宗臺遊園地（Danubi 觀光列車）", desc: "搭乘 Danubi 觀光彩繪列車，探索壯麗懸崖峭壁與瞭望燈塔海景。", link: "https://map.naver.com/p/search/%ED%83%80%EC%A2%85%EB%8C%80", icon: "train-front", tags: ["highlight"] },
-          { time: "17:30 之後", title: "扎嘎其市場 ＆ 南浦洞海鮮大餐", desc: "返回南浦洞/扎嘎其 (搭公車約 30-35 分鐘)，享用極致豐盛鮮美的海鮮大餐。", link: "https://map.naver.com/p/search/%EC%9E%90%EA%B0%80%EC%B9%98%EC%8B%9C%EC%9E%A5", icon: "fish", tags: ["food", "highlight"] }
+          {
+            time: "09:30 - 11:30",
+            title: "松島海上纜車 ＆ 龍宮雲橋",
+            desc: "【松島海上纜車 ＆ 龍宮雲橋】➔ ★ 刷 Pass 額度 ③，早晨搭乘海景纜車與漫步雲橋，避開人潮。",
+            link: "https://map.naver.com/p/search/%EC%86%A1%EB%8F%84%ED%95%B4%EC%83%81%EC%BC%80%EC%9D%B4%EB%B8%94%EC%B9%B4",
+            icon: "sparkles",
+            tags: ["spot", "camera"]
+          },
+          {
+            time: "11:30 - 12:15",
+            title: "前往白淺灘文化村",
+            desc: "從松島搭乘公車或短程計程車跨橋前往影島西側白淺灘文化村 *(車程約 15-20 分鐘)*。",
+            link: "https://map.naver.com/p/search/%ED%9D%B0%EC%97%AC%EC%9A%B8%EB%AC%B8%ED%99%94%EB%A7%88%EC%9D%84",
+            icon: "bus",
+            tags: ["transport"]
+          },
+          {
+            time: "12:15 - 14:15",
+            title: "白淺灘文化村漫步與海景午餐",
+            desc: "【白淺灘文化村】沿懸崖海岸步道散步、欣賞蔚藍大海，並於絕景咖啡廳享用午餐與咖啡。",
+            link: "https://map.naver.com/p/search/%ED%9D%B0%EC%97%AC%EC%9A%B8%EB%AC%B8%ED%99%94%EB%A7%88%EC%9D%84",
+            icon: "coffee",
+            tags: ["spot", "food", "coffee"]
+          },
+          {
+            time: "14:15 - 14:45",
+            title: "搭乘公車前往太宗台",
+            desc: "搭乘影島在地公車繼續往南移動至太宗台 *(公車車程約 20-25 分鐘)*。",
+            icon: "bus",
+            tags: ["transport"]
+          },
+          {
+            time: "14:45 - 16:30",
+            title: "太宗臺遊園地 Danubi 觀光列車",
+            desc: "【太宗臺遊園地】搭乘園區 Danubi 觀光列車，欣賞壯麗的懸崖峭壁與燈塔海景。",
+            link: "https://map.naver.com/p/search/%ED%83%80%EC%A2%85%EB%8C%80",
+            icon: "train-front",
+            tags: ["spot", "transport"]
+          },
+          {
+            time: "16:30 - 17:15",
+            title: "前往西面三光塔",
+            desc: "從太宗台前往西面三光塔 Samjung Tower *(搭乘公車至南浦站轉地鐵 1 號線，或搭乘直達公車約 40-45 分鐘)*。",
+            link: "https://map.naver.com/p/search/%EC%82%BC%EC%A0%95%ED%83%80%EC%9B%8C",
+            icon: "train-front",
+            tags: ["transport"]
+          },
+          {
+            time: "17:15 - 18:45",
+            title: "Running Man 釜山體驗館闖關",
+            desc: "【Running Man 釜山體驗館】位於三光塔 10 樓，挑戰闖關集章活動，遊玩約 1 ~ 1.5 小時。",
+            link: "https://map.naver.com/p/search/%EB%9F%B0%EB%8B%9D%EB%A7%A8%20%EB%B6%80%EC%82%B0",
+            icon: "ticket",
+            tags: ["spot"]
+          },
+          {
+            time: "19:00 之後",
+            title: "扎嘎其市場海鮮大餐與南浦洞逛街",
+            desc: "搭乘地鐵 1 號線返回南浦洞與扎嘎其市場 *(地鐵車程約 12-15 分鐘)*，享用豐盛新鮮的海鮮大餐與逛街。",
+            link: "https://map.naver.com/p/search/%EC%9E%90%EA%B0%80%EC%B9%98%EC%8B%9C%EC%9E%A5",
+            icon: "utensils",
+            tags: ["food", "shopping", "spot"]
+          }
         ]
       },
       {
         day: 6,
         date: "2026/12/16",
         dayOfWeek: "星期三",
-        theme: "釜山港寄行李 ➔ ARTE MUSEUM ➔ 草梁故事路 ➔ 夜船赴福岡",
-        highlights: ["ARTE MUSEUM", "168階梯單軌", "新山茶花號渡輪"],
+        theme: "釜山港寄行李 ➔ ARTE MUSEUM 光影展 ➔ 草梁故事路 ＆ 168階梯 ➔ 新山茶花號夜船赴福岡",
+        highlights: [
+          "ARTE MUSEUM Busan",
+          "草梁故事路",
+          "168 階梯單軌電車",
+          "新山茶花號"
+        ],
         items: [
-          { time: "09:30 - 10:15", title: "飯店退房 ＆ 釜山港寄行李", desc: "退房後帶著行李前往【釜山港國際客運碼頭】寄存於櫃檯/寄物櫃，輕裝出發 (約 10-15 分鐘)。", link: "https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%ED%95%AD%EA%B5%AD%EC%A0%9C%EC%B3%B5%EC%97%AC%ED%84%B0%EB%AF%B8%EB%84%90", icon: "briefcase", tags: ["hotel", "transport"] },
-          { time: "10:15 - 11:00", title: "公車移動：釜山港 ➔ 影島 ARTE MUSEUM", desc: "於釜山站搭乘 66 號或 191 號公車至國立海洋博物館站下車 (車程約 25-30 分鐘)。", link: "https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%EC%97%AD", icon: "bus", tags: ["transport"] },
-          { time: "11:00 - 13:00", title: "ARTE MUSEUM Busan 沉浸式數位美術館", desc: "扎實停留約 2 小時，完整體驗震撼光影、音樂與香氣交織的數位視覺盛宴。", link: "https://map.naver.com/p/search/ARTE%20MUSEUM%20Busan", icon: "sparkles", tags: ["highlight"] },
-          { time: "13:00 - 13:40", title: "公車返回釜山站", desc: "搭乘 66 號公車原路返回釜山站 (車程約 25-30 分鐘)。", link: "https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%EC%97%AD", icon: "bus", tags: ["transport"] },
-          { time: "13:40 - 14:40", title: "釜山站周邊午餐", desc: "在釜山站附近享用在地傳統午餐（如經典豬肉湯飯或韓式拌飯）。", icon: "utensils", tags: ["food"] },
-          { time: "14:40 - 15:45", title: "草梁故事路 ＆ 168 階梯斜坡單軌電車", desc: "步行至草梁故事路，搭乘免費斜坡單軌電車登上 168 階梯俯瞰釜山港全景 (步行 5-8 分鐘)。", link: "https://map.naver.com/p/search/%EC%B4%88%EB%9F%89%EC%9D%B4%EB%B0%94%EA%B5%AC%EC%B8%B8", icon: "mountain", tags: ["highlight"] },
-          { time: "15:45 - 16:15", title: "返回釜山港碼頭取行李", desc: "返回【釜山港國際客運碼頭】取領寄放的大件行李準備辦理登船 (約 10-15 分鐘)。", icon: "luggage", tags: ["transport"] },
-          { time: "16:30 - 18:30", title: "🚢 新山茶花號 (New Camellia) 報到換票", desc: "至客運碼頭櫃檯辦理登船手續、領取實體船票與房卡。", icon: "ticket", tags: ["highlight", "transport"] },
-          { time: "19:00 - 20:00", title: "🚢 完成通關與登船（夜航前往福岡）", desc: "20:00 前完成出境審查登船，準備夜航橫越對馬海峽前往日本福岡博多港！", icon: "ship", tags: ["highlight", "transport"] }
+          {
+            time: "09:30 - 10:15",
+            title: "退房並寄放行李",
+            desc: "從 Booking the bay 退房並寄放行李 *(註：原住宿規定 11:00 前退房)*。",
+            link: "https://map.naver.com/p/search/Booking%20the%20bay",
+            icon: "baggage-claim",
+            tags: ["transport", "hotel"]
+          },
+          {
+            time: "10:15 - 11:00",
+            title: "搭公車前往影島",
+            desc: "於釜山站搭乘 66 號或 191 號公車前往影島 *(車程約 25-30 分鐘)*。",
+            link: "https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%EC%97%AD",
+            icon: "bus",
+            tags: ["transport"]
+          },
+          {
+            time: "11:00 - 13:00",
+            title: "ARTE MUSEUM Busan 沉浸式數位美術館",
+            desc: "【ARTE MUSEUM Busan】完整體驗光影、音樂與香氣交織的數位藝術空間。",
+            link: "https://map.naver.com/p/search/ARTE%20MUSEUM%20Busan",
+            icon: "camera",
+            tags: ["spot"]
+          },
+          {
+            time: "13:00 - 13:40",
+            title: "搭公車返回釜山站",
+            desc: "搭乘 66 號公車原路返回釜山站 *(車程約 25-30 分鐘)*。",
+            link: "https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%EC%97%AD",
+            icon: "bus",
+            tags: ["transport"]
+          },
+          {
+            time: "13:40 - 14:40",
+            title: "釜山站周邊享用在地午餐",
+            desc: "在釜山站周邊享用在地午餐（如知名的豬肉湯飯或韓式拌飯）。",
+            link: "https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%EC%97%AD",
+            icon: "utensils",
+            tags: ["food"]
+          },
+          {
+            time: "14:40 - 15:45",
+            title: "草梁故事路 ＆ 168 階梯漫步",
+            desc: "【草梁故事路 ＆ 168 階梯】搭乘免費斜坡單軌電車，俯瞰釜山港與跨海大橋全景 *(從釜山站步行約 5-8 分鐘)*。",
+            link: "https://map.naver.com/p/search/%EC%B4%88%EB%9F%89%EC%9D%B4%EB%B0%94%EA%B5%AC%EC%B8%B8",
+            icon: "train-front",
+            tags: ["spot", "camera"]
+          },
+          {
+            time: "15:45 - 16:15",
+            title: "返回Booking The Bay取行李",
+            desc: "返回Booking The Bay取回大件行李 *(步行約 10-15 分鐘)*。",
+            link: "https://map.naver.com/p/search/Booking%20the%20bay",
+            icon: "baggage-claim",
+            tags: ["transport"]
+          },
+          {
+            time: "16:30 - 18:30",
+            title: "新山茶花號辦理登船手續",
+            desc: "【新山茶花號 (New Camellia)】至碼頭櫃檯辦理登船手續、領取實體船票與房卡。",
+            link: "https://map.naver.com/p/search/New%20Camellia",
+            icon: "ticket",
+            tags: ["transport"]
+          },
+          {
+            time: "19:00 - 20:00",
+            title: "通關登船與啟航",
+            desc: "進行通關審查並登船，準備夜航前往日本福岡博多港！",
+            icon: "ship",
+            tags: ["transport"]
+          }
         ]
       },
       {
         day: 7,
         date: "2026/12/17",
         dayOfWeek: "星期四",
-        theme: "博多港入境・動植物園・太宰府文華巡禮 ＆ teamLab 古城光之祭",
-        highlights: ["博多港", "福岡市動植物園", "太宰府天滿宮", "九州國立博物館", "舞鶴公園 teamLab", "中洲屋台"],
+        theme: "抵達博多港 ➔ 動植物園 ➔ 太宰府天滿宮 ➔ teamLab 光之祭 ➔ 屋台宵夜",
+        highlights: [
+          "福岡市動植物園",
+          "太宰府天滿宮",
+          "九州國立博物館",
+          "teamLab 福岡城跡光之祭",
+          "中洲屋台"
+        ],
         items: [
-          { time: "08:30 - 09:30", title: "博多港入境 ➔ 飯店寄放行李", desc: "自博多港入境，搭乘公車或計程車至博多站周邊飯店寄放大型行李 (預先寄放行李，傍晚再回來 Check-in)。", link: "https://www.google.com/maps/search/%E5%8D%9A%E5%A4%9A%EB%B8%AF", icon: "ship", tags: ["transport"] },
-          { time: "09:30 - 11:30", title: "【福岡市動植物園】快閃巡禮", desc: "動植物園 09:00 開園。搭地鐵至櫻坂站或搭乘公車抵達，欣賞熱帶溫室植栽與人氣動物 (停留約 1.5 小時)。", link: "https://www.google.com/maps/search/%E7%A6%8F%E5%B2%A1%E5%B8%82%E5%8B%95%E6%A4%8D%E7%89%A9%E5%9C%92", icon: "trees", tags: ["highlight"] },
-          { time: "11:30 - 12:30", title: "跨區交通：前往太宰府", desc: "由藥院站搭乘西鐵天神大牟田線/太宰府線前往太宰府站 (車程與轉乘約 45-50 分鐘)。", icon: "train", tags: ["transport"] },
-          { time: "12:30 - 17:00", title: "【太宰府天滿宮 ＆ 九州國立博物館】漫遊深度半日遊", desc: "表參道享用現烤梅枝餅與午餐、參拜主殿與摸御神牛，隨後經由手扶梯連通長廊參觀九州國立博物館 (充裕停留約 4.5 小時，愜意不趕時間)。", link: "https://www.google.com/maps/search/%E5%A4%AA%E5%AE%B0%E5%BA%9C%E5%A4%A9%E6%BB%BF%E5%AE%AE", icon: "sparkles", tags: ["highlight", "food"] },
-          { time: "17:00 - 18:00", title: "跨區交通：太宰府前往舞鶴公園", desc: "搭乘西鐵電車返回天神，轉乘地鐵空港線至大濠公園站步行至舞鶴公園 (車程約 50 分鐘，抵達時天色已全黑)。", icon: "train", tags: ["transport"] },
-          { time: "18:00 - 19:30", title: "【舞鶴公園】teamLab 福岡城跡光之祭", desc: "天黑後精準入場！沉浸於百年古城石牆與夢幻夜間數位光學互動藝術中 (停留約 1.5 小時)。", link: "https://www.google.com/maps/search/%E8%88%9E%E9%B6 me%E5%85%AC%E5%9C%92", icon: "sparkles", tags: ["highlight"] },
-          { time: "19:30 - 20:15", title: "返回飯店正式 Check-in", desc: "搭乘地鐵返回博多站飯店辦理入住手續、領取房間鑰匙與放購物戰利品。", icon: "hotel", tags: ["transport"] },
-          { time: "20:15 - 22:30", title: "【中洲屋台橫丁】宵夜漫遊", desc: "漫步那珂川河畔，品嚐熱騰騰的博多豚骨拉麵、明太子煎蛋捲與現烤串燒，感受道地夜市人情味。", link: "https://www.google.com/maps/search/%E4%B8%AD%E6%B4%B2%E屋%E5%8F%B0", icon: "utensils", tags: ["food", "highlight"] }
+          {
+            time: "08:30 - 09:30",
+            title: "博多港入境與飯店寄放行李",
+            desc: "自博多港入境，搭乘公車或計程車前往博多站周邊飯店先寄放大型行李 *(傍晚逛完景點再回來 Check-in)*。",
+            icon: "baggage-claim",
+            tags: ["transport", "hotel"]
+          },
+          {
+            time: "09:30 - 11:30",
+            title: "福岡市動植物園快閃巡禮",
+            desc: "【福岡市動植物園】09:00 開園，搭乘地鐵/公車前往，高效觀賞人氣動物與熱帶溫室植栽 *(停留約 1.5 小時)*。",
+            link: "https://www.google.com/maps/search/?api=1&query=福岡市動植物園",
+            icon: "trees",
+            tags: ["spot"]
+          },
+          {
+            time: "11:30 - 12:30",
+            title: "搭乘西鐵電車前往太宰府",
+            desc: "由藥院站搭乘西鐵電車前往太宰府 *(車程/轉乘約 45-50 分鐘)*。",
+            icon: "train-front",
+            tags: ["transport"]
+          },
+          {
+            time: "12:30 - 17:00",
+            title: "太宰府天滿宫與九州國立博物館漫遊",
+            desc: "【太宰府天滿宫 ＆ 九州國立博物館】表參道享用現烤梅枝餅與午餐、參拜主殿與摸御神牛，順走電動扶梯連通長廊參觀九州國立博物館 *(停留充裕放鬆 4.5 小時)*。",
+            link: "https://www.google.com/maps/search/?api=1&query=太宰府天滿宮",
+            icon: "landmark",
+            tags: ["spot", "food"]
+          },
+          {
+            time: "17:00 - 18:00",
+            title: "前往舞鶴公園",
+            desc: "搭乘西鐵電車回天神，轉地鐵至大濠公園站前往舞鶴公園 *(車程約 50 分鐘，此時天色已完全黑透)*。",
+            icon: "train-front",
+            tags: ["transport"]
+          },
+          {
+            time: "18:00 - 19:30",
+            title: "舞鶴公園 teamLab 福岡城跡光之祭",
+            desc: "【舞鶴公園】天黑精準入場！沉浸於百年古城石牆與夢幻夜間數位光學互動藝術 *(夜間最佳觀賞時機)*。",
+            link: "https://www.google.com/maps/search/?api=1&query=舞鶴公園",
+            icon: "sparkles",
+            tags: ["spot", "camera"]
+          },
+          {
+            time: "19:30 - 20:15",
+            title: "返回飯店 Check-in",
+            desc: "返回博多站飯店領取房間鑰匙、放行李與稍作休息。",
+            icon: "key",
+            tags: ["hotel"]
+          },
+          {
+            time: "20:15 - 22:30",
+            title: "中洲屋台宵夜漫遊",
+            desc: "【中洲屋台】漫步那珂川河畔，品嚐熱騰騰的博多豚骨拉麵、烤串與明太子料理。",
+            link: "https://www.google.com/maps/search/?api=1&query=中洲屋台",
+            icon: "utensils",
+            tags: ["food", "spot"]
+          }
         ]
       },
       {
         day: 8,
         date: "2026/12/18",
         dayOfWeek: "星期五",
-        theme: "由布院之森鐵道・金鱗湖漫步 ＆ 日田小京都豆田町雙城深度行",
-        highlights: ["由布院之森", "湯之坪街道", "金鱗湖", "日田豆田町", "進擊的巨人銅像", "日田香脆炒麵"],
+        theme: "由布院森林列車 ➔ 鶴見岳纜車絕景 ➔ 別府湯煙夜景與溫泉宿",
+        highlights: [
+          "由布院之森",
+          "湯之坪街道",
+          "金鱗湖",
+          "別府空中索道",
+          "別府湯煙展望台",
+          "竹瓦溫泉"
+        ],
         items: [
-          { time: "09:17 - 11:31", title: "搭乘人氣觀光列車【由布院之森 1 號】", desc: "由博多站出發，沿途享用車上限定甜點並欣賞山林溪谷絕景 (車程約 2 小時 14 分鐘，全車指定席)。", link: "https://www.google.com/maps/search/%E7%94%B1%E5%B8%83%E9%99%A2%E6%B8%A9%E6%B3%89", icon: "train", tags: ["highlight", "transport"] },
-          { time: "11:30 - 13:00", title: "【湯之坪街道 ＆ Yufuin Floral Village】美食掃街", desc: "搶購 B-Speak 瑞士捲、金賞可樂餅與 Milch 起司蛋糕，漫步歐風童話小鎮與文青雜貨舖。", link: "https://www.google.com/maps/search/%E6%B9%AF%E4%B9%8B%E5%9D%AA%E8%A1%97%E9%81%93", icon: "coffee", tags: ["food", "highlight"] },
-          { time: "13:00 - 14:50", title: "【金鱗湖】湖畔悠閒漫步與景觀午餐", desc: "造訪湖畔夢幻天祖神社水中鳥居，享用豐後牛午餐或於湖畔咖啡廳愜意歇腳 (充裕停留不趕時間)。", link: "https://www.google.com/maps/search/%E9%87%91%E9%BA%9F%E6%B9%96", icon: "trees", tags: ["highlight", "food"] },
-          { time: "15:07 - 16:11", title: "搭乘 JR 久大本線前往【日田】", desc: "由由布院站搭乘 JR 久大本線普通列車前往日田 (車程約 1 小時 04 分鐘，現場自動售票機購買 860 日圓紙本票)。", icon: "train", tags: ["transport"] },
-          { time: "16:15 - 18:00", title: "【日田豆田町】古街夕照拍照 ＆ 兵長銅像 ＆ 日田炒麵", desc: "趁日落前捕捉豆田町江戶白壁夕照與站前兵長銅像，隨後享用香氣逼人的日田香脆炒麵晚餐。", link: "https://www.google.com/maps/search/%E8%B1%86%E7%94%B0%E7%94%BA", icon: "sparkles", tags: ["highlight", "food"] },
-          { time: "18:12 - 19:27", title: "搭乘 JR 特急列車返回博多站", desc: "由日田站搭乘 JR 特急由布 6 號直達返回博多站 (車程約 1 小時 15 分鐘)。", icon: "train-front", tags: ["transport"] },
-          { time: "19:30 之後", title: "返回博多市區 ＆ 宵夜採買", desc: "回到博多站周邊，輕鬆逛街採買或享用居酒屋夜宵。", icon: "utensils", tags: ["food"] }
-        ]
-      },
-      {
-        "day": 9,
-        "date": "2026/12/19",
-        "dayOfWeek": "星期六",
-        "theme": "九州自然動物公園 ➔ 別府地獄巡禮 ➔ 別府塔夕陽海景 ➔ 直達博多",
-        "highlights": [],
-        "items": [
           {
-            "time": "08:50 - 09:36",
-            "title": "由「別府站西口」搭乘龜之井巴士 41 號首班車直達【九州自然動物公園】",
-            "desc": "車程約 46 分鐘，憑廣域 1 日券搭乘",
-            "icon": "train-front",
-            "tags": [
-              "transport"
-            ],
-            "link": "https://www.google.com/maps/search/?api=1&query=九州自然動物公園"
+            time: "09:17 - 11:31",
+            title: "搭乘觀光列車由布院之森",
+            desc: "搭乘人氣觀光列車【由布院之森 1 號】，由博多站出發，沿途欣賞山林溪谷絕景與享用車上限定 Bento/甜點 *(車程約 2 小時 14 分鐘，全車指定席)*。",
+            link: "https://www.google.com/maps/search/?api=1&query=由布院之森",
+            icon: "train-front",
+            tags: ["transport", "spot", "food"]
           },
           {
-            "time": "09:40 - 11:40",
-            "title": "【九州自然動物公園】叢林巴士餵食 ＆ 小動物區互動 ➔ 抵達後第一時間現場劃位「叢林巴士」，近距離親手餵食獅子、黑熊與大象，隨後漫步小動物區撫摸可愛動物",
-            "desc": "",
-            "icon": "train-front",
-            "tags": [
-              "transport"
-            ],
-            "link": "https://www.google.com/maps/search/?api=1&query=九州自然動物公園"
+            time: "11:35 - 14:30",
+            title: "湯之坪街道、Floral Village 與金鱗湖漫遊",
+            desc: "【湯之坪街道 ＆ Yufuin Floral Village ＆ 金鱗湖】搶購 B-Speak 瑞士捲、金賞可樂餅與 Milch 起司蛋糕，一路漫步至金鱗湖欣賞湖光山色，享用景觀午餐或在地豐後牛/地雞料理。",
+            link: "https://www.google.com/maps/search/?api=1&query=湯之坪街道",
+            icon: "utensils",
+            tags: ["spot", "food", "camera"]
           },
           {
-            "time": "11:50 - 12:20",
-            "title": "搭乘龜之井巴士 41 號下山，於【海地獄前】站下車",
-            "desc": "",
-            "icon": "train-front",
-            "tags": [
-              "transport"
-            ],
-            "link": "https://www.google.com/maps/search/?api=1&query=海地獄"
+            time: "14:05 - 14:35",
+            title: "搭乘巴士前往別府空中索道",
+            desc: "由「由布院站前」搭乘龜之井巴士 36 號/Yufurin 前往【別府空中索道】*(車程約 40 分鐘，過夜行李寄存在索道售票處/櫃檯，刷 IC 卡搭乘；最晚 14:35 - 15:05 車次)*。",
+            link: "https://www.google.com/maps/search/?api=1&query=別府空中索道",
+            icon: "bus",
+            tags: ["transport"]
           },
           {
-            "time": "12:25 - 13:30",
-            "title": "【地獄蒸工房 鐵輪】享用在地地獄蒸午餐 ➔ 體驗利用天然溫泉高溫蒸汽現蒸食材的美食，品嚐溫泉布丁",
-            "desc": "",
-            "icon": "utensils",
-            "tags": [
-              "food"
-            ],
-            "link": "https://www.google.com/maps/search/?api=1&query=地獄蒸工房+鐵輪"
+            time: "15:25 - 16:30",
+            title: "別府空中索道登上鶴見岳山頂",
+            desc: "【別府空中索道】搭乘西日本最大纜車登上鶴見岳山頂，俯瞰別府灣全景與冬日四季山景 *(冬季末班纜車 16:30 下山，請留意時間)*。",
+            link: "https://www.google.com/maps/search/?api=1&query=別府空中索道",
+            icon: "mountain",
+            tags: ["spot", "camera"]
           },
           {
-            "time": "13:30 - 15:30",
-            "title": "【別府地獄巡禮】買全套通票打卡 7 大地獄 ➔ 漫步鐵輪區 5 大地獄（海地獄、灶地獄、鬼山地獄、鬼石坊主地獄、白池地獄），隨後搭 26 號公車延伸至龜川區（血池地獄、龍卷地獄）",
-            "desc": "",
-            "icon": "map-pin",
-            "tags": [
-              "activity"
-            ],
-            "link": "https://www.google.com/maps/search/?api=1&query=別府地獄巡禮"
+            time: "16:40 - 17:10",
+            title: "前往別府站周邊飯店 Check-in",
+            desc: "取回過夜行李，搭乘龜之井巴士前往別府站周邊飯店 Check-in 寄放行李與稍微休息 *(車程約 25-30 分鐘)*。",
+            link: "https://www.google.com/maps/search/?api=1&query=別府站",
+            icon: "hotel",
+            tags: ["transport", "hotel"]
           },
           {
-            "time": "15:30 - 16:00",
-            "title": "於血池地獄前搭乘龜之井巴士 26 號返回【別府站】，將大行李寄放在車站或飯店",
-            "desc": "",
-            "icon": "baggage-claim",
-            "tags": [
-              "transport"
-            ],
-            "link": "https://www.google.com/maps/search/?api=1&query=別府站"
+            time: "17:30 - 19:10",
+            title: "享用別府在地美食",
+            desc: "【別府在地美食享用】品嚐別府元祖「東洋軒炸雞（Toriten）」或酸爽開胃的「別府冷麵」。",
+            icon: "utensils",
+            tags: ["food"]
           },
           {
-            "time": "16:00 - 17:30",
-            "title": "【Beppu Tower】（別府塔）登高展望台 ➔ 從別府站徒步約 10 分鐘（或搭乘公車至「別府塔前」），登塔俯瞰別府灣夕陽暮色與 360 度海港全景，塔內可稍作休息或喝杯飲料",
-            "desc": "",
-            "icon": "train-front",
-            "tags": [
-              "transport"
-            ],
-            "link": "https://www.google.com/maps/search/?api=1&query=Beppu+Tower"
+            time: "19:15 - 20:30",
+            title: "別府湯煙展望台欣賞日本夜景遺產",
+            desc: "【別府湯煙展望台】俯瞰整座別府溫泉鄉夜間地熱蒸氣袛袛升起的奇幻絕景 *(去程：別府站東口搭龜之井巴士 20 號至「湯の川」站，沿陡坡步行 10 分鐘或搭計程車；回程：原路返回，註：七彩點燈為週末/假日限定)*。",
+            link: "https://www.google.com/maps/search/?api=1&query=湯けむり展望台",
+            icon: "moon",
+            tags: ["spot", "camera"]
           },
           {
-            "time": "17:30 - 18:00",
-            "title": "返回別府站領取行李，買杯飲料準備上車",
-            "desc": "",
-            "icon": "baggage-claim",
-            "tags": [
-              "transport"
-            ]
-          },
-          {
-            "time": "18:09 - 20:10",
-            "title": "【別府站】搭乘 JR 特急 Sonic 46 號（音速號）直達【博多站】",
-            "desc": "車程約 2 小時，免轉車",
-            "icon": "train-front",
-            "tags": [
-              "transport"
-            ],
-            "link": "https://www.google.com/maps/search/?api=1&query=博多站"
-          },
-          {
-            "time": "20:30 之後",
-            "title": "抵達博多市區飯店 Check-in，隨後前往博多站前「想夫戀」或博多巴士總站「Basokiya」享用正宗焦香日田炒麵當作晚餐",
-            "desc": "",
-            "icon": "train-front",
-            "tags": [
-              "transport"
-            ]
+            time: "20:30 之後",
+            title: "飯店溫泉或竹瓦溫泉體驗",
+            desc: "返回飯店享用館內溫泉，或前往百年歷史【竹瓦溫泉】體驗名物砂浴/大眾湯，放鬆身心結束充實的一天。",
+            link: "https://www.google.com/maps/search/?api=1&query=竹瓦溫泉",
+            icon: "sparkles",
+            tags: ["spot", "hotel"]
           }
         ]
       },
       {
-        "day": 10,
-        "date": "2026/12/20",
-        "dayOfWeek": "星期日",
-        "theme": "在地市場文化 ➔ 伴手禮大採購 ➔ 賦歸",
-        "highlights": [],
-        "items": [
+        day: 9,
+        date: "2026/12/19",
+        dayOfWeek: "星期六",
+        theme: "九州自然動物公園 ➔ 別府地獄巡禮 ➔ 別府塔夕陽海景 ➔ 直達博多",
+        highlights: [
+          "九州自然動物公園",
+          "地獄蒸工房 鐵輪",
+          "別府地獄巡禮",
+          "別府塔"
+        ],
+        items: [
           {
-            "time": "08:30 - 10:00",
-            "title": "【柳橋連合市場 ＆ 藥院文青街區】早起探索在地傳統市場活力、品嚐市場美食與在地精品咖啡",
-            "desc": "交通便利",
-            "icon": "utensils",
-            "tags": [
-              "food"
-            ],
-            "link": "https://www.google.com/maps/search/?api=1&query=柳橋連合市場"
+            time: "08:50 - 09:36",
+            title: "搭乘巴士前往九州自然動物公園",
+            desc: "由「別府站西口」搭乘龜之井巴士 41 號首班車直達九州自然動物公園 *(車程約 46 分鐘，建議使用廣域 1 日券搭乘)*。",
+            link: "https://www.google.com/maps/search/?api=1&query=九州自然動物公園",
+            icon: "bus",
+            tags: ["transport"]
           },
           {
-            "time": "10:00 - 11:00",
-            "title": "【櫛田神社】博多總鎮守參拜 ➔ 欣賞巨大飾山笠神轎、祈求旅途平安",
-            "desc": "搭地鐵約 5 分鐘",
-            "icon": "map-pin",
-            "tags": [
-              "activity"
-            ],
-            "link": "https://www.google.com/maps/search/?api=1&query=櫛田神社"
+            time: "09:40 - 11:40",
+            title: "九州自然動物公園叢林巴士與互動",
+            desc: "【九州自然動物公園】現場劃位「叢林巴士」，近距離親手餵食獅子、黑熊與大象，隨後漫步小動物區撫摸可愛動物。",
+            link: "https://www.google.com/maps/search/?api=1&query=九州自然動物公園",
+            icon: "trees",
+            tags: ["spot"]
           },
           {
-            "time": "11:00 - 13:30",
-            "title": "【博多站商場 ＆ 博多阪急百貨】伴手禮最後大衝刺 ➔ 採買明太子仙貝、博多通滿、筑紫餅等，並享用午餐",
-            "desc": "",
-            "icon": "utensils",
-            "tags": [
-              "food"
-            ],
-            "link": "https://www.google.com/maps/search/?api=1&query=博多站"
+            time: "11:50 - 12:20",
+            title: "搭乘巴士前往海地獄前",
+            desc: "搭乘龜之井巴士 41 號下山，於「海地獄前」站下車。",
+            link: "https://www.google.com/maps/search/?api=1&query=海地獄",
+            icon: "bus",
+            tags: ["transport"]
           },
           {
-            "time": "13:30 - 14:00",
-            "title": "飯店領取行李，搭乘地鐵空港線直達【福岡機場國際線】",
-            "desc": "車程僅約 5-10 分鐘",
-            "icon": "plane",
-            "tags": [
-              "transport"
-            ],
-            "link": "https://www.google.com/maps/search/?api=1&query=福岡機場國際線"
+            time: "12:25 - 13:30",
+            title: "地獄蒸工房鐵輪享用在地午餐",
+            desc: "【地獄蒸工房 鐵輪】體驗利用天然溫泉高溫蒸汽現蒸食材的美食，品嚐溫泉布丁。",
+            link: "https://www.google.com/maps/search/?api=1&query=地獄蒸工房+鐵輪",
+            icon: "utensils",
+            tags: ["food", "spot"]
           },
           {
-            "time": "14:00 - 16:00",
-            "title": "辦理登機手續、免稅店最後採購，搭乘 16:20 班機順利返回台灣！",
-            "desc": "",
-            "icon": "plane",
-            "tags": [
-              "transport"
-            ]
+            time: "13:30 - 15:30",
+            title: "別府地獄巡禮打卡 7 大地獄",
+            desc: "【別府地獄巡禮】買全套通票打卡 7 大地獄。漫步鐵輪區 5 大地獄（海地獄、灶地獄、鬼山地獄、鬼石坊主地獄、白池地獄），隨後搭 26 號公車延伸至龜川區（血池地獄、龍卷地獄）。",
+            link: "https://www.google.com/maps/search/?api=1&query=別府地獄巡禮",
+            icon: "ticket",
+            tags: ["spot", "camera"]
+          },
+          {
+            time: "15:30 - 16:00",
+            title: "返回別府站寄放行李",
+            desc: "於血池地獄前搭乘龜之井巴士 26 號返回別府站，將大行李寄放在車站或飯店。",
+            link: "https://www.google.com/maps/search/?api=1&query=別府站",
+            icon: "baggage-claim",
+            tags: ["transport", "hotel"]
+          },
+          {
+            time: "16:00 - 17:30",
+            title: "別府塔登高展望台欣賞夕陽海景",
+            desc: "【Beppu Tower】從別府站徒步約 10 分鐘（或搭乘公車至「別府塔前」），登塔俯瞰別府灣夕陽暮色與 360 度海港全景，塔內可稍作休息或喝杯飲料。",
+            link: "https://www.google.com/maps/search/?api=1&query=Beppu+Tower",
+            icon: "sun",
+            tags: ["spot", "camera"]
+          },
+          {
+            time: "17:30 - 18:00",
+            title: "返回別府站領取行李與候車",
+            desc: "返回別府站領取行李，買杯飲料準備上車。",
+            icon: "footprints",
+            tags: ["transport"]
+          },
+          {
+            time: "18:09 - 20:10",
+            title: "搭乘 JR 特急 Sonic 直達博多",
+            desc: "【別府站】搭乘 JR 特急 Sonic 46 號（音速號）直達博多站 *(車程約 2 小時，免轉車，建議使用 JR 九州 Pass)*。",
+            link: "https://www.google.com/maps/search/?api=1&query=博多站",
+            icon: "train-front",
+            tags: ["transport"]
+          },
+          {
+            time: "20:30 之後",
+            title: "飯店 Check-in 與博多正宗焦香日田炒麵晚餐",
+            desc: "抵達博多市區飯店 Check-in，隨後前往博多站前「想夫戀」或博多巴士總站「Basokiya」享用正宗焦香日田炒麵當作晚餐。",
+            icon: "hotel",
+            tags: ["hotel", "food"]
+          }
+        ]
+      },
+      {
+        day: 10,
+        date: "2026/12/20",
+        dayOfWeek: "星期日",
+        theme: "在地市場文化 ➔ 伴手禮大採購 ➔ 賦歸",
+        highlights: [
+          "柳橋連合市場",
+          "藥院文青街區",
+          "櫛田神社",
+          "博多站商場",
+          "博多阪急百貨",
+          "福岡機場"
+        ],
+        items: [
+          {
+            time: "08:30 - 10:00",
+            title: "柳橋連合市場與藥院文青街區探索",
+            desc: "【柳橋連合市場 ＆ 藥院文青街區】早起探索在地傳統市場活力、品嚐市場美食與在地精品咖啡 *(交通便利)*。",
+            link: "https://www.google.com/maps/search/?api=1&query=柳橋連合市場",
+            icon: "coffee",
+            tags: ["spot", "food", "coffee"]
+          },
+          {
+            time: "10:00 - 11:00",
+            title: "櫛田神社參拜",
+            desc: "【櫛田神社】博多總鎮守參拜，欣賞巨大飾山笠神轎、祈求旅途平安 *(搭地鐵約 5 分鐘)*。",
+            link: "https://www.google.com/maps/search/?api=1&query=櫛田神社",
+            icon: "landmark",
+            tags: ["spot"]
+          },
+          {
+            time: "11:00 - 13:30",
+            title: "博多站與阪急百貨伴手禮大採買",
+            desc: "【博多站商場 ＆ 博多阪急百貨】伴手禮最後大衝刺（採買明太子仙貝、博多通滿、筑紫餅等），並於站內享用午餐。",
+            link: "https://www.google.com/maps/search/?api=1&query=博多站",
+            icon: "shopping-bag",
+            tags: ["shopping", "food"]
+          },
+          {
+            time: "13:30 - 14:00",
+            title: "領取行李與前往福岡機場",
+            desc: "飯店領取行李，搭乘地鐵空港線直達福岡機場國際線 *(車程僅約 5-10 分鐘)*。",
+            link: "https://www.google.com/maps/search/?api=1&query=福岡機場國際線",
+            icon: "subway",
+            tags: ["transport", "hotel"]
+          },
+          {
+            time: "14:00 - 16:00",
+            title: "辦理登機與搭機返台",
+            desc: "辦理登機手續、免稅店最後採購，搭乘 16:20 班機順利返回台灣！",
+            icon: "plane",
+            tags: ["transport", "shopping"]
           }
         ]
       }

@@ -53,7 +53,7 @@
 - 09:45 - 13:30｜園區漫步拍照、體驗設施、享用午餐並準備觀賞塗鴉秀
 - 13:30 - 14:30｜🎭 **觀賞「塗鴉秀 (The Painters)」**（13:30 場次，演出時間約 60 分鐘）
 - 15:00 - 15:20｜搭乘 15:00 園區免費接駁車返回仁濟大學站
-- 15:20 - 16:15｜搭乘輕電鐵返回沙上住宿點取行李，再前往 [Booking the bay](https://map.naver.com/p/search/Booking%20the%20bay) 完成 Check-in 與卸行李 *(車程約 45-50 分鐘)*
+- 15:20 - 16:15｜搭乘輕電鐵返回沙上住宿點取行李，再前往 [Booking the bay](https://map.naver.com/p/search/Booking%20the%20bay) (16:00才能check in)完成 Check-in 與卸行李 *(車程約 45-50 分鐘)*
 - 16:15 - 16:45｜搭地鐵前往 [南浦洞](https://map.naver.com/p/search/%EB%82%A8%ED%8F%AC%EB%8F%99) *(地鐵約 10-15 分鐘)*，至 [釜山 南浦洞 友利換錢所](https://map.naver.com/p/search/%EC%9A%B0%EB%A6%A1%ED%99%98%EC%A0%84%EC%86%80) 拿台幣兌換韓元現金
 - 16:45 - 18:00｜[龍頭山公園](https://map.naver.com/p/search/%EC%9A%B0%EB%91%90%EC%82%B0%EA%B3%B5%EC%9B%90)、[BIFF 廣場](https://map.naver.com/p/search/BIFF%EA%B4%91%EC%9E%A5) 散步，品嚐種子黑糖餅與週邊小吃 *(步行約 5-10 分鐘)*
 - 18:00 - 18:40｜【[樂天百貨光復店](https://map.naver.com/p/search/%EB%A1%87%EB%8D%B0%B0%B1%ED%99%98%EC%A0%84%EC%86%80%20%EA%B4%91%EB%B3%B5%EC%A0%90)】（13 樓頂樓觀景台 The Sky Park 快閃拍照，俯瞰釜山港與影島大橋夜景） *(從 BIFF 廣場步行約 10 分鐘)*
@@ -62,7 +62,7 @@
 - 20:30 - 21:00｜廣安里海邊散步、買熱飲卡位預備
 - 21:00 - 21:15｜【[廣安里 M 無人機燈光秀](https://map.naver.com/p/search/%EA%B4%91%EC%95%88%EB%A6%AC%EB%94%A5%ED%8C%8C%EC%9D%B4%ED%8A%B8%EC%87%BC)】 ➔ ★ **觀賞 21:00 場次**（600+ 架無人機搭配廣安大橋夜景）
 - 21:15 - 22:00｜[廣安里海水浴場](https://map.naver.com/p/search/%EA%B4%91%EC%95%88%EB%A6%AC%ED%95%B4%EC%88%98%EC%9C%A1%EC%9E%A5) 海景宵夜與深夜漫遊（於第一排海景居酒屋、橋村/BHC 韓式炸雞或海景咖啡廳享用宵夜，邊吃邊欣賞無人機退場後的廣安大橋燈光與沙灘夜景）
-- 22:00 之後｜搭乘計程車或地鐵返回 [Booking the bay](https://map.naver.com/p/search/Booking%20the%20bay) 休息 *(深夜搭計程車回飯店約 20 分鐘，車資約 15,000 - 18,000 韓元)*
+- 22:00 之後｜搭乘地鐵返回 [Booking the bay](https://map.naver.com/p/search/Booking%20the%20bay) 休息
 
 ## 2026年12月13日（星期日）｜慶州世界遺產與古都漫遊一日遊（冬日日落優化版）
 
@@ -81,7 +81,7 @@
 
 ## 2026年12月14日（星期一）｜海雲台雙列車 ➔ 機張 Luge ➔ 傳統市場與汗蒸幕夜（Pass Big 3 ①②）
 
-- 09:30 - 10:15｜【[海雲台藍線公園 尾浦站](https://map.naver.com/p/search/%EB%AF%B8%ED%8F%AC%EC%A0%95)_天空膠囊列車】尾浦 ➔ 青沙浦（官網預約） *(搭乘天空膠囊列車約 30 分鐘)*
+- 09:30 - 10:15｜【[海雲台藍線公園 尾浦站](https://map.naver.com/p/search/%EB%AF%B8%ED%8F%AC%EC%A0%95)_天空膠囊列車】尾浦 ➔ 青沙浦（kkday預約） *(搭乘天空膠囊列車約 30 分鐘)*
 - 10:15 - 11:00｜[青沙浦天空步道](https://map.naver.com/p/search/%EC%B2%AD%EC%82%AC%ED%8F%AC%EB%8B%A5%EB%A6%BF%EB%8F%8C%EC%A0%95%EB%A7%9D%EB%8C%80)、平交道拍照、海景咖啡外帶
 - 11:00 - 11:25｜搭乘【海岸列車】[海雲台藍線公園 松亭站](https://map.naver.com/p/search/%EC%86%A1%EC%A0%95%EC%A0%95) ➔ 松亭（朝北方前進，欣賞沿途海景） *(搭乘海岸列車約 15-20 分鐘)*
 - 11:30 - 12:30｜松亭周邊享用美味海景午餐
@@ -105,13 +105,13 @@
 ## 2026年12月16日（星期三）｜釜山港寄行李 ➔ ARTE MUSEUM 光影展 ➔ 草梁故事路 ＆ 168階梯 ➔ 新山茶花號夜船赴福岡
 
 - 住宿規定 11:00 前退房
-- 09:30 - 10:15｜從 [Booking the bay](https://map.naver.com/p/search/Booking%20the%20bay) 退房，前往 [釜山港國際客運碼頭](https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%ED%95%AD%20%EA%B5%AD%EC%A0%9C%EC%97%AC%EA%B0%9D%ED%84%B0%EB%AF%B8%EB%84%90) 寄放行李 *(步行或搭車約 10-15 分鐘)*
+- 09:30 - 10:15｜從 [Booking the bay](https://map.naver.com/p/search/Booking%20the%20bay) 退房並寄放行李
 - 10:15 - 11:00｜於 [釜山站](https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%EC%97%AD) 搭乘 66 號或 191 號公車前往影島 *(車程約 25-30 分鐘)*
 - 11:00 - 13:00｜【[ARTE MUSEUM Busan](https://map.naver.com/p/search/ARTE%20MUSEUM%20Busan)】沉浸式數位美術館（完整體驗光影、音樂與香氣交織的數位藝術空間）
 - 13:00 - 13:40｜搭乘 66 號公車原路返回 [釜山站](https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%EC%97%AD) *(車程約 25-30 分鐘)*
 - 13:40 - 14:40｜在 [釜山站](https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%EC%97%AD) 周邊享用在地午餐（如知名的豬肉湯飯或韓式拌飯）
 - 14:40 - 15:45｜【[草梁故事路 ＆ 168 階梯](https://map.naver.com/p/search/%EC%B4%88%EB%9F%89%EC%9D%B4%EB%B0%94%EA%B5%AC%EC%B8%B8)】搭乘免費斜坡單軌電車，俯瞰釜山港與跨海大橋全景 *(從釜山站步行約 5-8 分鐘)*
-- 15:45 - 16:15｜返回 [釜山港國際客運碼頭](https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%ED%95%AD%20%EA%B5%AD%EC%A0%9C%EC%97%AC%EA%B0%9D%ED%84%B0%EB%AF%B8%EB%84%90) 取回大件行李 *(步行約 10-15 分鐘)*
+- 15:45 - 16:15｜返回 [Booking the bay](https://map.naver.com/p/search/Booking%20the%20bay) 取回大件行李 *(步行約 10-15 分鐘)*
 - 16:30 - 18:30｜【[新山茶花號 (New Camellia)](https://map.naver.com/p/search/New%20Camellia)】至碼頭櫃檯辦理登船手續、領取實體船票與房卡
 - 19:00 - 20:00｜進行通關審查並登船，準備夜航前往日本福岡博多港！
 

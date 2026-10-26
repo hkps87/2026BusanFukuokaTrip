@@ -52,18 +52,62 @@ def parse_travel_markdown(md_text):
                 
                 title = content_str.strip()
 
-                # 3. 智慧圖示與標籤對應
+                # 3. 極致豐富的智慧圖示與標籤對應 (全方位涵蓋)
                 icon, tag = "map-pin", "activity"
-                if any(k in title for k in ["班機", "機場", "降落", "航班"]):
+                
+                # ✈️ 航班/交通轉運
+                if any(k in title for k in ["班機", "機場", "降落", "航班", "起飛", "登機", "check-in", "航廈", "海關", "安檢", "候機", "轉機"]):
                     icon, tag = "plane", "transport"
-                elif any(k in title for k in ["出關", "行李", "海關"]):
+                elif any(k in title for k in ["出關", "行李", "領行李", "托運", "寄物", "置物櫃", "行李箱", "寄行李"]):
                     icon, tag = "baggage-claim", "transport"
-                elif any(k in title for k in ["搭乘", "輕軌", "計程車", "前往", "地鐵", "巴士", "交通", "搭地鐵"]):
+                elif any(k in title for k in ["搭乘", "輕軌", "計程車", "前往", "地鐵", "巴士", "公車", "交通", "搭地鐵", "JR", "新幹線", "電車", "船", "渡輪", "租車", "自駕", "步行", "散步去", "轉乘", "包車", "Uber", "Kakao T", "地鐵站", "車站", "空港快線", "南海電鐵", "渡船", "纜車", "單軌"]):
                     icon, tag = "train-front", "transport"
-                elif any(k in title for k in ["入住", "飯店", "休息", "酒店", "check-in"]):
+                elif any(k in title for k in ["單車", "騎車", "自行車", "YouBike", "租單車"]):
+                    icon, tag = "bike", "transport"
+                    
+                # 🏨 住宿/飯店
+                elif any(k in title for k in ["入住", "飯店", "休息", "酒店", "退房", "民宿", "Airbnb", "旅館", "check-in", "check-out", "青旅", "度假村", "膠囊旅館"]):
                     icon, tag = "hotel", "hotel"
-                elif any(k in title for k in ["吃", "晚餐", "午餐", "餐廳", "美食", "早餐", "市場"]):
+                    
+                # ☕ 咖啡/下午茶
+                elif any(k in title for k in ["咖啡", "下午茶", "咖啡廳", "拿鐵", "手沖", "甜點", "鬆餅", "烘焙", "bäckerei", "茶屋", "星巴克", "Blue Bottle"]):
+                    icon, tag = "coffee", "food"
+                    
+                # 🍻 夜生活/酒吧/小酌
+                elif any(k in title for k in ["酒吧", "夜店", "小酌", "調酒", "Lounge", "Club", "生啤酒", "居酒屋", "Bar", "夜間"]):
+                    icon, tag = "wine", "nightlife"
+                    
+                # 🍽️ 美食/餐飲/正餐
+                elif any(k in title for k in ["吃", "晚餐", "午餐", "餐廳", "美食", "早餐", "市場", "燒肉", "壽司", "拉麵", "宵夜", "飯", "麵", "烤肉", "炸雞", "啤酒", "小吃", "便當", "食", "排餐", "buffet", "吃到飽", "定食", "漢堡", "速食", "海鮮", "烤魚", "年糕", "部隊鍋"]):
                     icon, tag = "utensils", "food"
+                    
+                # 🛍️ 購物/伴手禮/超商
+                elif any(k in title for k in ["購物", "商場", "百貨", "藥妝", "伴手禮", "超市", "免稅", "Donki", "驚安殿堂", "買", "血拚", "Outlet", "Lotte", "Emart", "超商", "便利商店", "7-11", "CU", "GS25", "Bic Camera", "Loft", "地下街", "傳統市場", "手信", "紀念品", "商圈"]):
+                    icon, tag = "shopping-bag", "shopping"
+                    
+                # ⛩️ 景點/觀光/拍照/自然
+                elif any(k in title for k in ["拍照", "打卡", "景點", "參拜", "神社", "寺廟", "公園", "展望台", "探索", "美術館", "博物館", "水族館", "樂園", "逛", "塔", "城堡", "夜景", "海邊", "沙灘", "教堂", "展覽", "秀", "表演", "散步", "鳥居", "溫泉", "泡湯", "足湯", "日落", "日出", "風景", "賞花", "楓葉", "櫻花"]):
+                    icon, tag = "camera", "sightseeing"
+                    
+                # 🎫 票券/服務/網路
+                elif any(k in title for k in ["門票", "預約", "換票", "購買", "sim卡", "eSIM", "上網卡", "交通卡", "T-Money", "ICOCA", "Pass", "周遊券", "索取", "租借", "兌換", "諮詢", "寄信", "郵局", "退稅單"]):
+                    icon, tag = "ticket", "service"
+                    
+                # 💰 金融/換錢
+                elif any(k in title for k in ["換錢", "匯兌", "銀行", "ATM", "領錢", "退稅", "tax free", "現金", "刷卡", "換韓元", "換日幣"]):
+                    icon, tag = "credit-card", "finance"
+                    
+                # ❤️ 醫療/健康
+                elif any(k in title for k in ["藥局", "醫院", "診所", "身體", "ok繃", "保健", "藥妝店買藥", "ok蹦", "口罩"]):
+                    icon, tag = "heart-pulse", "health"
+                    
+                # 🏃 運動/戶外健行
+                elif any(k in title for k in ["健行", "爬山", "登山", "跑步", "健身房", "gym", "運動", "戶外"]):
+                    icon, tag = "footprints", "activity"
+                    
+                # 🎬 娛樂/電影/遊戲
+                elif any(k in title for k in ["電影", "KTV", "唱K", "桌遊", "夾娃娃", "遊戲", "演唱會", "Live House"]):
+                    icon, tag = "gamepad-2", "entertainment"
 
                 item_obj = {
                     "time": time_str,
